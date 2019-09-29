@@ -1,7 +1,10 @@
 
 DIGIT [0-9]
-HEX   0[x|X][DIGITa-fA-F]+
-
+BOOL  [True|False]
+HEX   0[x|X][DIGIT|a-f|A-F]+
+SCI   E[+][DIGIT]+
+FLOAT [+|-]?(DIGIT+[.])?[DIGIT]+
+STR   ["][.^"]["]
 %%
 
 
@@ -10,8 +13,10 @@ HEX   0[x|X][DIGITa-fA-F]+
 &&|!				return "OP_LOG";
 ||				return "OP_LOG";
 +|-|/|*|%			return "OP_ALG";
-;|,|.|[|]|{|}|(|)		return "SIMBOL";				
-
+;|,|.|[|]|{|}|(|)		return "SIMBOL";
+{DIGIT}|{HEX}                   return "INT";	
+{BOOL}                          return "BOOLEAN";			
+{FLOAT}                         return "FLOAT";
 
 
 
