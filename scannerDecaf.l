@@ -18,9 +18,9 @@ NOSTR   	[^{STRESC}|\r\n|\"]
 0{X}{HEX}+				printf("HEX"); /* HEX */
 True|False                      	printf("BOOLEAN");			
 {DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?      printf("FLOAT");
-void|string|this|while|break|ReadInteger|int|class|extends|if|New|ReadLine|double|interface|implements|else|NewArray|true|bool|null|for|return|Print|false			printf("RESERVED");
-\"[^{NOSTR}]*\"                     	printf("STRING");
-"//"					printf("S_COMMENT");
+void|string|this|while|break|ReadInteger|int|class|extends|if|New|ReadLine|double|interface|implements|else|NewArray|true|bool|null|for|return|Print|false			                printf("RESERVED");
+\"([^"\\])*\"              	        printf("STRING");
+"//".*   				printf("S_COMMENT");
 {ID}					printf("IDENTIFIER");
 ">="|"<="|">"|"<"|"=="|"!="|"="		printf("OP_REL");
 "&&"|"!"|"||"				printf("OP_LOG");
