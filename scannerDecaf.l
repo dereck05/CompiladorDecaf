@@ -3,27 +3,30 @@
 %}
 
 
-DIGIT [0-9]
+DIGIT 		[0-9]
+ID       	[a-z][a-z0-9_]{0,31}
+AF    		[a-f|A-F]
+X     		[x|X]
+E_ATOM		[n|t|\"|\]
+STRESC		["\"{E_ATOM}]
+HEX   		{DIGIT}|{AF}
+NOSTR   	[^{STRESC}|\r\n|\"]
 
-HEX   0[x|X][{DIGIT}|a-f|A-F]+
-INT   [{DIGIT}]+
-SCI   E[+][DIGIT]+
-FLOAT [+|-]?(DIGIT+[.])?[DIGIT]+
-STR   ["][.^("|\.[^nt"\])|\r\n]["]
 %%
 
-
->=|<=|>|<|==|!=|=		printf("OP_REL");
-&&|!				printf("OP_LOG");
-\|\|				printf("OP_LOG");
-\+|-|\/|\*|%			printf("OP_ALG");
-;|,|\.|[|]|\{|\}|\(|\)		printf("SYMBOL");
-{INT}		                printf("INT");	
-{HEX}				printf("INT");
-True|False                      printf("BOOLEAN");			
-{FLOAT}                         printf("FLOAT");
-{STR}                           printf("STRING");
-
+{DIGIT}+		                printf("INT");	
+0{X}{HEX}+				printf("HEX"); /* HEX */
+True|False                      	printf("BOOLEAN");			
+{DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?      printf("FLOAT");
+void|string|this|while|break|ReadInteger|int|class|extends|if|New|ReadLine|double|interface|implements|else|NewArray|true|bool|null|for|return|Print|false			printf("RESERVED");
+\"[^{NOSTR}]*\"                     	printf("STRING");
+"//"					printf("S_COMMENT");
+{ID}					printf("IDENTIFIER");
+">="|"<="|">"|"<"|"=="|"!="|"="		printf("OP_REL");
+"&&"|"!"|"||"				printf("OP_LOG");
+"+"|"-"|"/"|"*"|"%"			printf("OP_ALG");
+";"|","|"."|"["|"]"|"{"|\]"}"|"("|")"	printf("SYMBOL");
+.           				printf( "Unrecognized character");
 
 %%
 main(argc,argv)
@@ -37,5 +40,4 @@ char ** argv;
 		yyin = stdin;
 	yylex();
 	}
-
 
