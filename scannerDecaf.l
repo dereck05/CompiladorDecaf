@@ -11,6 +11,8 @@ E_ATOM		[n|t|\"|\]
 STRESC		["\"{E_ATOM}]
 HEX   		{DIGIT}|{AF}
 NOSTR   	[^{STRESC}|\r\n|\"]
+BEGINCOMMENT	[/*]
+ENDCOMMENT	[*/]
 
 %%
 
@@ -19,8 +21,8 @@ NOSTR   	[^{STRESC}|\r\n|\"]
 True|False                      	printf("BOOLEAN");			
 {DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?      printf("FLOAT");
 void|string|this|while|break|ReadInteger|int|class|extends|if|New|ReadLine|double|interface|implements|else|NewArray|true|bool|null|for|return|Print|false			                printf("RESERVED");
-\"([^"\\])*\"              	        printf("STRING");
-"//".*   				printf("S_COMMENT");
+\"([^"\\])*\"                           printf("STRING");
+("//".*)|({BEGINCOMMENT}(.*){ENDCOMMENT}) printf("S_COMMENT");
 {ID}					printf("IDENTIFIER");
 ">="|"<="|">"|"<"|"=="|"!="|"="		printf("OP_REL");
 "&&"|"!"|"||"				printf("OP_LOG");
