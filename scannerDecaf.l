@@ -14,21 +14,27 @@ NOSTR   	[^{STRESC}|\r\n|\"]
 BEGINCOMMENT	[/*]
 ENDCOMMENT	[*/]
 
+OP_REL   [">=" | "<=" | ">" | "<" | "==" | "!=" | "="]
+OP_LOG   ["&&" | "!" | "||"]
+OP_ALG   ["+" | "-" | "/" | "*" | "%"]
+SYMBOL   [";" | "," | "." | "[" | "]" | "{" | "}" | "(" | ")"]
+RESERVED [void|string|this|while|break|ReadInteger|int|class|extends|if|New|ReadLine|double|interface|implements|else|NewArray|true|bool|null|for|return|Print|false]
+
 %%
 
-{DIGIT}+		                printf("INT");	
-0{X}{HEX}+				printf("HEX"); /* HEX */
-True|False                      	printf("BOOLEAN");			
-{DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?      printf("FLOAT");
+{DIGIT}+		                                                 printf("INT");
+0{X}{HEX}+				                                           printf("HEX"); /* HEX */
+True|False                      	                           printf("BOOLEAN");
+{DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?                           printf("FLOAT");
 void|string|this|while|break|ReadInteger|int|class|extends|if|New|ReadLine|double|interface|implements|else|NewArray|true|bool|null|for|return|Print|false			                printf("RESERVED");
-\"([^"\\])*\"                           printf("STRING");
-("//".*)|({BEGINCOMMENT}(.*){ENDCOMMENT}) printf("S_COMMENT");
-{ID}					printf("IDENTIFIER");
-">="|"<="|">"|"<"|"=="|"!="|"="		printf("OP_REL");
-"&&"|"!"|"||"				printf("OP_LOG");
-"+"|"-"|"/"|"*"|"%"			printf("OP_ALG");
-";"|","|"."|"["|"]"|"{"|\]"}"|"("|")"	printf("SYMBOL");
-.           				printf( "Unrecognized character");
+\"([^"\\])*\"                                                printf("STRING");
+("//".*)|({BEGINCOMMENT}(.*){ENDCOMMENT})                    printf("S_COMMENT");
+{ID}					                                               printf("IDENTIFIER");
+">=" | "<=" | ">" | "<" | "==" | "!=" | "="		               printf("OP_REL");
+"&&" | "!" | "||"			                                       printf("OP_LOG");
+"+" | "-" | "/" | "*" | "%"			                             printf("OP_ALG");
+";" | "," | "." | "[" | "]" | "{" | "}" | "(" | ")"	         printf("SYMBOL");
+.           				                                         printf( "Unrecognized character");
 
 %%
 main(argc,argv)
@@ -42,4 +48,3 @@ char ** argv;
 		yyin = stdin;
 	yylex();
 	}
-
