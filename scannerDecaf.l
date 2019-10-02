@@ -7,13 +7,13 @@ DIGIT 		[0-9]
 ID       	[a-z][a-z0-9_]{0,31}
 AF    		[a-f|A-F]
 X     		[x|X]
-E_ATOM		[n|t|\"|\]
+E_ATOM		[n|t|\"|\\]
 STRESC		["\"{E_ATOM}]
-HEX   		{DIGIT}|{AF}
+HEX   		0{X}{DIGIT}|{AF}
 NOSTR   	[^{STRESC}|\r\n|\"]
 BEGINCOMMENT	[/*]
 ENDCOMMENT	[*/]
-
+TAG      \\[r  | n]
 OP_REL   [">=" | "<=" | ">" | "<" | "==" | "!=" | "="]
 OP_LOG   ["&&" | "!" | "||"]
 OP_ALG   ["+" | "-" | "/" | "*" | "%"]
@@ -22,18 +22,17 @@ RESERVED [void|string|this|while|break|ReadInteger|int|class|extends|if|New|Read
 
 %%
 
-{DIGIT}+		                                                 printf("INT");
-0{X}{HEX}+				                                           printf("HEX"); /* HEX */
 True|False                      	                           printf("BOOLEAN");
+{OP_REL}                                  		               printf("OP_REL");
+{OP_LOG}        			                                       printf("OP_LOG");
+{OP_ALG}                  			                             printf("OP_ALG");
+{SYMBOL}	                                                   printf("SYMBOL");
+{RESERVED}                              			               printf("RESERVED");
+{DIGIT}+ | {HEX}+                                            printf("INT");
 {DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?                           printf("FLOAT");
-void|string|this|while|break|ReadInteger|int|class|extends|if|New|ReadLine|double|interface|implements|else|NewArray|true|bool|null|for|return|Print|false			                printf("RESERVED");
-\"([^"\\])*\"                                                printf("STRING");
-("//".*)|({BEGINCOMMENT}(.*){ENDCOMMENT})                    printf("S_COMMENT");
 {ID}					                                               printf("IDENTIFIER");
-">=" | "<=" | ">" | "<" | "==" | "!=" | "="		               printf("OP_REL");
-"&&" | "!" | "||"			                                       printf("OP_LOG");
-"+" | "-" | "/" | "*" | "%"			                             printf("OP_ALG");
-";" | "," | "." | "[" | "]" | "{" | "}" | "(" | ")"	         printf("SYMBOL");
+("//".*)|({BEGINCOMMENT}(.*){ENDCOMMENT})                    printf("S_COMMENT");
+\"([^"\\])*\"                                                printf("STRING");
 .           				                                         printf( "Unrecognized character");
 
 %%
