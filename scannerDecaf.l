@@ -3,22 +3,23 @@
 %}
 
 
-DIGIT 		[0-9]
-ID       	[a-z][a-z0-9_]{0,31}
-AF    		[a-f|A-F]
-X     		[x|X]
-E_ATOM		[n|t|\"|\\]
-STRESC		["\"{E_ATOM}]
-HEX   		0{X}{DIGIT}|{AF}
-NOSTR   	[^{STRESC}|\r\n|\"]
-BEGINCOMMENT	[/*]
-ENDCOMMENT	[*/]
-TAG      \\[r  | n]
-OP_REL   [">=" | "<=" | ">" | "<" | "==" | "!=" | "="]
-OP_LOG   ["&&" | "!" | "||"]
-OP_ALG   ["+" | "-" | "/" | "*" | "%"]
-SYMBOL   [";" | "," | "." | "[" | "]" | "{" | "}" | "(" | ")"]
-RESERVED [void|string|this|while|break|ReadInteger|int|class|extends|if|New|ReadLine|double|interface|implements|else|NewArray|true|bool|null|for|return|Print|false]
+DIGIT 		   [0-9]
+ID       	   [a-z][a-z0-9_]{0,31}
+AF    		   [a-f|A-F]
+X     		   [x|X]
+E_ATOM		   [n|t|\"|\\]
+STRESC		   ["\"{E_ATOM}]
+HEX   		   0{X}{DIGIT}|{AF}
+NOSTR   	   [^{STRESC}|\r\n|\"]
+BEGINCOMMENT [/*]
+ENDCOMMENT	 [*/]
+TAG          \\[n | t]
+BODY_STRING  ([^"\\])*
+OP_REL       [">=" | "<=" | ">" | "<" | "==" | "!=" | "="]
+OP_LOG       ["&&" | "!" | "||"]
+OP_ALG       ["+" | "-" | "/" | "*" | "%"]
+SYMBOL       [";" | "," | "." | "[" | "]" | "{" | "}" | "(" | ")"]
+RESERVED     [void|string|this|while|break|ReadInteger|int|class|extends|if|New|ReadLine|double|interface|implements|else|NewArray|true|bool|null|for|return|Print|false]
 
 %%
 
@@ -32,7 +33,8 @@ True|False                      	                           printf("BOOLEAN");
 {DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?                           printf("FLOAT");
 {ID}					                                               printf("IDENTIFIER");
 ("//".*)|({BEGINCOMMENT}(.*){ENDCOMMENT})                    printf("S_COMMENT");
-\"([^"\\])*\"                                                printf("STRING");
+\"{BODY_STRING}\"                                            printf("STRING");
+\"{BODY_STRING}                                              printf("OPEN STRING");
 .           				                                         printf( "Unrecognized character");
 
 %%
