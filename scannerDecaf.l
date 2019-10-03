@@ -18,7 +18,7 @@ BODY_STRING  ([^"\\])*
 OP_REL       [">=" | "<=" | ">" | "<" | "==" | "!=" | "="]
 OP_LOG       ["&&" | "!" | "||"]
 OP_ALG       ["+" | "-" | "/" | "*" | "%"]
-SYMBOL       [";" | "," | "." | "[" | "]" | "{" | "}" | "(" | ")"]
+SYMBOL       [";" | "," | "." | "[" | "\]" | "{" | "}" | "(" | ")"]
 RESERVED     [void|string|this|while|break|ReadInteger|int|class|extends|if|New|ReadLine|double|interface|implements|else|NewArray|true|bool|null|for|return|Print|false]
 
 %%
