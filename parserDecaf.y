@@ -24,11 +24,10 @@ extern int yylex();
 %%
 Program : Decl;
 
-Decl :  BOOLEAN	{printf("%s\n","El scanner dio: BOOLEAN");}
+Decl :  Decl Example|Example;
+
+Example : BOOLEAN {printf("%s\n","El scanner dio: BOOLEAN");}
         |INT SYMBOL {printf("%s\n","El scanner dio: INT SYMBOL");};
-
-
-
 
 
 
