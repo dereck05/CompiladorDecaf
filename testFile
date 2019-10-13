@@ -1,2 +1,9 @@
-13;
-True
+class hello {
+
+    void main(){
+      Print("hola");
+      x=2;
+
+
+    }
+}

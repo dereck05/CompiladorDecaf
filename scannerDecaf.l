@@ -21,31 +21,97 @@ HEX   		   0[x|X]({DIGIT}|{AF})+
 NOSTR   	   [^{STRESC}|\n|\"]
 BEGINCOMMENT 	   [/*]
 ENDCOMMENT	   [*/]
-TAG          ("\n"|"\t"|"\r")
-BODY_STRING  ([^\\n"\\])*
-OP_REL       (">="|"<="|">"|"<"|"=="|"!="|"=")
+TAG          ("\n"|"\t"|"\r"|"\\")
+BODY_STRING  ({TAG})*
+OP_REL       (">="|"<="|">"|"<"|"=="|"!=")
 BOOLEAN	     (True|False)
-OP_LOG       ("&&"|"!"|"||")
+OP_LOG       ("&&"|"||")
+NOT 	     ("!")
 OP_ALG       ("+"|"-"|"/"|"*"|"%")
-SYMBOL       (";"|","|"."|"["|"\]"|"{"|"}"|"("|")")
-RESERVED     (void|string|this|while|break|ReadInteger|int|class|extends|if|New|ReadLine|double|interface|implements|else|NewArray|true|bool|null|for|return|Print|false)
-
+SEMICOLON    (";")
+TYPE	     (int|double|bool|string|id)
+SQRBRACKET   ("[\]")
+EQUALS       ("=")
+OPENBRA	     ("{")
+CLOSEBRA     ("}")
+COMMA	     (",")
+OPENPAR	     ("(")
+CLOSEPAR     (")")
+VOID         (void)
+CLASS	     (class)
+EXTENDS      (extends)
+IMPLEMENTS   (implements)
+INTERFACE    (interface)
+IF 	     (if)
+ELSE         (else)
+WHILE        (while)
+FOR	     (for)
+RETURN       (return)
+THIS         (this)
+BREAK	     (break)
+PRINT	     (Print)
+READINT	     (ReadInteger)
+READLINE     (ReadLine)
+NEW          (New)
+NEWARRAY     (NewArray)
+POINT        (".")
+OPENSQR      ("[")
+CLOSESQR     ("]")
+INTCONST     (intConstant)
+DOUBLECONST  (doubleConstant)
+BOOLCONST    (boolConstant)
+STRCONST     (stringConstant)
+Null	     (null)
 %%
-{TAG}+						  	  ;
-{BOOLEAN}						  {/*yylval = new string(yytext);*/return BOOLEAN;}
+
+{BOOLEAN}						  {return BOOLEAN;}
 {OP_REL}                                 		  {return OP_REL;}
 {OP_LOG}        			                  {return OP_LOG;}
 {OP_ALG}                 			          {return OP_ALG;}
-{SYMBOL}                                                  {return SYMBOL;}
-{RESERVED}                              		  {return RESERVED;}
+{NOT}							  {return NOT;}
+{SEMICOLON}						  {return SEMICOLON;}
+{TYPE}							  {return TYPE;}
+{SQRBRACKET}					          {return SQRBRACKET;}
+{EQUALS}						  {return EQUALS;}
+{OPENPAR}						  {return OPENPAR;}
+{CLOSEPAR}						  {return CLOSEPAR;}
+{OPENBRA}						  {return OPENBRA;}
+{CLOSEBRA}						  {return CLOSEBRA;}
+{VOID}							  {return VOID;}
+{COMMA}							  {return COMMA;}
+{CLASS}	     						  {return CLASS;}
+{EXTENDS}     						  {return EXTENDS;}
+{IMPLEMENTS}      					  {return IMPLEMENTS;}
+{INTERFACE}    						  {return INTERFACE;}
+{THIS}							  {return THIS;}
+{IF} 	     						  {return IF;}
+{ELSE}         						  {return ELSE;}
+{WHILE}        						  {return WHILE;}
+{FOR}	     						  {return FOR;}
+{RETURN}       				                  {return RETURN;}
+{BREAK}	     						  {return BREAK;}
+{PRINT}	     					          {return PRINT;}
+{READINT}						  {return READINT;}
+{READLINE}						  {return READLINE;}
+{NEW}							  {return NEW;}
+{NEWARRAY}						  {return NEWARRAY;}
+{POINT}							  {return POINT;}
+{OPENSQR}						  {return OPENSQR;}
+{CLOSESQR}						  {return CLOSESQR;}
+{INTCONST}						  {return INTCONST;}
+{DOUBLECONST}						  {return DOUBLECONST;}
+{BOOLCONST}						  {return BOOLCONST;}
+{STRCONST}						  {return STRCONST;}
+{Null}						  	  {return Null;}
 {DIGIT}+                                           	  {yylval.int_val = atoi(yytext);return INT;}
 {HEX}							  {yylval.str_val = new string(yytext);return HEX;}
 {DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?                        {yylval.double_val = atof(yytext);return FLOAT;}
 {ID}					                  {return IDENTIFIER;}
 ("//".*)|({BEGINCOMMENT}(.*){ENDCOMMENT})                 {return S_COMMENT;}
-\"{BODY_STRING}                                           {return OPEN_STRING;}
+
 \"{BODY_STRING}\"                                         {return STRING;}
-.           				                  {return ERROR;}
+{TAG}+						  	  ;
+
 
 %%
 void  yyerror(char* str) {
