@@ -101,12 +101,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 33 "parserDecaf.y" /* yacc.c:1909  */
+#line 34 "parserDecaf.y" /* yacc.c:1909  */
 
     int int_val;
     double double_val;
     string* str_val;
-    //BINARY_TREE b_Val;
+    //TERNARY_TREE b_Val;
 
 #line 112 "parserDecaf.tab.h" /* yacc.c:1909  */
 };

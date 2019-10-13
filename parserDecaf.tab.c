@@ -68,9 +68,9 @@
 #include  <cstdlib>
 #include  <string>
 #include  <iostream>
-//#define YYSTYPE treeNode *
+#define YYSTYPE treeNode *
 #define NOTHING -1 //Constante nombrada de un valor nulo del arbol
-#define YYSTYPE TREE_NODE *
+//#define YYSTYPE BINARY_TREE
 using  namespace  std;
 extern void yyerror(char *);
 extern int yylex();
@@ -84,17 +84,18 @@ struct treeNode
     int nodeIdentifier;
     struct treeNode *first;
     struct treeNode *second;
+    struct treeNode *third;
 };
 
 typedef struct treeNode TREE_NODE;
-typedef TREE_NODE  *BINARY_TREE;
+typedef TREE_NODE  *TERNARY_TREE;
 
 //Metodos declarados para construir el arbol 
-int evaluate(BINARY_TREE);
-BINARY_TREE create_node(int, int,BINARY_TREE,BINARY_TREE);
+int evaluate(TERNARY_TREE);
+TERNARY_TREE create_node(int, int,TERNARY_TREE,TERNARY_TREE,TERNARY_TREE);
+void PrintTree(TERNARY_TREE);
 
-
-#line 98 "parserDecaf.tab.c" /* yacc.c:339  */
+#line 99 "parserDecaf.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -185,14 +186,14 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 33 "parserDecaf.y" /* yacc.c:355  */
+#line 34 "parserDecaf.y" /* yacc.c:355  */
 
     int int_val;
     double double_val;
     string* str_val;
-    //BINARY_TREE b_Val;
+    //TERNARY_TREE b_Val;
 
-#line 196 "parserDecaf.tab.c" /* yacc.c:355  */
+#line 197 "parserDecaf.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -209,7 +210,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 213 "parserDecaf.tab.c" /* yacc.c:358  */
+#line 214 "parserDecaf.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -511,16 +512,16 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    48,    48,    53,    55,    57,    57,    57,    57,    59,
-      61,    61,    63,    63,    65,    65,    67,    67,    69,    69,
-      71,    72,    73,    74,    77,    77,    79,    79,    81,    83,
-      85,    85,    87,    89,    90,    92,    92,    94,    96,    97,
-      99,   100,   102,   102,   102,   102,   102,   102,   102,   102,
-     104,   105,   108,   109,   111,   113,   115,   116,   118,   120,
-     121,   123,   125,   127,   127,   129,   129,   131,   131,   131,
-     131,   131,   131,   132,   132,   132,   132,   132,   132,   132,
-     132,   134,   134,   134,   136,   136,   138,   139,   141,   141,
-     141,   141,   141
+       0,    49,    49,    56,    59,    61,    61,    61,    61,    63,
+      65,    65,    67,    67,    69,    69,    71,    71,    73,    73,
+      75,    76,    77,    78,    81,    81,    83,    83,    85,    87,
+      89,    89,    91,    93,    94,    96,    96,    98,   100,   101,
+     103,   104,   106,   106,   106,   106,   106,   106,   106,   106,
+     108,   109,   112,   113,   115,   117,   119,   120,   122,   124,
+     125,   127,   129,   131,   131,   133,   133,   135,   135,   135,
+     135,   135,   135,   136,   136,   136,   136,   136,   136,   136,
+     136,   138,   138,   138,   140,   140,   142,   143,   145,   145,
+     145,   145,   145
 };
 #endif
 
@@ -1432,110 +1433,113 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 49 "parserDecaf.y" /* yacc.c:1646  */
-    { BINARY_TREE ParseTree; 
-		ParseTree = create_node(NOTHING,PROGRAM ,NULL,NULL); }
-#line 1439 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 50 "parserDecaf.y" /* yacc.c:1646  */
+    { TERNARY_TREE ParseTree; 
+		ParseTree = create_node(NOTHING,PROGRAM ,NULL,NULL,NULL);
+		PrintTree(ParseTree);
+	}
+#line 1442 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 54 "parserDecaf.y" /* yacc.c:1646  */
-    {(yyval.BINARY_TREE) = create_node(NOTHING,DECLS ,NULL,NULL); }
-#line 1445 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 57 "parserDecaf.y" /* yacc.c:1646  */
+    {TERNARY_TREE ParseTree; 
+		ParseTree = create_node(NOTHING,DECLS ,NULL,NULL,NULL); }
+#line 1449 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 57 "parserDecaf.y" /* yacc.c:1646  */
+#line 61 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Variable Declaration");}
-#line 1451 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1455 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 57 "parserDecaf.y" /* yacc.c:1646  */
+#line 61 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Function Declaration");}
-#line 1457 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1461 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 57 "parserDecaf.y" /* yacc.c:1646  */
+#line 61 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Class Declaration");}
-#line 1463 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1467 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 57 "parserDecaf.y" /* yacc.c:1646  */
+#line 61 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Interface Declaration");}
-#line 1469 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1473 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 92 "parserDecaf.y" /* yacc.c:1646  */
+#line 96 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Prototype");}
-#line 1475 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1479 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 94 "parserDecaf.y" /* yacc.c:1646  */
+#line 98 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Statement Block");}
-#line 1481 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1485 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 100 "parserDecaf.y" /* yacc.c:1646  */
+#line 104 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Statements");}
-#line 1487 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1491 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 102 "parserDecaf.y" /* yacc.c:1646  */
+#line 106 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Statement");}
-#line 1493 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1497 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 125 "parserDecaf.y" /* yacc.c:1646  */
+#line 129 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Print Statement");}
-#line 1499 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1503 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 127 "parserDecaf.y" /* yacc.c:1646  */
+#line 131 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Expresions");}
-#line 1505 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1509 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 129 "parserDecaf.y" /* yacc.c:1646  */
+#line 133 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","ExpresionsList");}
-#line 1511 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1515 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 134 "parserDecaf.y" /* yacc.c:1646  */
+#line 138 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","LValue");}
-#line 1517 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1521 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 136 "parserDecaf.y" /* yacc.c:1646  */
+#line 140 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Call");}
-#line 1523 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1527 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 87:
-#line 139 "parserDecaf.y" /* yacc.c:1646  */
+#line 143 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Expresions");}
-#line 1529 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1533 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 92:
-#line 141 "parserDecaf.y" /* yacc.c:1646  */
+#line 145 "parserDecaf.y" /* yacc.c:1646  */
     {printf("%s\n","Constant");}
-#line 1535 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1539 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1539 "parserDecaf.tab.c" /* yacc.c:1646  */
+#line 1543 "parserDecaf.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1763,17 +1767,29 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 143 "parserDecaf.y" /* yacc.c:1906  */
+#line 147 "parserDecaf.y" /* yacc.c:1906  */
 
 
-BINARY_TREE create_node(int int_val,int case_identifier, BINARY_TREE n1, BINARY_TREE n2)
+TERNARY_TREE create_node(int int_val,int case_identifier, TERNARY_TREE n1, TERNARY_TREE n2, TERNARY_TREE n3)
 {
-	BINARY_TREE t;
-	t = (BINARY_TREE)malloc(sizeof(TREE_NODE));
+	TERNARY_TREE t;
+	t = (TERNARY_TREE)malloc(sizeof(TREE_NODE));
 	t->item =int_val;
 	t->first=n1;
 	t->second=n2;
+	t->third=n3;
 	return(t);
+}
+
+
+void PrintTree(TERNARY_TREE t)
+{
+	if(t == NULL) return;
+	printf("Item: %d", t->item);
+	printf(" nodeIdentifier: %d\n", t->nodeIdentifier);
+	PrintTree(t->first);
+	PrintTree(t->second);
+	PrintTree(t->third);
 }
 
 
