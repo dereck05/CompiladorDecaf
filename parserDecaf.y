@@ -3,28 +3,56 @@
 #include  <cstdlib>
 #include  <string>
 #include  <iostream>
+#define YYSTYPE treeNode *
+#define NOTHING -1 //Constante nombrada de un valor nulo del arbol
+//#define YYSTYPE BINARY_TREE
 using  namespace  std;
 extern void yyerror(char *);
 extern int yylex();
+
+enum ParseTreeNodeType {PROGRAM,DECLS};
+
+//Estructura del arbol
+struct treeNode
+{
+    int item;
+    int nodeIdentifier;
+    struct treeNode *first;
+    struct treeNode *second;
+};
+
+typedef struct treeNode TREE_NODE;
+typedef TREE_NODE  *BINARY_TREE;
+
+//Metodos declarados para construir el arbol 
+int evaluate(BINARY_TREE);
+BINARY_TREE create_node(int, int,BINARY_TREE,BINARY_TREE);
+
 %}
 
 %union{
     int int_val;
     double double_val;
     string* str_val;
-
+    //BINARY_TREE b_Val;
 }
 
 
 %token <int_val> INT
 %token <double_val> FLOAT
 %token <str_val> BOOLEAN OP_REL OP_LOG OP_ALG SYMBOL IDENTIFIER S_COMMENT OPEN_STRING STRING HEX TYPE SQRBRACKET TAG SEMICOLON OPENPAR CLOSEPAR VOID COMMA CLASS EXTENDS IMPLEMENTS INTERFACE IF ELSE WHILE FOR RETURN BREAK PRINT OPENBRA CLOSEBRA EQUALS THIS NOT READINT READLINE NEW NEWARRAY POINT OPENSQR CLOSESQR INTCONST DOUBLECONST BOOLCONST STRCONST Null
+//%type<b_Val> Decls
 %start Program
 
 %%
-Program : Decls {printf("%s\n","PROGRAM");}; 
+Program : Decls 
+	{ BINARY_TREE ParseTree; 
+		ParseTree = create_node(NOTHING,PROGRAM ,NULL,NULL); }
+	;
 
-Decls: Decl {printf("%s\n","Declaration");}| Decls Decl ;
+Decls: Decl //{printf("%s\n","Declaration");} 
+	{$$ = create_node(NOTHING,DECLS ,NULL,NULL); }
+	| Decls Decl ;
 
 Decl : VariableDecl {printf("%s\n","Variable Declaration");}| FunctionDecl {printf("%s\n","Function Declaration");}| ClassDecl {printf("%s\n","Class Declaration");}| InterfaceDecl {printf("%s\n","Interface Declaration");};
 
@@ -112,7 +140,16 @@ Actuals: /*empty*/
 
 Constant: INT | FLOAT | BOOLEAN | STRING| Null {printf("%s\n","Constant");};
 
+%%
 
-
+BINARY_TREE create_node(int int_val,int case_identifier, BINARY_TREE n1, BINARY_TREE n2)
+{
+	BINARY_TREE t;
+	t = (BINARY_TREE)malloc(sizeof(TREE_NODE));
+	t->item =int_val;
+	t->first=n1;
+	t->second=n2;
+	return(t);
+}
 
 
