@@ -19,22 +19,23 @@ struct treeNode
     int nodeIdentifier;
     struct treeNode *first;
     struct treeNode *second;
+    struct treeNode *third;
 };
 
 typedef struct treeNode TREE_NODE;
-typedef TREE_NODE  *BINARY_TREE;
+typedef TREE_NODE  *TERNARY_TREE;
 
 //Metodos declarados para construir el arbol 
 int evaluate(BINARY_TREE);
-BINARY_TREE create_node(int, int,BINARY_TREE,BINARY_TREE);
-
+TERNARY_TREE create_node(int, int,TERNARY_TREE,TERNARY_TREE);
+void PrintTree(TERNARY_TREE);
 %}
 
 %union{
     int int_val;
     double double_val;
     string* str_val;
-    //BINARY_TREE b_Val;
+    TERNARY_TREE b_Val;
 }
 
 
@@ -46,12 +47,15 @@ BINARY_TREE create_node(int, int,BINARY_TREE,BINARY_TREE);
 
 %%
 Program : Decls 
-	{ BINARY_TREE ParseTree; 
-		ParseTree = create_node(NOTHING,PROGRAM ,NULL,NULL); }
+	{ TERNARY_TREE ParseTree; 
+		ParseTree = create_node(NOTHING,PROGRAM ,$1,NULL,NULL);
+		PrintTree(ParseTree);
+	}
 	;
 
 Decls: Decl //{printf("%s\n","Declaration");} 
-	{$$ = create_node(NOTHING,DECLS ,NULL,NULL); }
+	{TERNARY_TREE ParseTree; 
+		ParseTree = create_node(NOTHING,DECLS ,NULL,NULL,NULL); }
 	| Decls Decl ;
 
 Decl : VariableDecl {printf("%s\n","Variable Declaration");}| FunctionDecl {printf("%s\n","Function Declaration");}| ClassDecl {printf("%s\n","Class Declaration");}| InterfaceDecl {printf("%s\n","Interface Declaration");};
@@ -142,14 +146,26 @@ Constant: INT | FLOAT | BOOLEAN | STRING| Null {printf("%s\n","Constant");};
 
 %%
 
-BINARY_TREE create_node(int int_val,int case_identifier, BINARY_TREE n1, BINARY_TREE n2)
+TERNARY_TREE create_node(int int_val,int case_identifier, TERNARY_TREE n1, TERNARY_TREE n2, TERNARY_TREE n3)
 {
-	BINARY_TREE t;
-	t = (BINARY_TREE)malloc(sizeof(TREE_NODE));
+	TERNARY_TREE t;
+	t = (TERNARY_TREE)malloc(sizeof(TREE_NODE));
 	t->item =int_val;
 	t->first=n1;
 	t->second=n2;
+	t->third=n3;
 	return(t);
+}
+
+
+void PrintTree(TERNARY_TREE t)
+{
+	if(t == NULL) return;
+	printf("Item: %d", t->item);
+	printf(" nodeIdentifier: %d\n", t->nodeIdentifier);
+	PrintTree(t->first);
+	PrintTree(t->second);
+	PrintTree(t->third);
 }
 
 
