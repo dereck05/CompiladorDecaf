@@ -2,11 +2,21 @@
 #include  <cstdio>
 #include  <cstdlib>
 #include  <string>
+#include <vector>
 #include  <iostream>
+
+#include "Nodo.h"
 using  namespace  std;
-extern void yyerror(char *);
+extern void yyerror(const char *);
 extern int yylex();
+extern int yylineno;
+static void createNode(Nodo *n);
+
+
 %}
+
+
+
 
 %union{
     int int_val;
@@ -22,7 +32,7 @@ extern int yylex();
 %start Program
 
 %%
-Program : Decls {printf("%s\n","PROGRAM");}; 
+Program : Decls {createNode(new Nodo("Program",1,2));printf("%s\n","PROGRAM");}; 
 
 Decls: Decl {printf("%s\n","Declaration");}| Decls Decl ;
 
@@ -112,6 +122,14 @@ Actuals: /*empty*/
 
 Constant: INT | FLOAT | BOOLEAN | STRING| Null {printf("%s\n","Constant");};
 
+%%
+
+static vector<Nodo*> v ;
+
+static void createNode(Nodo *n){
+    v.push_back(n);
+    printf("%s\n","Inserted!");
+}
 
 
 
