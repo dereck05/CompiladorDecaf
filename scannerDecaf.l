@@ -10,7 +10,7 @@ using  namespace  std;
 
 void yyerror(char *);
 int  yyparse(void);
-void addRow(int line, int len, char* token, char* value);
+void addRow(int line, int len, char *token, char *value);
 
 int num_words = 0, num_caracteres = 1;
 int tableInt[1000][2];
@@ -178,11 +178,14 @@ void  yyerror(char* str) {
 }
 int  yywrap(void) {}
 
-void addRow(int line, int len, char* token, char* value){
+void addRow(int line, int len, char *token, const char *value){
+      char *str = malloc(strlen(value)+1);
+      if(str != NULL) strcpy(str,value);
+
       tableInt[num_words][0]=line;
       tableInt[num_words][1]=num_caracteres;
       table[num_words][0]=token;
-      table[num_words][1]=value;
+      table[num_words][1]=str;
       num_words++;
       num_caracteres+=len;
 }
