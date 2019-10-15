@@ -193,7 +193,7 @@ void addRow(int len, char *token, const char *value){
 }
 
 void printTable(){
-  printf("\nLine     Column     Token           Value");
+  printf("\nLine     Column     Token           Value\n");
   for(int i=0; i<num_words;i++){
       printf("%d       ",tableInt[i][0]);
       if(tableInt[i][0]<10)printf(" ");
