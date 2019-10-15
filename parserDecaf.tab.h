@@ -101,7 +101,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 23 "parserDecaf.y" /* yacc.c:1909  */
+#line 25 "parserDecaf.y" /* yacc.c:1909  */
 
     int int_val;
     double double_val;

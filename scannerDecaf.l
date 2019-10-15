@@ -171,7 +171,7 @@ Null	     (null)
 
 \"{BODY_STRING}                            {printf("STRING no cerrado en linea %d y columna %d\n",num_lines,num_caracteres);}
 
-\\{VALID_ESC}			           {printf("Secuencia de escape ilegal en linea %d y columna %d\n",num_lines,num_caracteres);}
+\\{VALID_ESC}			           {printf("Secuencia de escape ilegal en linea %d y columna %d\n",num_lines,num_caracteres);num_caracteres+=yyleng;}
 
 {TAG}+                                     {num_caracteres+=yyleng;}
 
@@ -186,7 +186,7 @@ int  yywrap(void) {}
 void addRow(int len, const char *token, char *value){
       char *str = (char*)malloc(strlen(value)+1);
       if(str != NULL) strcpy(str,value);
-      
+
       tableInt[num_words][0]=num_lines;
       tableInt[num_words][1]=num_caracteres;
       table[num_words][0]=token;
@@ -203,9 +203,10 @@ void printTable(){
       printf("%d       ",tableInt[i][1]);
       if(tableInt[i][1]<10)printf(" ");
       printf("%s     ",table[i][0]);
-      //for(int j=0;j<(11-strlen(table[i][0]));j++){
+      for(int j=0;j<(11-strlen(table[i][0]));j++){
+        printf(" ");
+      }
       printf("%s\n",table[i][1]);
-      //}
   }
 }
 
