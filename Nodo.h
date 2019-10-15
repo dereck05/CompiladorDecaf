@@ -5,11 +5,12 @@
 #include  <cstdlib>
 #include  <string>
 #include <iostream>
+
 using namespace std;
 
 class Nodo{
-    private:
-        string name;
+    public:
+        string nombre;
         int fila;
         int columna;
     public:
