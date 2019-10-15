@@ -631,7 +631,7 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 "scannerDecaf.l"
-#line 2 "scannerDecaf.l"
+#line 3 "scannerDecaf.l"
 #include  <cstdio>
 #include  <cstdlib>
 #include  <string>
@@ -640,7 +640,7 @@ char *yytext;
 using  namespace  std;
 #include "parserDecaf.tab.h"   //  output  of  bison on  example1.y
 
-void yyerror(char *);
+void yyerror(const char *);
 int  yyparse(void);
 #line 646 "lex.yy.c"
 
@@ -860,7 +860,7 @@ YY_DECL
 		}
 
 	{
-#line 65 "scannerDecaf.l"
+#line 66 "scannerDecaf.l"
 
 
 #line 867 "lex.yy.c"
@@ -922,239 +922,239 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 67 "scannerDecaf.l"
+#line 68 "scannerDecaf.l"
 {return BOOLEAN;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 68 "scannerDecaf.l"
+#line 69 "scannerDecaf.l"
 {return OP_REL;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 69 "scannerDecaf.l"
+#line 70 "scannerDecaf.l"
 {return OP_LOG;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 70 "scannerDecaf.l"
+#line 71 "scannerDecaf.l"
 {return OP_ALG;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 71 "scannerDecaf.l"
+#line 72 "scannerDecaf.l"
 {return NOT;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 72 "scannerDecaf.l"
+#line 73 "scannerDecaf.l"
 {return SEMICOLON;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 73 "scannerDecaf.l"
+#line 74 "scannerDecaf.l"
 {return TYPE;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 74 "scannerDecaf.l"
+#line 75 "scannerDecaf.l"
 {return SQRBRACKET;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 75 "scannerDecaf.l"
+#line 76 "scannerDecaf.l"
 {return EQUALS;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 76 "scannerDecaf.l"
+#line 77 "scannerDecaf.l"
 {return OPENPAR;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 77 "scannerDecaf.l"
+#line 78 "scannerDecaf.l"
 {return CLOSEPAR;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 78 "scannerDecaf.l"
+#line 79 "scannerDecaf.l"
 {return OPENBRA;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 79 "scannerDecaf.l"
+#line 80 "scannerDecaf.l"
 {return CLOSEBRA;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 80 "scannerDecaf.l"
+#line 81 "scannerDecaf.l"
 {return VOID;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 81 "scannerDecaf.l"
+#line 82 "scannerDecaf.l"
 {return COMMA;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 82 "scannerDecaf.l"
+#line 83 "scannerDecaf.l"
 {return CLASS;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 83 "scannerDecaf.l"
+#line 84 "scannerDecaf.l"
 {return EXTENDS;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 84 "scannerDecaf.l"
+#line 85 "scannerDecaf.l"
 {return IMPLEMENTS;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 85 "scannerDecaf.l"
+#line 86 "scannerDecaf.l"
 {return INTERFACE;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 86 "scannerDecaf.l"
+#line 87 "scannerDecaf.l"
 {return THIS;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 87 "scannerDecaf.l"
+#line 88 "scannerDecaf.l"
 {return IF;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 88 "scannerDecaf.l"
+#line 89 "scannerDecaf.l"
 {return ELSE;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 89 "scannerDecaf.l"
+#line 90 "scannerDecaf.l"
 {return WHILE;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 90 "scannerDecaf.l"
+#line 91 "scannerDecaf.l"
 {return FOR;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 91 "scannerDecaf.l"
+#line 92 "scannerDecaf.l"
 {return RETURN;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 92 "scannerDecaf.l"
+#line 93 "scannerDecaf.l"
 {return BREAK;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 93 "scannerDecaf.l"
+#line 94 "scannerDecaf.l"
 {return PRINT;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 94 "scannerDecaf.l"
+#line 95 "scannerDecaf.l"
 {return READINT;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 95 "scannerDecaf.l"
+#line 96 "scannerDecaf.l"
 {return READLINE;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 96 "scannerDecaf.l"
+#line 97 "scannerDecaf.l"
 {return NEW;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 97 "scannerDecaf.l"
+#line 98 "scannerDecaf.l"
 {return NEWARRAY;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 98 "scannerDecaf.l"
+#line 99 "scannerDecaf.l"
 {return POINT;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 99 "scannerDecaf.l"
+#line 100 "scannerDecaf.l"
 {return OPENSQR;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 100 "scannerDecaf.l"
+#line 101 "scannerDecaf.l"
 {return CLOSESQR;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 101 "scannerDecaf.l"
+#line 102 "scannerDecaf.l"
 {return INTCONST;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 102 "scannerDecaf.l"
+#line 103 "scannerDecaf.l"
 {return DOUBLECONST;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 103 "scannerDecaf.l"
+#line 104 "scannerDecaf.l"
 {return BOOLCONST;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 104 "scannerDecaf.l"
+#line 105 "scannerDecaf.l"
 {return STRCONST;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 105 "scannerDecaf.l"
+#line 106 "scannerDecaf.l"
 {return Null;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 106 "scannerDecaf.l"
+#line 107 "scannerDecaf.l"
 {yylval.int_val = atoi(yytext);return INT;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 107 "scannerDecaf.l"
+#line 108 "scannerDecaf.l"
 {yylval.str_val = new string(yytext);return HEX;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 108 "scannerDecaf.l"
+#line 109 "scannerDecaf.l"
 {yylval.double_val = atof(yytext);return FLOAT;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 109 "scannerDecaf.l"
+#line 110 "scannerDecaf.l"
 {return IDENTIFIER;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 110 "scannerDecaf.l"
+#line 111 "scannerDecaf.l"
 {return S_COMMENT;}
 	YY_BREAK
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 112 "scannerDecaf.l"
+#line 113 "scannerDecaf.l"
 {return STRING;}
 	YY_BREAK
 case 46:
 /* rule 46 can match eol */
 YY_RULE_SETUP
-#line 113 "scannerDecaf.l"
+#line 114 "scannerDecaf.l"
 ;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 116 "scannerDecaf.l"
+#line 117 "scannerDecaf.l"
 ECHO;
 	YY_BREAK
 #line 1161 "lex.yy.c"
@@ -2158,10 +2158,10 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 116 "scannerDecaf.l"
+#line 117 "scannerDecaf.l"
 
 
-void  yyerror(char* str) {
+void  yyerror(const char* str) {
     printf("Parse  Error: \n%s\n",str );
 }
 int  yywrap(void) {}

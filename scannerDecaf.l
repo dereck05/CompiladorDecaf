@@ -1,3 +1,4 @@
+
 %{
 #include  <cstdio>
 #include  <cstdlib>
@@ -7,7 +8,7 @@
 using  namespace  std;
 #include "parserDecaf.tab.h"   //  output  of  bison on  example1.y
 
-void yyerror(char *);
+void yyerror(const char *);
 int  yyparse(void);
 %}
 
@@ -114,7 +115,7 @@ Null	     (null)
 
 
 %%
-void  yyerror(char* str) {
+void  yyerror(const char* str) {
     printf("Parse  Error: \n%s\n",str );
 }
 int  yywrap(void) {}
