@@ -10,9 +10,11 @@ using  namespace  std;
 
 void yyerror(char *);
 int  yyparse(void);
-void addRow(int line, int len, char *token, char *value);
-
-int num_words = 0, num_caracteres = 1;
+void addRow(int len, char *token, char *value);
+void printTable();
+int num_words = 0;
+int num_caracteres = 1;
+int num_lines=1;
 int tableInt[1000][2];
 string table[1000][2];
 
@@ -72,104 +74,104 @@ STRCONST     (stringConstant)
 Null	     (null)
 %%
 
-{BOOLEAN}						  {addRow(yylineno,yyleng,"BOOLEAN",yytext);
+{BOOLEAN}						  {addRow(yyleng,"BOOLEAN",yytext);
                         return BOOLEAN;}
-{OP_REL}              {addRow(yylineno,yyleng,"OP_REL",yytext);
+{OP_REL}              {addRow(yyleng,"OP_REL",yytext);
                         return OP_REL;}
-{OP_LOG}        			{addRow(yylineno,yyleng,"OP_LOG",yytext);
+{OP_LOG}        			{addRow(yyleng,"OP_LOG",yytext);
                         return OP_LOG;}
-{OP_ALG}              {addRow(yylineno,yyleng,"OP_ALG",yytext);
+{OP_ALG}              {addRow(yyleng,"OP_ALG",yytext);
                         return OP_ALG;}
-{NOT}							    {addRow(yylineno,yyleng,"NOT",yytext);
+{NOT}							    {addRow(yyleng,"NOT",yytext);
                         return NOT;}
-{SEMICOLON}						{addRow(yylineno,yyleng,"SEMICOLON",yytext);
+{SEMICOLON}						{addRow(yyleng,"SEMICOLON",yytext);
                         return SEMICOLON;}
-{TYPE}							  {addRow(yylineno,yyleng,"TYPE",yytext);
+{TYPE}							  {addRow(yyleng,"TYPE",yytext);
                         return TYPE;}
-{SQRBRACKET}					{addRow(yylineno,yyleng,"SQRBRACKET",yytext);
+{SQRBRACKET}					{addRow(yyleng,"SQRBRACKET",yytext);
                         return SQRBRACKET;}
-{EQUALS}						  {addRow(yylineno,yyleng,"EQUALS",yytext);
+{EQUALS}						  {addRow(yyleng,"EQUALS",yytext);
                         return EQUALS;}
-{OPENPAR}						  {addRow(yylineno,yyleng,"OPENPAR",yytext);
+{OPENPAR}						  {addRow(yyleng,"OPENPAR",yytext);
                         return OPENPAR;}
-{CLOSEPAR}						{addRow(yylineno,yyleng,"CLOSEPAR",yytext);
+{CLOSEPAR}						{addRow(yyleng,"CLOSEPAR",yytext);
                         return CLOSEPAR;}
-{OPENBRA}						  {addRow(yylineno,yyleng,"OPENBRA",yytext);
+{OPENBRA}						  {addRow(yyleng,"OPENBRA",yytext);
                         return OPENBRA;}
-{CLOSEBRA}						{addRow(yylineno,yyleng,"CLOSEBRA",yytext);
+{CLOSEBRA}						{addRow(yyleng,"CLOSEBRA",yytext);
                         return CLOSEBRA;}
-{VOID}							  {addRow(yylineno,yyleng,"VOID",yytext);
+{VOID}							  {addRow(yyleng,"VOID",yytext);
                         return VOID;}
-{COMMA}							  {addRow(yylineno,yyleng,"COMMA",yytext);
+{COMMA}							  {addRow(yyleng,"COMMA",yytext);
                         return COMMA;}
-{CLASS}	     				  {addRow(yylineno,yyleng,"CLASS",yytext);
+{CLASS}	     				  {addRow(yyleng,"CLASS",yytext);
                         return CLASS;}
-{EXTENDS}     			  {addRow(yylineno,yyleng,"EXTENDS",yytext);
+{EXTENDS}     			  {addRow(yyleng,"EXTENDS",yytext);
                         return EXTENDS;}
-{IMPLEMENTS}      		{addRow(yylineno,yyleng,"IMPLEMENTS",yytext);
+{IMPLEMENTS}      		{addRow(yyleng,"IMPLEMENTS",yytext);
                         return IMPLEMENTS;}
-{INTERFACE}    				{addRow(yylineno,yyleng,"INTERFACE",yytext);
+{INTERFACE}    				{addRow(yyleng,"INTERFACE",yytext);
                         return INTERFACE;}
-{THIS}							  {addRow(yylineno,yyleng,"THIS",yytext);
+{THIS}							  {addRow(yyleng,"THIS",yytext);
                         return THIS;}
-{IF} 	     						{addRow(yylineno,yyleng,"IF",yytext);
+{IF} 	     						{addRow(yyleng,"IF",yytext);
                         return IF;}
-{ELSE}         				{addRow(yylineno,yyleng,"ELSE",yytext);
+{ELSE}         				{addRow(yyleng,"ELSE",yytext);
                         return ELSE;}
-{WHILE}        			  {addRow(yylineno,yyleng,"WHILE",yytext);
+{WHILE}        			  {addRow(yyleng,"WHILE",yytext);
                         return WHILE;}
-{FOR}	     					  {addRow(yylineno,yyleng,"THIS",yytext);
+{FOR}	     					  {addRow(yyleng,"THIS",yytext);
                         return FOR;}
-{RETURN}       				{addRow(yylineno,yyleng,"RETURN",yytext);
+{RETURN}       				{addRow(yyleng,"RETURN",yytext);
                         return RETURN;}
-{BREAK}	     				  {addRow(yylineno,yyleng,"BREAK",yytext);
+{BREAK}	     				  {addRow(yyleng,"BREAK",yytext);
                         return BREAK;}
-{PRINT}	     					{addRow(yylineno,yyleng,"PRINT",yytext);
+{PRINT}	     					{addRow(yyleng,"PRINT",yytext);
                         return PRINT;}
-{READINT}						  {addRow(yylineno,yyleng,"READINT",yytext);
+{READINT}						  {addRow(yyleng,"READINT",yytext);
                         return READINT;}
-{READLINE}						{addRow(yylineno,yyleng,"READLINE",yytext);
+{READLINE}						{addRow(yyleng,"READLINE",yytext);
                         return READLINE;}
-{NEW}							    {addRow(yylineno,yyleng,"NEW",yytext);
+{NEW}							    {addRow(yyleng,"NEW",yytext);
                         return NEW;}
-{NEWARRAY}					  {addRow(yylineno,yyleng,"NEWARRAY",yytext);
+{NEWARRAY}					  {addRow(yyleng,"NEWARRAY",yytext);
                         return NEWARRAY;}
-{POINT}							  {addRow(yylineno,yyleng,"THIS",yytext);
+{POINT}							  {addRow(yyleng,"THIS",yytext);
                         return POINT;}
-{OPENSQR}						  {addRow(yylineno,yyleng,"OPENSQR",yytext);
+{OPENSQR}						  {addRow(yyleng,"OPENSQR",yytext);
                         return OPENSQR;}
-{CLOSESQR}						{addRow(yylineno,yyleng,"CLOSESQR",yytext);
+{CLOSESQR}						{addRow(yyleng,"CLOSESQR",yytext);
                         return CLOSESQR;}
-{INTCONST}						{addRow(yylineno,yyleng,"INTCONST",yytext);
+{INTCONST}						{addRow(yyleng,"INTCONST",yytext);
                         return INTCONST;}
-{DOUBLECONST}					{addRow(yylineno,yyleng,"DOUBLECONST",yytext);
+{DOUBLECONST}					{addRow(yyleng,"DOUBLECONST",yytext);
                         return DOUBLECONST;}
-{BOOLCONST}						{addRow(yylineno,yyleng,"BOOLCONST",yytext);
+{BOOLCONST}						{addRow(yyleng,"BOOLCONST",yytext);
                         return BOOLCONST;}
-{STRCONST}						{addRow(yylineno,yyleng,"STRCONST",yytext);
+{STRCONST}						{addRow(yyleng,"STRCONST",yytext);
                         return STRCONST;}
-{Null}						  	{addRow(yylineno,yyleng,"NULL",yytext);
+{Null}						  	{addRow(yyleng,"NULL",yytext);
                         return Null;}
-{DIGIT}+              {addRow(yylineno,yyleng,"INT",yytext);
+{DIGIT}+              {addRow(yyleng,"INT",yytext);
                         yylval.int_val = atoi(yytext);
                         return INT;}
-{HEX}							  {addRow(yylineno,yyleng,"HEX",yytext);
+{HEX}							  {addRow(yyleng,"HEX",yytext);
                         yylval.str_val = new string(yytext);
                         return HEX;}
-{DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?        {addRow(yylineno,yyleng,"FLOAT",yytext);
+{DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?        {addRow(yyleng,"FLOAT",yytext);
                                             yylval.double_val = atof(yytext);
                                             return FLOAT;}
-{ID}   					                          {addRow(yylineno,yyleng,"IDENTIFIER",yytext);
+{ID}   					                          {addRow(yyleng,"IDENTIFIER",yytext);
                                             return IDENTIFIER;}
 ("//".*)|({BEGINCOMMENT}(.*){ENDCOMMENT}) {num_caracteres+=yyleng;
                                             }
-{JUMP}                                    {num_caracteres=1;}
-\"{BODY_STRING}\"                         {addRow(yylineno,yyleng,"STRING",yytext);
+{JUMP}                                    {num_caracteres=1; num_lines++;}
+\"{BODY_STRING}\"                         {addRow(yyleng,"STRING",yytext);
                                             return STRING;}
-\"{BODY_STRING}                            {printf("STRING no cerrado en linea %d y columna %d\n",yylineno,num_caracteres);
+\"{BODY_STRING}                            {printf("STRING no cerrado en linea %d y columna %d\n",num_caracteres);
                                             }
 {TAG}+                                    {num_caracteres+=yyleng;}
-.           				                      {printf("Caracter ilegal <%s> en linea %d y columna %d\n",yytext,yylineno,num_caracteres);
+.           				                      {printf("Caracter ilegal <%s> en linea %d y columna %d\n",yytext,num_caracteres);
                                              num_caracteres+=yyleng;}//token ilegal
 
 %%
@@ -178,16 +180,30 @@ void  yyerror(char* str) {
 }
 int  yywrap(void) {}
 
-void addRow(int line, int len, char *token, const char *value){
+void addRow(int len, char *token, const char *value){
       char *str = malloc(strlen(value)+1);
       if(str != NULL) strcpy(str,value);
 
-      tableInt[num_words][0]=line;
+      tableInt[num_words][0]=num_lines;
       tableInt[num_words][1]=num_caracteres;
       table[num_words][0]=token;
       table[num_words][1]=str;
       num_words++;
       num_caracteres+=len;
+}
+
+void printTable(){
+  printf("\nLine     Column     Token           Value");
+  for(int i=0; i<num_words;i++){
+      printf("%d       ",tableInt[i][0]);
+      if(tableInt[i][0]<10)printf(" ");
+      printf("%d       ",tableInt[i][1]);
+      if(tableInt[i][1]<10)printf(" ");
+      printf("%s     ",table[i][0]);
+      for(int j=0;j<(11-strlen(table[i][0]));j++){
+        printf("%s\n",table[i][1]);
+      }
+  }
 }
 
 int  main(int  num_args , char** args) {
