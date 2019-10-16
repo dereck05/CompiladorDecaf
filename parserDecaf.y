@@ -241,5 +241,3 @@ static string ftostr(double d){
 
 }
 
-
-

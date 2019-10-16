@@ -24,7 +24,7 @@ const char* table[1000][2];
 DIGIT 		   [0-9]
 ID       	   [a-zA-Z][a-zA-Z0-9_]{0,30}
 AF    		   [a-f|A-F]
-E_ATOM		   (\\)
+E_ATOM		   (n|t|r|\)
 STRESC		   ["\"{E_ATOM}]
 HEX   		   0[x|X]({DIGIT}|{AF})+
 NOSTR   	   [^{STRESC}|\n|\"]
@@ -36,7 +36,7 @@ BODY_STRING  ([^"\n])*
 OP_REL       (">="|"<="|">"|"<")
 OP_IGUALDAD  ("=="|"!=")
 BOOLEAN	     (True|False)
-BAD_STR      ([^r|^t|^n|^{E_ATOM}])*
+BAD_STR      ([^r|^t|^n])*
 LOG_AND      ("&&")
 LOG_OR	     ("||")
 NOT 	     ("!")
@@ -191,6 +191,7 @@ Null	     (null)
 %%
 void  yyerror(const char* str) {
     printf("Parsing error en linea %d , columna %d\n",num_lines,num_caracteres);
+    exit(0);
 }
 int  yywrap(void) {}
 
@@ -237,5 +238,4 @@ yydebug = 1;
         yyparse ();
         printTable();
         fclose(file);
-        
 }
