@@ -33,12 +33,15 @@ ENDCOMMENT	   [*/]
 TAG          [ \t\r\\]
 JUMP         ("\n")
 BODY_STRING  ([^"\n])*
-OP_REL       (">="|"<="|">"|"<"|"=="|"!=")
+OP_REL       (">="|"<="|">"|"<")
+OP_IGUALDAD  ("=="|"!=")
 BOOLEAN	     (True|False)
 VALID_ESC    [^\t\n\r\\]
-OP_LOG       ("&&"|"||")
+LOG_AND      ("&&")
+LOG_OR	     ("||")
 NOT 	     ("!")
-OP_ALG       ("+"|"-"|"/"|"*"|"%")
+SUM_RESTA    ("+"|"-")
+MUL_DIV_MOD  ("/"|"*"|"%")
 SEMICOLON    (";")
 TYPE	     (int|double|bool|string|id)
 SQRBRACKET   ("[\]")
@@ -81,9 +84,15 @@ Null	     (null)
 
 {OP_REL}              			   {addRow(yyleng,"OP_REL",yytext);return OP_REL;}
 
-{OP_LOG}        			   {addRow(yyleng,"OP_LOG",yytext);return OP_LOG;}
+{OP_IGUALDAD}              		   {addRow(yyleng,"OP_IGUALDAD",yytext);return OP_IGUALDAD;}
 
-{OP_ALG}              			   {addRow(yyleng,"OP_ALG",yytext);return OP_ALG;}
+{SUM_RESTA}        			   {addRow(yyleng,"SUM_RESTA",yytext);return SUM_RESTA;}
+
+{MUL_DIV_MOD}        			   {addRow(yyleng,"MUL_DIV_MOD",yytext);return MUL_DIV_MOD;}
+
+{LOG_AND}              			   {addRow(yyleng,"LOG_AND",yytext);return LOG_AND;}
+
+{LOG_OR}              			   {addRow(yyleng,"LOG_OR",yytext);return LOG_OR;}
 
 {NOT}					   {addRow(yyleng,"NOT",yytext);return NOT;}
 
@@ -179,7 +188,7 @@ Null	     (null)
 
 %%
 void  yyerror(const char* str) {
-    printf("Syntax Error en linea %d , columna %d\n",num_lines,num_caracteres);
+    printf("Parsing error en linea %d , columna %d\n",num_lines,num_caracteres);
 }
 int  yywrap(void) {}
 
@@ -224,6 +233,6 @@ yydebug = 1;
         }
         yyin = file;   // now  flex  reads  from  file
         yyparse ();
-        //printTable();
+        printTable();
         fclose(file);
 }

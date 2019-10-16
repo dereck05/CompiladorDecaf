@@ -29,10 +29,26 @@ static void makeDirectory(string nombre);
 
 }
 
-
 %token <int_val> INT
 %token <double_val> FLOAT
-%token <str_val> BOOLEAN OP_REL OP_LOG OP_ALG SYMBOL IDENTIFIER S_COMMENT OPEN_STRING STRING HEX TYPE SQRBRACKET TAG SEMICOLON OPENPAR CLOSEPAR VOID COMMA CLASS EXTENDS IMPLEMENTS INTERFACE IF ELSE WHILE FOR RETURN BREAK PRINT OPENBRA CLOSEBRA EQUALS THIS NOT READINT READLINE NEW NEWARRAY POINT OPENSQR CLOSESQR INTCONST DOUBLECONST BOOLCONST STRCONST Null
+%token <str_val> BOOLEAN OP_LOG OP_ALG SYMBOL IDENTIFIER S_COMMENT OPEN_STRING STRING HEX TYPE SQRBRACKET TAG SEMICOLON OPENPAR CLOSEPAR VOID COMMA CLASS EXTENDS IMPLEMENTS INTERFACE IF ELSE WHILE FOR RETURN BREAK PRINT OPENBRA CLOSEBRA THIS READINT READLINE NEW NEWARRAY CLOSESQR INTCONST DOUBLECONST BOOLCONST STRCONST Null 
+ 
+%token EQUALS
+%left LOG_OR
+%left LOG_AND
+%token OP_IGUALDAD
+%token OP_REL
+%left SUM_RESTA
+%left MUL_DIV_MOD
+%token NOT
+%token OPENSQR
+%token POINT
+
+
+
+
+
+
 %start Program
 
 %%
@@ -142,9 +158,12 @@ Expresion: LValue EQUALS Expresion {createNode(new Nodo("Expression",num_lines,n
 	| THIS {createNode(new Nodo("Expression",num_lines,num_caracteres));}
 	| Call {createNode(new Nodo("Expression",num_lines,num_caracteres));}
 	| OPENPAR Expresion CLOSEPAR {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-	| Expresion OP_ALG Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres));}
+	| Expresion SUM_RESTA Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres));}
+	| Expresion MUL_DIV_MOD Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres));}
 	| Expresion OP_REL Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-	| Expresion OP_LOG Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres));}
+	| Expresion OP_IGUALDAD Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres));}
+	| Expresion LOG_AND Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres));}
+	| Expresion LOG_OR Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres));}
 	| NOT Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres));}
 	| READINT OPENPAR CLOSEPAR {createNode(new Nodo("Expression",num_lines,num_caracteres));}
 	| READLINE OPENPAR CLOSEPAR {createNode(new Nodo("Expression",num_lines,num_caracteres));}
@@ -176,7 +195,7 @@ static void createNode(Nodo *n){
     //printf("%s\n","Inserted!");
 }
 
-static string path = "/home/natalia/Desktop/Pruebas";
+static string path = "/home/dereck05/Desktop/Pruebas";
 
 static void makeDirectory(string nombre){
 	path = path +"/"+ nombre;
