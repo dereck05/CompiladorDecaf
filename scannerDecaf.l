@@ -24,7 +24,7 @@ const char* table[1000][2];
 DIGIT 		   [0-9]
 ID       	   [a-zA-Z][a-zA-Z0-9_]{0,30}
 AF    		   [a-f|A-F]
-E_ATOM		   [n|t|\"|\\]
+E_ATOM		   (\\)
 STRESC		   ["\"{E_ATOM}]
 HEX   		   0[x|X]({DIGIT}|{AF})+
 NOSTR   	   [^{STRESC}|\n|\"]
@@ -36,7 +36,7 @@ BODY_STRING  ([^"\n])*
 OP_REL       (">="|"<="|">"|"<")
 OP_IGUALDAD  ("=="|"!=")
 BOOLEAN	     (True|False)
-VALID_ESC    [^\t\n\r\\]
+BAD_STR      ([^r|^t|^n|^{E_ATOM}])*
 LOG_AND      ("&&")
 LOG_OR	     ("||")
 NOT 	     ("!")
@@ -176,15 +176,17 @@ Null	     (null)
 
 {JUMP}                                     {num_caracteres=1; num_lines++;}
 
+\"{BAD_STR}\"			           {printf("Secuencia de escape ilegal en linea %d y columna %d\n",num_lines,num_caracteres);num_caracteres+=yyleng;exit(0);}
+
 \"{BODY_STRING}\"                          {addRow(yyleng,"STRING",yytext);return STRING;}
 
-\"{BODY_STRING}                            {printf("STRING no cerrado en linea %d y columna %d\n",num_lines,num_caracteres);}
+\"{BODY_STRING}                            {printf("STRING no cerrado en linea %d y columna %d\n",num_lines,num_caracteres);exit(0);}
 
-\\{VALID_ESC}			           {printf("Secuencia de escape ilegal en linea %d y columna %d\n",num_lines,num_caracteres);num_caracteres+=yyleng;}
+
 
 {TAG}+                                     {num_caracteres+=yyleng;}
 
-.           				   {printf("Caracter ilegal <%s> en linea %d y columna %d\n",yytext,num_lines,num_caracteres);num_caracteres+=yyleng;}//token ilegal
+.           				   {printf("Caracter ilegal <%s> en linea %d y columna %d\n",yytext,num_lines,num_caracteres);num_caracteres+=yyleng;exit(0);}//token ilegal
 
 %%
 void  yyerror(const char* str) {
@@ -235,4 +237,5 @@ yydebug = 1;
         yyparse ();
         printTable();
         fclose(file);
+        
 }

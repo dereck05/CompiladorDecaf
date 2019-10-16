@@ -1,7 +1,7 @@
 class hello {
 
     void main(){
-      Print("hola");
+      Print("hola\\");
       x = 3;
       y = 2.9;
 
