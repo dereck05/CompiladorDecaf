@@ -2,170 +2,242 @@
 #include  <cstdio>
 #include  <cstdlib>
 #include  <string>
+#include <sstream>
+#include <vector>
 #include  <iostream>
-#define YYSTYPE treeNode *
-#define NOTHING -1 //Constante nombrada de un valor nulo del arbol
-//#define YYSTYPE BINARY_TREE
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <bits/stdc++.h>
+
+#include "Nodo.h"
 using  namespace  std;
-extern void yyerror(char *);
+extern void yyerror(const char *);
 extern int yylex();
+extern int yylineno;
+extern int num_lines;
+extern int num_caracteres;
+static void createNode(Nodo *n);
+static void readVector();
+static void makeDirectory(string nombre);
+static string itostr(int d);
+static string ftostr(double d);
 
-enum ParseTreeNodeType {PROGRAM,DECLS};
-
-//Estructura del arbol
-struct treeNode
-{
-    int item;
-    int nodeIdentifier;
-    struct treeNode *first;
-    struct treeNode *second;
-    struct treeNode *third;
-};
-
-typedef struct treeNode TREE_NODE;
-typedef TREE_NODE  *TERNARY_TREE;
-
-//Metodos declarados para construir el arbol 
-int evaluate(BINARY_TREE);
-TERNARY_TREE create_node(int, int,TERNARY_TREE,TERNARY_TREE);
-void PrintTree(TERNARY_TREE);
 %}
+
 
 %union{
     int int_val;
     double double_val;
     string* str_val;
-    TERNARY_TREE b_Val;
-}
 
+}
 
 %token <int_val> INT
 %token <double_val> FLOAT
-%token <str_val> BOOLEAN OP_REL OP_LOG OP_ALG SYMBOL IDENTIFIER S_COMMENT OPEN_STRING STRING HEX TYPE SQRBRACKET TAG SEMICOLON OPENPAR CLOSEPAR VOID COMMA CLASS EXTENDS IMPLEMENTS INTERFACE IF ELSE WHILE FOR RETURN BREAK PRINT OPENBRA CLOSEBRA EQUALS THIS NOT READINT READLINE NEW NEWARRAY POINT OPENSQR CLOSESQR INTCONST DOUBLECONST BOOLCONST STRCONST Null
-//%type<b_Val> Decls
+%token <str_val> BOOLEAN OP_LOG OP_ALG SYMBOL IDENTIFIER S_COMMENT OPEN_STRING STRING HEX TYPE SQRBRACKET TAG SEMICOLON OPENPAR CLOSEPAR VOID COMMA CLASS EXTENDS IMPLEMENTS INTERFACE IF ELSE WHILE FOR RETURN BREAK PRINT OPENBRA CLOSEBRA THIS READINT READLINE NEW NEWARRAY CLOSESQR INTCONST DOUBLECONST BOOLCONST STRCONST Null 
+ 
+%token EQUALS
+%left LOG_OR
+%left LOG_AND
+%token OP_IGUALDAD
+%token OP_REL
+%left SUM_RESTA
+%left MUL_DIV_MOD
+%token NOT
+%token OPENSQR
+%token POINT
+
+
+
+
+
+
 %start Program
 
 %%
-Program : Decls 
-	{ TERNARY_TREE ParseTree; 
-		ParseTree = create_node(NOTHING,PROGRAM ,$1,NULL,NULL);
-		PrintTree(ParseTree);
-	}
-	;
+Program : Decls {createNode(new Nodo("Program",num_lines,num_caracteres,"NA"));readVector();}; 
 
-Decls: Decl //{printf("%s\n","Declaration");} 
-	{TERNARY_TREE ParseTree; 
-		ParseTree = create_node(NOTHING,DECLS ,NULL,NULL,NULL); }
-	| Decls Decl ;
+Decls: Decl {createNode(new Nodo("Decls",num_lines,num_caracteres,"NA"));}
+	| Decls Decl {createNode(new Nodo("Decls",num_lines,num_caracteres,"NA"));};
 
-Decl : VariableDecl {printf("%s\n","Variable Declaration");}| FunctionDecl {printf("%s\n","Function Declaration");}| ClassDecl {printf("%s\n","Class Declaration");}| InterfaceDecl {printf("%s\n","Interface Declaration");};
+Decl : VariableDecl {createNode(new Nodo("Decl",num_lines,num_caracteres,"NA"));}
+	| FunctionDecl {createNode(new Nodo("Decl",num_lines,num_caracteres,"NA"));}
+	| ClassDecl {createNode(new Nodo("Decl",num_lines,num_caracteres,"NA")); }
+	| InterfaceDecl {createNode(new Nodo("Decl",num_lines,num_caracteres,"NA"));};
 
-VariableDecl: Variable SEMICOLON;  
+VariableDecl: Variable SEMICOLON {createNode(new Nodo("VariableDecl",num_lines,num_caracteres,"NA"));};  
 
-Variable: TYPE IDENTIFIER | TYPE SQRBRACKET IDENTIFIER ;//int x;  o int[] x;
+Variable: TYPE IDENTIFIER {createNode(new Nodo("Variable",num_lines,num_caracteres,"NA"));}  
+	 | TYPE SQRBRACKET IDENTIFIER {createNode(new Nodo("Variable",num_lines,num_caracteres,"NA"));};   ;//int x;  o int[] x;
 
-FunctionDecl: TYPE IDENTIFIER OPENPAR Formals CLOSEPAR StmtBlock | VOID IDENTIFIER OPENPAR Formals CLOSEPAR StmtBlock ;
+FunctionDecl: TYPE IDENTIFIER OPENPAR Formals CLOSEPAR StmtBlock  {createNode(new Nodo("FunctionDecl",num_lines,num_caracteres,"NA"));}
+	| VOID IDENTIFIER OPENPAR Formals CLOSEPAR StmtBlock {createNode(new Nodo("FunctionDecl",num_lines,num_caracteres,"NA"));}; 
 
-Formals: /*empty*/ | CommaVariables;
+Formals: /*empty*/ 
+	| CommaVariables {createNode(new Nodo("Formals",num_lines,num_caracteres,"NA"));};  
 
-CommaVariables: CommaVarList | CommaVariables CommaVarList;
 
-CommaVarList: Variable | CommaVarList COMMA Variable;
+CommaVariables: CommaVarList {createNode(new Nodo("CommaVariables",num_lines,num_caracteres,"NA"));}
+	| CommaVariables CommaVarList {createNode(new Nodo("Comma Variables",num_lines,num_caracteres,"NA"));};  
 
-ClassDecl : CLASS IDENTIFIER OPENBRA Fields CLOSEBRA 
-	  | CLASS IDENTIFIER EXTENDS IDENTIFIER OPENBRA Fields CLOSEBRA
-	  | CLASS IDENTIFIER IMPLEMENTS CommaIdentifiers OPENBRA Fields CLOSEBRA
-	  | CLASS IDENTIFIER EXTENDS IDENTIFIER IMPLEMENTS CommaIdentifiers OPENBRA Fields CLOSEBRA 
+CommaVarList: Variable {createNode(new Nodo("CommaVarList",num_lines,num_caracteres,"NA"));}
+	| CommaVarList COMMA Variable {createNode(new Nodo("CommaVarList",num_lines,num_caracteres,"NA"));};
+
+ClassDecl : CLASS IDENTIFIER OPENBRA Fields CLOSEBRA {createNode(new Nodo("ClassDecl",num_lines,num_caracteres,"NA"));}
+	  | CLASS IDENTIFIER EXTENDS IDENTIFIER OPENBRA Fields CLOSEBRA {createNode(new Nodo("ClassDecl",num_lines,num_caracteres,"NA"));}
+	  | CLASS IDENTIFIER IMPLEMENTS CommaIdentifiers OPENBRA Fields CLOSEBRA {createNode(new Nodo("ClassDecl",num_lines,num_caracteres,"NA"));}
+	  | CLASS IDENTIFIER EXTENDS IDENTIFIER IMPLEMENTS CommaIdentifiers OPENBRA Fields CLOSEBRA {createNode(new Nodo("ClassDecl",num_lines,num_caracteres,"NA"));}
 	  ;
 
-CommaIdentifiers: CommaIdentList | CommaIdentifiers CommaIdentList;
+CommaIdentifiers: CommaIdentList {createNode(new Nodo("CommaIdentifiers",num_lines,num_caracteres,"NA"));}
+	| CommaIdentifiers CommaIdentList {createNode(new Nodo("CommaIdentifiers",num_lines,num_caracteres,"NA"));};
 
-CommaIdentList: IDENTIFIER | CommaIdentList COMMA IDENTIFIER;
+CommaIdentList: IDENTIFIER {createNode(new Nodo("CommaIdentList",num_lines,num_caracteres,"NA"));}
+	| CommaIdentList COMMA IDENTIFIER {createNode(new Nodo("CommaIdentList",num_lines,num_caracteres,"NA"));};
 
 Fields: /*empty*/
-      |
-      Fields Field;
+      |  Fields Field {createNode(new Nodo("Fields",num_lines,num_caracteres,"NA"));};
 
-Field: VariableDecl | FunctionDecl;
+Field: VariableDecl {createNode(new Nodo("Field",num_lines,num_caracteres,"NA"));}
+	| FunctionDecl {createNode(new Nodo("Field",num_lines,num_caracteres,"NA"));};
 
-InterfaceDecl: INTERFACE IDENTIFIER OPENBRA Prototypes CLOSEBRA;
+InterfaceDecl: INTERFACE IDENTIFIER OPENBRA Prototypes CLOSEBRA {createNode(new Nodo("InterfaceDecl",num_lines,num_caracteres,"NA"));};
 
 Prototypes: /*empty*/
-	  | Prototypes Prototype;
+	  | Prototypes Prototype {createNode(new Nodo("Prototypes",num_lines,num_caracteres,"NA"));};
 
-Prototype: TYPE IDENTIFIER OPENPAR Formals CLOSEPAR SEMICOLON | VOID IDENTIFIER OPENPAR Formals CLOSEPAR SEMICOLON {printf("%s\n","Prototype");}; 
+Prototype: TYPE IDENTIFIER OPENPAR Formals CLOSEPAR SEMICOLON {createNode(new Nodo("Prototype",num_lines,num_caracteres,"NA"));}
+	| VOID IDENTIFIER OPENPAR Formals CLOSEPAR SEMICOLON {createNode(new Nodo("Prototype",num_lines,num_caracteres,"NA"));}; 
 
-StmtBlock: OPENBRA VariableDecls Stmts CLOSEBRA {printf("%s\n","Statement Block");}; 
+StmtBlock: OPENBRA VariableDecls Stmts CLOSEBRA {createNode(new Nodo("StmtBlock",num_lines,num_caracteres,"NA"));}; 
 
 VariableDecls: /*empty*/
-	     | VariableDecls VariableDecl;
+	     | VariableDecls VariableDecl {createNode(new Nodo("VariableDecls",num_lines,num_caracteres,"NA"));};
 
 Stmts: /*empty*/
-     | Stmts Stmt {printf("%s\n","Statements");};
+     | Stmts Stmt {createNode(new Nodo("Stmts",num_lines,num_caracteres,"NA"));};
 
-Stmt : Expresions| IfStmt | WhileStmt | ForStmt | BreakStmt | ReturnStmt| PrintStmt | StmtBlock {printf("%s\n","Statement");};
+Stmt : Expresions
+	| IfStmt {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+	| WhileStmt {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+	| ForStmt {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+	| BreakStmt {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+	| ReturnStmt {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+	| PrintStmt {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+	| StmtBlock {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));};
 
 Expresions:/*empty*/
-	  | Expresion SEMICOLON;
+	  | Expresion SEMICOLON {createNode(new Nodo("Expressions",num_lines,num_caracteres,"NA"));};
 
 IfStmt: 
-      IF OPENPAR Expresion CLOSEPAR Stmt
-      | IF OPENPAR Expresion CLOSEPAR Stmt ELSE Stmt;
+      IF OPENPAR Expresion CLOSEPAR Stmt {createNode(new Nodo("IFStmt",num_lines,num_caracteres,"NA"));}
+      | IF OPENPAR Expresion CLOSEPAR Stmt ELSE Stmt {createNode(new Nodo("IFStmt",num_lines,num_caracteres,"NA"));};
 
-WhileStmt: WHILE OPENPAR Expresion CLOSEPAR Stmt;
+WhileStmt: WHILE OPENPAR Expresion CLOSEPAR Stmt {createNode(new Nodo("While Statement",num_lines,num_caracteres,"NA"));};
 
-ForStmt: FOR OPENPAR ForExpresion SEMICOLON ForExpresion SEMICOLON ForExpresion CLOSEPAR;
+ForStmt: FOR OPENPAR ForExpresion SEMICOLON ForExpresion SEMICOLON ForExpresion CLOSEPAR {createNode(new Nodo("ForStmt",num_lines,num_caracteres,"NA"));};
 
 ForExpresion: /*empty*/
-	    | Expresion;
+	    | Expresion {createNode(new Nodo("ForExpression",num_lines,num_caracteres,"NA"));};
 
-ReturnStmt: RETURN ReturnExpresion SEMICOLON;
+ReturnStmt: RETURN ReturnExpresion SEMICOLON {createNode(new Nodo("ReturnStmt",num_lines,num_caracteres,"NA"));};
 
 ReturnExpresion: /*empty*/
-	       | Expresion;
+	       | Expresion {createNode(new Nodo("ReturnExpression",num_lines,num_caracteres,"NA"));};
 
-BreakStmt: BREAK SEMICOLON;
+BreakStmt: BREAK SEMICOLON {createNode(new Nodo("BreakStmt",num_lines,num_caracteres,"NA"));};
 
-PrintStmt: PRINT OPENPAR CommaExpresions CLOSEPAR SEMICOLON {printf("%s\n","Print Statement");};
+PrintStmt: PRINT OPENPAR CommaExpresions CLOSEPAR SEMICOLON {createNode(new Nodo("PrintStmt", num_lines, num_caracteres,"NA"));};
 
-CommaExpresions: CommaExpList | CommaExpresions CommaExpList {printf("%s\n","Expresions");};
+CommaExpresions: CommaExpList {createNode(new Nodo("CommaExpressions",num_lines,num_caracteres,"NA"));}
+	| CommaExpresions CommaExpList {createNode(new Nodo("CommaExpressions",num_lines,num_caracteres,"NA"));};
 
-CommaExpList: Expresion | CommaExpList COMMA Expresion {printf("%s\n","ExpresionsList");};
+CommaExpList: Expresion {createNode(new Nodo("CommaExpList",num_lines,num_caracteres,"NA"));}
+	| CommaExpList COMMA Expresion {createNode(new Nodo("CommaExpList",num_lines,num_caracteres,"NA"));};
 
-Expresion: LValue EQUALS Expresion | Constant | LValue | THIS | Call | OPENPAR
-Expresion CLOSEPAR | Expresion OP_ALG Expresion | Expresion OP_REL Expresion |Expresion OP_LOG Expresion| NOT Expresion|READINT OPENPAR CLOSEPAR|READLINE OPENPAR CLOSEPAR| NEW OPENPAR IDENTIFIER CLOSEPAR| NEWARRAY OPENPAR Expresion COMMA TYPE CLOSEPAR ;
+Expresion: LValue EQUALS Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| Constant {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| LValue {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| THIS {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| Call {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| OPENPAR Expresion CLOSEPAR {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| Expresion SUM_RESTA Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| Expresion MUL_DIV_MOD Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| Expresion OP_REL Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| Expresion OP_IGUALDAD Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| Expresion LOG_AND Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| Expresion LOG_OR Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| NOT Expresion {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| READINT OPENPAR CLOSEPAR {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| READLINE OPENPAR CLOSEPAR {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| NEW OPENPAR IDENTIFIER CLOSEPAR {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+	| NEWARRAY OPENPAR Expresion COMMA TYPE CLOSEPAR {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));};
 
-LValue: IDENTIFIER| Expresion POINT IDENTIFIER| Expresion OPENSQR Expresion CLOSESQR {printf("%s\n","LValue");};
+LValue: IDENTIFIER {createNode(new Nodo("LValue",num_lines,num_caracteres,"NA"));}
+	| Expresion POINT IDENTIFIER {createNode(new Nodo("LValue",num_lines,num_caracteres,"NA"));}
+	| Expresion OPENSQR Expresion CLOSESQR {createNode(new Nodo("LValue",num_lines,num_caracteres,"NA"));};
 
-Call: IDENTIFIER OPENPAR Actuals CLOSEPAR| Expresion POINT IDENTIFIER OPENPAR Actuals CLOSEPAR {printf("%s\n","Call");};
+Call: IDENTIFIER OPENPAR Actuals CLOSEPAR {createNode(new Nodo("Call",num_lines,num_caracteres,"NA"));}
+	| Expresion POINT IDENTIFIER OPENPAR Actuals CLOSEPAR {createNode(new Nodo("Call",num_lines,num_caracteres,"NA"));};
 
 Actuals: /*empty*/
-       | CommaExpresions {printf("%s\n","Expresions");};
+       | CommaExpresions {createNode(new Nodo("Actuals",num_lines,num_caracteres,"NA"));};
 
-Constant: INT | FLOAT | BOOLEAN | STRING| Null {printf("%s\n","Constant");};
+Constant: INT {createNode(new Nodo("Constant",num_lines,num_caracteres,itostr($1)));}
+	| FLOAT {createNode(new Nodo("Constant",num_lines,num_caracteres,ftostr($1)));}
+	| BOOLEAN {createNode(new Nodo("Constant",num_lines,num_caracteres,"NA"));}
+	| STRING {createNode(new Nodo("Constant",num_lines,num_caracteres,"NA"));}
+	| Null {createNode(new Nodo("Constant",num_lines,num_caracteres,"NA"));};
 
 %%
 
-TERNARY_TREE create_node(int int_val,int case_identifier, TERNARY_TREE n1, TERNARY_TREE n2, TERNARY_TREE n3)
-{
-	TERNARY_TREE t;
-	t = (TERNARY_TREE)malloc(sizeof(TREE_NODE));
-	t->item =int_val;
-	t->first=n1;
-	t->second=n2;
-	t->third=n3;
-	return(t);
+static vector<Nodo*> v ;
+
+static void createNode(Nodo *n){
+    v.push_back(n);
+    //printf("%s\n","Inserted!");
 }
 
+static string path = "/home/dereck05/Desktop/Pruebas";
 
-void PrintTree(TERNARY_TREE t)
-{
-	if(t == NULL) return;
-	printf("Item: %d", t->item);
-	printf(" nodeIdentifier: %d\n", t->nodeIdentifier);
-	PrintTree(t->first);
-	PrintTree(t->second);
-	PrintTree(t->third);
+static void makeDirectory(string nombre){
+	path = path +"/"+ nombre;
+	//printf("%s\n",path.c_str());	
+	mkdir(path.c_str() ,S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
 
+static void readVector(){
+    for(int i =v.size()-1; i>=0; i--){
+       printf("\n%s","fila:");
+       printf("%d",v[i]->fila);
+       printf("%s","  columna:");
+       printf("%d",v[i]->columna);
+       printf("%s","  nombre:");
+       printf("%s",v[i]->nombre.c_str());
+       makeDirectory(v[i]->nombre);
+       if(v[i]->valor != "NA"){
+           printf("%s","  valor:");
+           printf("%s",v[i]->valor.c_str());
+	   makeDirectory(v[i]->valor.c_str());
+       }
+    }
+}
+
+static string itostr(int d){
+    string out;
+    stringstream ss;
+    ss << d;
+    out = ss.str();
+    return out;
+
+
+}
+static string ftostr(double d){
+    string out;
+    stringstream ss;
+    ss << d;
+    out = ss.str();
+    return out;
+
+}
 

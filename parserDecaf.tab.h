@@ -48,51 +48,56 @@ extern int yydebug;
     INT = 258,
     FLOAT = 259,
     BOOLEAN = 260,
-    OP_REL = 261,
-    OP_LOG = 262,
-    OP_ALG = 263,
-    SYMBOL = 264,
-    IDENTIFIER = 265,
-    S_COMMENT = 266,
-    OPEN_STRING = 267,
-    STRING = 268,
-    HEX = 269,
-    TYPE = 270,
-    SQRBRACKET = 271,
-    TAG = 272,
-    SEMICOLON = 273,
-    OPENPAR = 274,
-    CLOSEPAR = 275,
-    VOID = 276,
-    COMMA = 277,
-    CLASS = 278,
-    EXTENDS = 279,
-    IMPLEMENTS = 280,
-    INTERFACE = 281,
-    IF = 282,
-    ELSE = 283,
-    WHILE = 284,
-    FOR = 285,
-    RETURN = 286,
-    BREAK = 287,
-    PRINT = 288,
-    OPENBRA = 289,
-    CLOSEBRA = 290,
-    EQUALS = 291,
-    THIS = 292,
-    NOT = 293,
-    READINT = 294,
-    READLINE = 295,
-    NEW = 296,
-    NEWARRAY = 297,
-    POINT = 298,
-    OPENSQR = 299,
-    CLOSESQR = 300,
-    INTCONST = 301,
-    DOUBLECONST = 302,
-    BOOLCONST = 303,
-    STRCONST = 304,
-    Null = 305
+    OP_LOG = 261,
+    OP_ALG = 262,
+    SYMBOL = 263,
+    IDENTIFIER = 264,
+    S_COMMENT = 265,
+    OPEN_STRING = 266,
+    STRING = 267,
+    HEX = 268,
+    TYPE = 269,
+    SQRBRACKET = 270,
+    TAG = 271,
+    SEMICOLON = 272,
+    OPENPAR = 273,
+    CLOSEPAR = 274,
+    VOID = 275,
+    COMMA = 276,
+    CLASS = 277,
+    EXTENDS = 278,
+    IMPLEMENTS = 279,
+    INTERFACE = 280,
+    IF = 281,
+    ELSE = 282,
+    WHILE = 283,
+    FOR = 284,
+    RETURN = 285,
+    BREAK = 286,
+    PRINT = 287,
+    OPENBRA = 288,
+    CLOSEBRA = 289,
+    THIS = 290,
+    READINT = 291,
+    READLINE = 292,
+    NEW = 293,
+    NEWARRAY = 294,
+    CLOSESQR = 295,
+    INTCONST = 296,
+    DOUBLECONST = 297,
+    BOOLCONST = 298,
+    STRCONST = 299,
+    Null = 300,
+    EQUALS = 301,
+    LOG_OR = 302,
+    LOG_AND = 303,
+    OP_IGUALDAD = 304,
+    OP_REL = 305,
+    SUM_RESTA = 306,
+    MUL_DIV_MOD = 307,
+    NOT = 308,
+    OPENSQR = 309,
+    POINT = 310
   };
 #endif
 
@@ -101,14 +106,14 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 33 "parserDecaf.y" /* yacc.c:1909  */
+#line 28 "parserDecaf.y" /* yacc.c:1909  */
 
     int int_val;
     double double_val;
     string* str_val;
-    //BINARY_TREE b_Val;
 
-#line 112 "parserDecaf.tab.h" /* yacc.c:1909  */
+
+#line 117 "parserDecaf.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

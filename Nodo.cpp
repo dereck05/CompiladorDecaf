@@ -4,7 +4,14 @@
 #include <iostream>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#include "Nodo.h"
+
 using namespace std;
-int main(){
-    return 0;
-}
+
+Nodo::Nodo(string s,int f, int c,string v)
+:nombre(s),fila(f),columna(c),valor(v){}
+
+
+
+
