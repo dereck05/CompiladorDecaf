@@ -5,6 +5,8 @@
 #include  <cstdlib>
 #include  <string>
 #include <iostream>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 using namespace std;
 
@@ -13,8 +15,9 @@ class Nodo{
         string nombre;
         int fila;
         int columna;
+	string valor;
     public:
-        Nodo(string s,int f, int c);
+        Nodo(string s,int f, int c,string v);
 };
 
 #endif

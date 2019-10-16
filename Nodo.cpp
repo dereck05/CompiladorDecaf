@@ -9,14 +9,9 @@
 
 using namespace std;
 
-Nodo::Nodo(string s,int f, int c)
-:nombre(s),fila(f),columna(c){}
+Nodo::Nodo(string s,int f, int c,string v)
+:nombre(s),fila(f),columna(c),valor(v){}
 
 
-/*int main(int argc, cha r** argv){
-	Nodo a("a",1,2);
-	printf("%i\n",a.makeDirectory("hola","hola"));
-	cout << "hola";
-	return 0;
-}*/
+
 

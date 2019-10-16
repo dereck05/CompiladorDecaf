@@ -71,6 +71,7 @@
 #include  <cstdio>
 #include  <cstdlib>
 #include  <string>
+#include <sstream>
 #include <vector>
 #include  <iostream>
 #include <sys/types.h>
@@ -87,9 +88,11 @@ extern int num_caracteres;
 static void createNode(Nodo *n);
 static void readVector();
 static void makeDirectory(string nombre);
+static string itostr(int d);
+static string ftostr(double d);
 
 
-#line 93 "parserDecaf.tab.c" /* yacc.c:337  */
+#line 96 "parserDecaf.tab.c" /* yacc.c:337  */
 # ifndef YY_NULLPTR
 #  if defined __cplusplus
 #   if 201103L <= __cplusplus
@@ -188,14 +191,14 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 25 "parserDecaf.y" /* yacc.c:352  */
+#line 28 "parserDecaf.y" /* yacc.c:352  */
 
     int int_val;
     double double_val;
     string* str_val;
 
 
-#line 199 "parserDecaf.tab.c" /* yacc.c:352  */
+#line 202 "parserDecaf.tab.c" /* yacc.c:352  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -504,16 +507,16 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    55,    55,    57,    58,    60,    61,    62,    63,    65,
-      67,    68,    70,    71,    73,    74,    77,    78,    80,    81,
-      83,    84,    85,    86,    89,    90,    92,    93,    95,    96,
-      98,    99,   101,   103,   104,   106,   107,   109,   111,   112,
-     114,   115,   117,   118,   119,   120,   121,   122,   123,   124,
-     126,   127,   130,   131,   133,   135,   137,   138,   140,   142,
-     143,   145,   147,   149,   150,   152,   153,   155,   156,   157,
-     158,   159,   160,   161,   162,   163,   164,   165,   166,   167,
-     168,   169,   170,   171,   173,   174,   175,   177,   178,   180,
-     181,   183,   184,   185,   186,   187
+       0,    58,    58,    60,    61,    63,    64,    65,    66,    68,
+      70,    71,    73,    74,    76,    77,    80,    81,    83,    84,
+      86,    87,    88,    89,    92,    93,    95,    96,    98,    99,
+     101,   102,   104,   106,   107,   109,   110,   112,   114,   115,
+     117,   118,   120,   121,   122,   123,   124,   125,   126,   127,
+     129,   130,   133,   134,   136,   138,   140,   141,   143,   145,
+     146,   148,   150,   152,   153,   155,   156,   158,   159,   160,
+     161,   162,   163,   164,   165,   166,   167,   168,   169,   170,
+     171,   172,   173,   174,   176,   177,   178,   180,   181,   183,
+     184,   186,   187,   188,   189,   190
 };
 #endif
 
@@ -1443,511 +1446,511 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 55 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Program",num_lines,num_caracteres));readVector();}
-#line 1449 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 58 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Program",num_lines,num_caracteres,"NA"));readVector();}
+#line 1452 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 3:
-#line 57 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Decls",num_lines,num_caracteres));}
-#line 1455 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 60 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Decls",num_lines,num_caracteres,"NA"));}
+#line 1458 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 4:
-#line 58 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Decls",num_lines,num_caracteres));}
-#line 1461 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 61 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Decls",num_lines,num_caracteres,"NA"));}
+#line 1464 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 5:
-#line 60 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Decl",num_lines,num_caracteres));}
-#line 1467 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 63 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Decl",num_lines,num_caracteres,"NA"));}
+#line 1470 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 6:
-#line 61 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Decl",num_lines,num_caracteres));}
-#line 1473 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 64 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Decl",num_lines,num_caracteres,"NA"));}
+#line 1476 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 7:
-#line 62 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Decl",num_lines,num_caracteres)); }
-#line 1479 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 65 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Decl",num_lines,num_caracteres,"NA")); }
+#line 1482 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 8:
-#line 63 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Decl",num_lines,num_caracteres));}
-#line 1485 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 66 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Decl",num_lines,num_caracteres,"NA"));}
+#line 1488 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 9:
-#line 65 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("VariableDecl",num_lines,num_caracteres));}
-#line 1491 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 68 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("VariableDecl",num_lines,num_caracteres,"NA"));}
+#line 1494 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 10:
-#line 67 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Variable",num_lines,num_caracteres));}
-#line 1497 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 70 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Variable",num_lines,num_caracteres,"NA"));}
+#line 1500 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 11:
-#line 68 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Variable",num_lines,num_caracteres));}
-#line 1503 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 71 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Variable",num_lines,num_caracteres,"NA"));}
+#line 1506 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 12:
-#line 70 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("FunctionDecl",num_lines,num_caracteres));}
-#line 1509 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 73 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("FunctionDecl",num_lines,num_caracteres,"NA"));}
+#line 1512 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 13:
-#line 71 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("FunctionDecl",num_lines,num_caracteres));}
-#line 1515 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 74 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("FunctionDecl",num_lines,num_caracteres,"NA"));}
+#line 1518 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 15:
-#line 74 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Formals",num_lines,num_caracteres));}
-#line 1521 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 77 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Formals",num_lines,num_caracteres,"NA"));}
+#line 1524 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 16:
-#line 77 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("CommaVariables",num_lines,num_caracteres));}
-#line 1527 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 80 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("CommaVariables",num_lines,num_caracteres,"NA"));}
+#line 1530 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 17:
-#line 78 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Comma Variables",num_lines,num_caracteres));}
-#line 1533 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 81 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Comma Variables",num_lines,num_caracteres,"NA"));}
+#line 1536 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 18:
-#line 80 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("CommaVarList",num_lines,num_caracteres));}
-#line 1539 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 83 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("CommaVarList",num_lines,num_caracteres,"NA"));}
+#line 1542 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 19:
-#line 81 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("CommaVarList",num_lines,num_caracteres));}
-#line 1545 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 84 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("CommaVarList",num_lines,num_caracteres,"NA"));}
+#line 1548 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 20:
-#line 83 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("ClassDecl",num_lines,num_caracteres));}
-#line 1551 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 86 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("ClassDecl",num_lines,num_caracteres,"NA"));}
+#line 1554 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 21:
-#line 84 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("ClassDecl",num_lines,num_caracteres));}
-#line 1557 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 87 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("ClassDecl",num_lines,num_caracteres,"NA"));}
+#line 1560 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 22:
-#line 85 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("ClassDecl",num_lines,num_caracteres));}
-#line 1563 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 88 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("ClassDecl",num_lines,num_caracteres,"NA"));}
+#line 1566 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 23:
-#line 86 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("ClassDecl",num_lines,num_caracteres));}
-#line 1569 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 89 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("ClassDecl",num_lines,num_caracteres,"NA"));}
+#line 1572 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 24:
-#line 89 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("CommaIdentifiers",num_lines,num_caracteres));}
-#line 1575 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 92 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("CommaIdentifiers",num_lines,num_caracteres,"NA"));}
+#line 1578 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 25:
-#line 90 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("CommaIdentifiers",num_lines,num_caracteres));}
-#line 1581 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 93 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("CommaIdentifiers",num_lines,num_caracteres,"NA"));}
+#line 1584 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 26:
-#line 92 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("CommaIdentList",num_lines,num_caracteres));}
-#line 1587 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 95 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("CommaIdentList",num_lines,num_caracteres,"NA"));}
+#line 1590 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 27:
-#line 93 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("CommaIdentList",num_lines,num_caracteres));}
-#line 1593 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 96 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("CommaIdentList",num_lines,num_caracteres,"NA"));}
+#line 1596 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 29:
-#line 96 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Fields",num_lines,num_caracteres));}
-#line 1599 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 99 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Fields",num_lines,num_caracteres,"NA"));}
+#line 1602 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 30:
-#line 98 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Field",num_lines,num_caracteres));}
-#line 1605 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 101 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Field",num_lines,num_caracteres,"NA"));}
+#line 1608 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 31:
-#line 99 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Field",num_lines,num_caracteres));}
-#line 1611 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 102 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Field",num_lines,num_caracteres,"NA"));}
+#line 1614 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 32:
-#line 101 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("InterfaceDecl",num_lines,num_caracteres));}
-#line 1617 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 104 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("InterfaceDecl",num_lines,num_caracteres,"NA"));}
+#line 1620 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 34:
-#line 104 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Prototypes",num_lines,num_caracteres));}
-#line 1623 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 107 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Prototypes",num_lines,num_caracteres,"NA"));}
+#line 1626 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 35:
-#line 106 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Prototype",num_lines,num_caracteres));}
-#line 1629 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 109 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Prototype",num_lines,num_caracteres,"NA"));}
+#line 1632 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 36:
-#line 107 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Prototype",num_lines,num_caracteres));}
-#line 1635 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 110 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Prototype",num_lines,num_caracteres,"NA"));}
+#line 1638 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 37:
-#line 109 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("StmtBlock",num_lines,num_caracteres));}
-#line 1641 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 112 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("StmtBlock",num_lines,num_caracteres,"NA"));}
+#line 1644 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 39:
-#line 112 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("VariableDecls",num_lines,num_caracteres));}
-#line 1647 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 115 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("VariableDecls",num_lines,num_caracteres,"NA"));}
+#line 1650 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 41:
-#line 115 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Stmts",num_lines,num_caracteres));}
-#line 1653 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 118 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Stmts",num_lines,num_caracteres,"NA"));}
+#line 1656 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 43:
-#line 118 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Stmt",num_lines,num_caracteres));}
-#line 1659 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 121 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+#line 1662 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 44:
-#line 119 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Stmt",num_lines,num_caracteres));}
-#line 1665 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 122 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+#line 1668 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 45:
-#line 120 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Stmt",num_lines,num_caracteres));}
-#line 1671 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 123 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+#line 1674 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 46:
-#line 121 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Stmt",num_lines,num_caracteres));}
-#line 1677 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 124 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+#line 1680 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 47:
-#line 122 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Stmt",num_lines,num_caracteres));}
-#line 1683 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 125 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+#line 1686 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 48:
-#line 123 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Stmt",num_lines,num_caracteres));}
-#line 1689 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 126 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+#line 1692 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 49:
-#line 124 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Stmt",num_lines,num_caracteres));}
-#line 1695 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 127 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Stmt",num_lines,num_caracteres,"NA"));}
+#line 1698 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 51:
-#line 127 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expressions",num_lines,num_caracteres));}
-#line 1701 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 130 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expressions",num_lines,num_caracteres,"NA"));}
+#line 1704 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 52:
-#line 130 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("IFStmt",num_lines,num_caracteres));}
-#line 1707 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 133 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("IFStmt",num_lines,num_caracteres,"NA"));}
+#line 1710 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 53:
-#line 131 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("IFStmt",num_lines,num_caracteres));}
-#line 1713 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 134 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("IFStmt",num_lines,num_caracteres,"NA"));}
+#line 1716 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 54:
-#line 133 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("While Statement",num_lines,num_caracteres));}
-#line 1719 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 136 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("While Statement",num_lines,num_caracteres,"NA"));}
+#line 1722 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 55:
-#line 135 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("ForStmt",num_lines,num_caracteres));}
-#line 1725 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 138 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("ForStmt",num_lines,num_caracteres,"NA"));}
+#line 1728 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 57:
-#line 138 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("ForExpression",num_lines,num_caracteres));}
-#line 1731 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 141 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("ForExpression",num_lines,num_caracteres,"NA"));}
+#line 1734 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 58:
-#line 140 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("ReturnStmt",num_lines,num_caracteres));}
-#line 1737 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 143 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("ReturnStmt",num_lines,num_caracteres,"NA"));}
+#line 1740 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 60:
-#line 143 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("ReturnExpression",num_lines,num_caracteres));}
-#line 1743 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 146 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("ReturnExpression",num_lines,num_caracteres,"NA"));}
+#line 1746 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 61:
-#line 145 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("BreakStmt",num_lines,num_caracteres));}
-#line 1749 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 148 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("BreakStmt",num_lines,num_caracteres,"NA"));}
+#line 1752 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 62:
-#line 147 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("PrintStmt", num_lines, num_caracteres));}
-#line 1755 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 150 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("PrintStmt", num_lines, num_caracteres,"NA"));}
+#line 1758 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 63:
-#line 149 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("CommaExpressions",num_lines,num_caracteres));}
-#line 1761 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 152 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("CommaExpressions",num_lines,num_caracteres,"NA"));}
+#line 1764 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 64:
-#line 150 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("CommaExpressions",num_lines,num_caracteres));}
-#line 1767 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 153 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("CommaExpressions",num_lines,num_caracteres,"NA"));}
+#line 1770 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 65:
-#line 152 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("CommaExpList",num_lines,num_caracteres));}
-#line 1773 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 155 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("CommaExpList",num_lines,num_caracteres,"NA"));}
+#line 1776 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 66:
-#line 153 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("CommaExpList",num_lines,num_caracteres));}
-#line 1779 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 156 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("CommaExpList",num_lines,num_caracteres,"NA"));}
+#line 1782 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 67:
-#line 155 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1785 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 158 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1788 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 68:
-#line 156 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1791 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 159 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1794 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 69:
-#line 157 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1797 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 160 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1800 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 70:
-#line 158 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1803 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 161 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1806 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 71:
-#line 159 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1809 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 162 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1812 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 72:
-#line 160 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1815 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 163 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1818 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 73:
-#line 161 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1821 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 164 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1824 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 74:
-#line 162 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1827 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 165 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1830 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 75:
-#line 163 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1833 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 166 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1836 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 76:
-#line 164 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1839 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 167 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1842 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 77:
-#line 165 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1845 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 168 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1848 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 78:
-#line 166 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1851 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 169 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1854 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 79:
-#line 167 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1857 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 170 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1860 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 80:
-#line 168 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1863 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 171 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1866 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 81:
-#line 169 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1869 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 172 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1872 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 82:
-#line 170 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1875 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 173 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1878 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 83:
-#line 171 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Expression",num_lines,num_caracteres));}
-#line 1881 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 174 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Expression",num_lines,num_caracteres,"NA"));}
+#line 1884 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 84:
-#line 173 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("LValue",num_lines,num_caracteres));}
-#line 1887 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 176 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("LValue",num_lines,num_caracteres,"NA"));}
+#line 1890 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 85:
-#line 174 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("LValue",num_lines,num_caracteres));}
-#line 1893 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 177 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("LValue",num_lines,num_caracteres,"NA"));}
+#line 1896 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 86:
-#line 175 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("LValue",num_lines,num_caracteres));printf("%s\n","LValue");}
-#line 1899 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 178 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("LValue",num_lines,num_caracteres,"NA"));}
+#line 1902 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 87:
-#line 177 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Call",num_lines,num_caracteres));}
-#line 1905 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 180 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Call",num_lines,num_caracteres,"NA"));}
+#line 1908 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 88:
-#line 178 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Call",num_lines,num_caracteres));}
-#line 1911 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 181 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Call",num_lines,num_caracteres,"NA"));}
+#line 1914 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 90:
-#line 181 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Actuals",num_lines,num_caracteres));}
-#line 1917 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 184 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Actuals",num_lines,num_caracteres,"NA"));}
+#line 1920 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 91:
-#line 183 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Constant",num_lines,num_caracteres));}
-#line 1923 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 186 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Constant",num_lines,num_caracteres,itostr((yyvsp[0].int_val))));}
+#line 1926 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 92:
-#line 184 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Constant",num_lines,num_caracteres));}
-#line 1929 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 187 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Constant",num_lines,num_caracteres,ftostr((yyvsp[0].double_val))));}
+#line 1932 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 93:
-#line 185 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Constant",num_lines,num_caracteres));}
-#line 1935 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 188 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Constant",num_lines,num_caracteres,"NA"));}
+#line 1938 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 94:
-#line 186 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Constant",num_lines,num_caracteres));}
-#line 1941 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 189 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Constant",num_lines,num_caracteres,"NA"));}
+#line 1944 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
   case 95:
-#line 187 "parserDecaf.y" /* yacc.c:1652  */
-    {createNode(new Nodo("Constant",num_lines,num_caracteres));}
-#line 1947 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 190 "parserDecaf.y" /* yacc.c:1652  */
+    {createNode(new Nodo("Constant",num_lines,num_caracteres,"NA"));}
+#line 1950 "parserDecaf.tab.c" /* yacc.c:1652  */
     break;
 
 
-#line 1951 "parserDecaf.tab.c" /* yacc.c:1652  */
+#line 1954 "parserDecaf.tab.c" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2178,7 +2181,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 189 "parserDecaf.y" /* yacc.c:1918  */
+#line 192 "parserDecaf.y" /* yacc.c:1918  */
 
 
 static vector<Nodo*> v ;
@@ -2198,14 +2201,37 @@ static void makeDirectory(string nombre){
 
 static void readVector(){
     for(int i =v.size()-1; i>=0; i--){
-       printf("%s","fila:");
+       printf("\n%s","fila:");
        printf("%d",v[i]->fila);
        printf("%s","  columna:");
        printf("%d",v[i]->columna);
        printf("%s","  nombre:");
-       printf("%s\n",v[i]->nombre.c_str());
+       printf("%s",v[i]->nombre.c_str());
        makeDirectory(v[i]->nombre);
+       if(v[i]->valor != "NA"){
+           printf("%s","  valor:");
+           printf("%s",v[i]->valor.c_str());
+	   makeDirectory(v[i]->valor.c_str());
+       }
     }
+}
+
+static string itostr(int d){
+    string out;
+    stringstream ss;
+    ss << d;
+    out = ss.str();
+    return out;
+
+
+}
+static string ftostr(double d){
+    string out;
+    stringstream ss;
+    ss << d;
+    out = ss.str();
+    return out;
+
 }
 
 
