@@ -18,7 +18,7 @@ A continuación se presentan los pasos para ejecutar el programa:
   ```
   cd "Path"/CompiladorDecaf
   ```
-4. A continuación, se digita los siguientes comandos en la termianl de Linux para ejecutar el proyecto:
+4. A continuación, se digita los siguientes comandos en la terminal de Linux para ejecutar el proyecto:
   Se puede ejecutar utilizando en Makefile, digitando los siguientes comandos en la termianl de Linux:
   ```
   make
