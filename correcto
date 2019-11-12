@@ -1,0 +1,10 @@
+class hello {
+
+    void main(){
+      Print("hola\n");
+      x = 3;
+      y = 2.9;
+
+      return m;
+    }
+}
