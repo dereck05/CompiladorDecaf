@@ -2009,20 +2009,6 @@ void printTable(){
       printf("%s\n",table[i][1]);
   }
 }
-/* void createScope(){
-  vector<vector> globalScope ;
-  int i=0;
-  while (i < num_words){
-      if(table[i][0] == "CLASS"){
-        if(table[i][0]== "IDENTIFIER"){
-
-        }
-
-      }
-  }
-} */
-
-
 
 int  main(int  num_args , char** args) {
 #if YYDEBUG == 1

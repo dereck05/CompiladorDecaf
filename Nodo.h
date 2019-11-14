@@ -22,6 +22,8 @@ class Nodo{
 
     public:
         Nodo(string s,int f, int c,string v,Nodo*,Nodo*,Nodo*);
+        Nodo(){};
+        virtual ~Nodo(){};
 };
 
 #endif

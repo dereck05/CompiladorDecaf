@@ -57,7 +57,7 @@ static void PrintTree(Nodo * tree);
 %start Program
 
 %%
-Program : Decls {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA",$1,NULL,NULL); PrintTree(arbol);};
+Program : Decls {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA",$1,NULL,NULL); };
 
 Decls: Decl {$$ = new Nodo("Decls",num_lines,num_caracteres,"NA",$1,NULL,NULL);}
 	| Decls Decl {$$ = new Nodo("Decls",num_lines,num_caracteres,"NA",$1,$2,NULL);};

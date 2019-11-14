@@ -1450,7 +1450,7 @@ yyreduce:
     {
   case 2:
 #line 60 "parserDecaf.y"
-    {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA",(yyvsp[0].nodo),NULL,NULL); PrintTree(arbol);}
+    {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA",(yyvsp[0].nodo),NULL,NULL); }
 #line 1455 "parserDecaf.tab.c"
     break;
 
