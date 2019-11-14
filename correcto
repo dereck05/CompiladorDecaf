@@ -1,10 +1,12 @@
 class hello {
+    int fun1;
 
-    void main(){
-      Print("hola\n");
-      x = 3;
-      y = 2.9;
-
-      return m;
+    void func(){
+      int var;
+      var = 13;
+      
     }
+
 }
+
+

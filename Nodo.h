@@ -15,9 +15,13 @@ class Nodo{
         string nombre;
         int fila;
         int columna;
-	string valor;
+	      string valor;
+        Nodo * first;
+        Nodo * second;
+        Nodo* third;
+
     public:
-        Nodo(string s,int f, int c,string v);
+        Nodo(string s,int f, int c,string v,Nodo*,Nodo*,Nodo*);
 };
 
 #endif

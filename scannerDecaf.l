@@ -3,9 +3,11 @@
 #include  <cstdlib>
 #include  <string>
 #include  <string.h>
-
-
+#include <vector>
+#include "VarObject.h"
 using  namespace  std;
+#include "Nodo.h"
+
 #include "parserDecaf.tab.h"   //  output  of  bison on  example1.y
 
 void yyerror(const char *);
@@ -43,7 +45,7 @@ NOT 	     ("!")
 SUM_RESTA    ("+"|"-")
 MUL_DIV_MOD  ("/"|"*"|"%")
 SEMICOLON    (";")
-TYPE	     (int|double|bool|string|id)
+TYPE	     (int|double|bool|string)
 SQRBRACKET   ("[\]")
 EQUALS       ("=")
 OPENBRA	     ("{")
@@ -221,13 +223,27 @@ void printTable(){
       printf("%s\n",table[i][1]);
   }
 }
+/* void createScope(){
+  vector<vector> globalScope ;
+  int i=0;
+  while (i < num_words){
+      if(table[i][0] == "CLASS"){
+        if(table[i][0]== "IDENTIFIER"){
+
+        }
+
+      }
+  }
+} */
+
+
 
 int  main(int  num_args , char** args) {
 #if YYDEBUG == 1
  extern int yydebug;
 yydebug = 1;
 #endif
-    if(num_args  != 2) {
+    if(num_args != 2) {
         printf("usage: ./ parser1  filename\n");
         exit (0);}FILE* file = fopen(args[1],"r");
         if(file == NULL) {
@@ -236,6 +252,6 @@ yydebug = 1;
         }
         yyin = file;   // now  flex  reads  from  file
         yyparse ();
-        printTable();
+        //printTable();
         fclose(file);
 }
