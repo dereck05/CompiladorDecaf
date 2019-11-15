@@ -3,10 +3,8 @@ class hello {
 
     void func(){
       int var;
-      var = 13;
       
+
     }
 
 }
-
-

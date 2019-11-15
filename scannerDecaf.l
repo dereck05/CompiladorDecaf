@@ -20,6 +20,7 @@ int num_lines=1;
 int tableInt[1000][2];
 const char* table[1000][2];
 
+
 %}
 
 
@@ -78,6 +79,8 @@ DOUBLECONST  (doubleConstant)
 BOOLCONST    (boolConstant)
 STRCONST     (stringConstant)
 Null	     (null)
+
+
 %%
 
 
@@ -223,7 +226,6 @@ void printTable(){
       printf("%s\n",table[i][1]);
   }
 }
-
 int  main(int  num_args , char** args) {
 #if YYDEBUG == 1
  extern int yydebug;
