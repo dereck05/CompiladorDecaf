@@ -15,13 +15,15 @@ class Nodo{
         string nombre;
         int fila;
         int columna;
-	      string valor;
+        char* tipo;
+        char* identificador;
+	      char* valor;
         Nodo * first;
         Nodo * second;
         Nodo* third;
 
     public:
-        Nodo(string s,int f, int c,string v,Nodo*,Nodo*,Nodo*);
+        Nodo(string s,int f, int c,char*tipo,char* ident,char* v,Nodo*,Nodo*,Nodo*);
         Nodo(){};
         virtual ~Nodo(){};
 };

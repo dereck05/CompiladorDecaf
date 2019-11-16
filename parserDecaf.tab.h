@@ -49,24 +49,24 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    INT = 258,
-    FLOAT = 259,
-    BOOLEAN = 260,
-    OP_LOG = 261,
-    OP_ALG = 262,
-    SYMBOL = 263,
-    IDENTIFIER = 264,
-    S_COMMENT = 265,
-    OPEN_STRING = 266,
-    STRING = 267,
-    HEX = 268,
-    TYPE = 269,
-    SQRBRACKET = 270,
-    TAG = 271,
-    SEMICOLON = 272,
-    OPENPAR = 273,
-    CLOSEPAR = 274,
-    VOID = 275,
+    TYPE = 258,
+    IDENTIFIER = 259,
+    SQRBRACKET = 260,
+    VOID = 261,
+    INT = 262,
+    FLOAT = 263,
+    BOOLEAN = 264,
+    OP_LOG = 265,
+    OP_ALG = 266,
+    SYMBOL = 267,
+    S_COMMENT = 268,
+    OPEN_STRING = 269,
+    STRING = 270,
+    HEX = 271,
+    TAG = 272,
+    SEMICOLON = 273,
+    OPENPAR = 274,
+    CLOSEPAR = 275,
     COMMA = 276,
     CLASS = 277,
     EXTENDS = 278,
@@ -115,9 +115,10 @@ union YYSTYPE
     double double_val;
     string* str_val;
     Nodo *nodo;
+    char * char_val;
 
 
-#line 121 "parserDecaf.tab.h"
+#line 122 "parserDecaf.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

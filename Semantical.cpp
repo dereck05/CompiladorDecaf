@@ -25,7 +25,7 @@ void analizadorSemantico(Nodo* arbol){
     case "ForStmt":
       //analizarFor();
       break;
-
+    
     default:
       break;
   }
