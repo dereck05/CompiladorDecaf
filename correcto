@@ -1,8 +1,9 @@
 class hello {
     int fun1;
 
-    void func(){
+    void func(int x){
       int var;
+      x=2;
       
 
     }

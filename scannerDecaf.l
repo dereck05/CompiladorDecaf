@@ -5,6 +5,7 @@
 #include  <string.h>
 #include <vector>
 #include "VarObject.h"
+#include <signal.h>
 using  namespace  std;
 #include "Nodo.h"
 
@@ -19,7 +20,6 @@ int num_caracteres = 1;
 int num_lines=1;
 int tableInt[1000][2];
 const char* table[1000][2];
-
 
 %}
 
@@ -79,8 +79,6 @@ DOUBLECONST  (doubleConstant)
 BOOLCONST    (boolConstant)
 STRCONST     (stringConstant)
 Null	     (null)
-
-
 %%
 
 
@@ -226,6 +224,7 @@ void printTable(){
       printf("%s\n",table[i][1]);
   }
 }
+
 int  main(int  num_args , char** args) {
 #if YYDEBUG == 1
  extern int yydebug;
@@ -238,6 +237,7 @@ yydebug = 1;
             printf("couldn ’t open %s\n", args [1]);
             exit (0);
         }
+        signal(SIGSEGV,SIG_IGN);
         yyin = file;   // now  flex  reads  from  file
         yyparse ();
         //printTable();

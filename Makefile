@@ -5,4 +5,4 @@ Flex:
 Bison:
 	bison -d parserDecaf.y
 Compile:
-	g++ -o parserCP lex.yy.c parserDecaf.tab.c -g Nodo.cpp 
+	g++ -o parserCP lex.yy.c parserDecaf.tab.c -g Nodo.cpp

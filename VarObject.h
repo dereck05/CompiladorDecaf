@@ -12,12 +12,12 @@ using namespace std;
 
 class VarObject{
     public:
+        string name;
         string tipo;
         string identificador;
         string valor;
 
-    public:
-        VarObject(string,string,string);
+        VarObject(string,string,string,string);
 };
 
 #endif
