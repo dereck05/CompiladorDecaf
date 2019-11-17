@@ -75,11 +75,11 @@ static void PrintTree(Nodo * tree);
 
 %%
 Program : Decls {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);
-		PrintTree(arbol);
+		//PrintTree(arbol);
 
-    //vector< vector<VarObject> > v = construirTabla(arbol);
+    vector< vector<VarObject> > v = construirTabla(arbol);
     //cout<< v.size();
-    //printScopes(v);
+    printScopes(v);
 
 		};
 
@@ -146,7 +146,7 @@ VariableDecls: /*empty*/
 	     | VariableDecls VariableDecl {$$ = new Nodo("VariableDecls",num_lines,num_caracteres,"NA","NA","NA",$2,NULL,NULL);};
 
 Stmts: /*empty*/
-     | Stmts Stmt {$$ = new Nodo("Stmts",num_lines,num_caracteres,"NA","NA","NA",$1,$2,NULL);};
+     | Stmt Stmts {($$ =$1) = new Nodo("Stmts",num_lines,num_caracteres,"NA","NA","NA",$1,$2,NULL);};
 
 Stmt : Expresions {$$ = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);}
 	| IfStmt {$$ = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);}
@@ -327,6 +327,18 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
     var.identificador = arbol->identificador;
     var.valor = "";
     int pos = result.size()-1;
+    for(int i = 0; i< result.at(pos).size(); i++){
+      for(int j = 0; j < result.at(pos).size();i++){
+        string v1 = var.identificador;
+        string v2 = result.at(i).at(j).identificador;
+        int c = v1.compare(v2);
+        if(c == 0){
+          cout<<"Error, la variable "<<v1<<" ya existe"<<endl;
+          exit(0);
+        }
+
+      }
+    }
     result.at(pos).push_back(var);
   }
   c = s.compare("EqualExpresion");
@@ -346,6 +358,7 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
     }
     if(found == 0){
       cout<<"Error, la variable "<<id<<" no fue declarada previamente"<<endl;
+      exit(0);
     }
   }
   construirTabla(arbol->first);
