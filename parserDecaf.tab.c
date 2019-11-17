@@ -77,8 +77,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <bits/stdc++.h>
-
 #include "Nodo.h"
+#include "VarObject.h"
 using  namespace  std;
 extern void yyerror(const char *);
 extern int yylex();
@@ -87,13 +87,16 @@ extern int num_lines;
 extern int num_caracteres;
 static void createNode(Nodo *n);
 static void readVector();
+static void analizadorSemantico(Nodo* tree);
+static vector<vector<VarObject>> construirTabla(Nodo* arbol);
+static void printScopes(vector<vector<VarObject>> r);
 static void makeDirectory(string nombre);
 static char* itostr(int d);
 static char* ftostr(double d);
 static string stostr(string d);
 static void PrintTree(Nodo * tree);
 
-#line 97 "parserDecaf.tab.c"
+#line 100 "parserDecaf.tab.c"
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus
@@ -132,49 +135,49 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    TYPE = 258,
-    IDENTIFIER = 259,
-    SQRBRACKET = 260,
-    VOID = 261,
-    INT = 262,
-    FLOAT = 263,
-    BOOLEAN = 264,
-    OP_LOG = 265,
-    OP_ALG = 266,
-    SYMBOL = 267,
-    S_COMMENT = 268,
-    OPEN_STRING = 269,
-    STRING = 270,
-    HEX = 271,
-    TAG = 272,
-    SEMICOLON = 273,
-    OPENPAR = 274,
-    CLOSEPAR = 275,
-    COMMA = 276,
-    CLASS = 277,
-    EXTENDS = 278,
-    IMPLEMENTS = 279,
-    INTERFACE = 280,
-    IF = 281,
-    ELSE = 282,
-    WHILE = 283,
-    FOR = 284,
-    RETURN = 285,
-    BREAK = 286,
-    PRINT = 287,
-    OPENBRA = 288,
-    CLOSEBRA = 289,
-    THIS = 290,
-    READINT = 291,
-    READLINE = 292,
-    NEW = 293,
-    NEWARRAY = 294,
-    CLOSESQR = 295,
-    INTCONST = 296,
-    DOUBLECONST = 297,
-    BOOLCONST = 298,
-    STRCONST = 299,
-    Null = 300,
+    STRING = 258,
+    Null = 259,
+    BOOLEAN = 260,
+    IDENTIFIER = 261,
+    SQRBRACKET = 262,
+    VOID = 263,
+    TYPE = 264,
+    INT = 265,
+    FLOAT = 266,
+    OP_LOG = 267,
+    OP_ALG = 268,
+    SYMBOL = 269,
+    S_COMMENT = 270,
+    OPEN_STRING = 271,
+    HEX = 272,
+    TAG = 273,
+    SEMICOLON = 274,
+    OPENPAR = 275,
+    CLOSEPAR = 276,
+    COMMA = 277,
+    CLASS = 278,
+    EXTENDS = 279,
+    IMPLEMENTS = 280,
+    INTERFACE = 281,
+    IF = 282,
+    ELSE = 283,
+    WHILE = 284,
+    FOR = 285,
+    RETURN = 286,
+    BREAK = 287,
+    PRINT = 288,
+    OPENBRA = 289,
+    CLOSEBRA = 290,
+    THIS = 291,
+    READINT = 292,
+    READLINE = 293,
+    NEW = 294,
+    NEWARRAY = 295,
+    CLOSESQR = 296,
+    INTCONST = 297,
+    DOUBLECONST = 298,
+    BOOLCONST = 299,
+    STRCONST = 300,
     EQUALS = 301,
     LOG_OR = 302,
     LOG_AND = 303,
@@ -192,16 +195,24 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 29 "parserDecaf.y"
+#line 32 "parserDecaf.y"
 
-    int int_val;
-    double double_val;
+  struct{
+    char* int_val;
+    char* double_val;
     string* str_val;
     Nodo *nodo;
-    char * char_val;
+
+    char* tipo;
+    char* voidT;
+    char* id;
+    char* stringValue;
+    char* nullValue;
+    char* boolValue;
+  };
 
 
-#line 205 "parserDecaf.tab.c"
+#line 216 "parserDecaf.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -451,7 +462,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  18
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   296
+#define YYLAST   289
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  56
@@ -512,16 +523,16 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    61,    61,    65,    66,    68,    69,    70,    71,    73,
-      75,    76,    80,    81,    83,    84,    89,    90,    92,    93,
-      96,    97,    98,    99,   101,   102,   104,   105,   107,   108,
-     110,   111,   113,   115,   116,   118,   119,   121,   123,   124,
-     126,   127,   129,   130,   131,   132,   133,   134,   135,   136,
-     138,   139,   142,   143,   145,   147,   149,   150,   152,   154,
-     155,   157,   159,   161,   162,   164,   165,   167,   168,   169,
-     170,   171,   172,   173,   174,   175,   176,   177,   178,   179,
-     180,   181,   182,   183,   185,   186,   187,   189,   190,   192,
-     193,   195,   196,   197,   198,   199
+       0,    77,    77,    86,    87,    89,    90,    91,    92,    94,
+      96,    97,   101,   102,   104,   105,   110,   111,   113,   114,
+     117,   118,   119,   120,   122,   123,   125,   126,   128,   129,
+     131,   132,   134,   136,   137,   139,   140,   142,   144,   145,
+     147,   148,   150,   151,   152,   153,   154,   155,   156,   157,
+     159,   160,   163,   164,   166,   168,   170,   171,   173,   175,
+     176,   178,   180,   182,   183,   185,   186,   188,   189,   190,
+     191,   192,   193,   194,   195,   196,   197,   198,   199,   200,
+     201,   202,   203,   204,   206,   207,   208,   210,   211,   213,
+     214,   216,   217,   218,   219,   220
 };
 #endif
 
@@ -530,22 +541,23 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "TYPE", "IDENTIFIER", "SQRBRACKET",
-  "VOID", "INT", "FLOAT", "BOOLEAN", "OP_LOG", "OP_ALG", "SYMBOL",
-  "S_COMMENT", "OPEN_STRING", "STRING", "HEX", "TAG", "SEMICOLON",
-  "OPENPAR", "CLOSEPAR", "COMMA", "CLASS", "EXTENDS", "IMPLEMENTS",
-  "INTERFACE", "IF", "ELSE", "WHILE", "FOR", "RETURN", "BREAK", "PRINT",
-  "OPENBRA", "CLOSEBRA", "THIS", "READINT", "READLINE", "NEW", "NEWARRAY",
-  "CLOSESQR", "INTCONST", "DOUBLECONST", "BOOLCONST", "STRCONST", "Null",
-  "EQUALS", "LOG_OR", "LOG_AND", "OP_IGUALDAD", "OP_REL", "SUM_RESTA",
-  "MUL_DIV_MOD", "NOT", "OPENSQR", "POINT", "$accept", "Program", "Decls",
-  "Decl", "VariableDecl", "Variable", "FunctionDecl", "Formals",
-  "CommaVariables", "CommaVarList", "ClassDecl", "CommaIdentifiers",
-  "CommaIdentList", "Fields", "Field", "InterfaceDecl", "Prototypes",
-  "Prototype", "StmtBlock", "VariableDecls", "Stmts", "Stmt", "Expresions",
-  "IfStmt", "WhileStmt", "ForStmt", "ForExpresion", "ReturnStmt",
-  "ReturnExpresion", "BreakStmt", "PrintStmt", "CommaExpresions",
-  "CommaExpList", "Expresion", "LValue", "Call", "Actuals", "Constant", YY_NULLPTR
+  "$end", "error", "$undefined", "STRING", "Null", "BOOLEAN",
+  "IDENTIFIER", "SQRBRACKET", "VOID", "TYPE", "INT", "FLOAT", "OP_LOG",
+  "OP_ALG", "SYMBOL", "S_COMMENT", "OPEN_STRING", "HEX", "TAG",
+  "SEMICOLON", "OPENPAR", "CLOSEPAR", "COMMA", "CLASS", "EXTENDS",
+  "IMPLEMENTS", "INTERFACE", "IF", "ELSE", "WHILE", "FOR", "RETURN",
+  "BREAK", "PRINT", "OPENBRA", "CLOSEBRA", "THIS", "READINT", "READLINE",
+  "NEW", "NEWARRAY", "CLOSESQR", "INTCONST", "DOUBLECONST", "BOOLCONST",
+  "STRCONST", "EQUALS", "LOG_OR", "LOG_AND", "OP_IGUALDAD", "OP_REL",
+  "SUM_RESTA", "MUL_DIV_MOD", "NOT", "OPENSQR", "POINT", "$accept",
+  "Program", "Decls", "Decl", "VariableDecl", "Variable", "FunctionDecl",
+  "Formals", "CommaVariables", "CommaVarList", "ClassDecl",
+  "CommaIdentifiers", "CommaIdentList", "Fields", "Field", "InterfaceDecl",
+  "Prototypes", "Prototype", "StmtBlock", "VariableDecls", "Stmts", "Stmt",
+  "Expresions", "IfStmt", "WhileStmt", "ForStmt", "ForExpresion",
+  "ReturnStmt", "ReturnExpresion", "BreakStmt", "PrintStmt",
+  "CommaExpresions", "CommaExpList", "Expresion", "LValue", "Call",
+  "Actuals", "Constant", YY_NULLPTR
 };
 #endif
 
@@ -563,10 +575,10 @@ static const yytype_uint16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF -156
+#define YYPACT_NINF -155
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-156)))
+  (!!((Yystate) == (-155)))
 
 #define YYTABLE_NINF -1
 
@@ -577,26 +589,26 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-      63,    43,    13,    58,    64,     6,    63,  -156,  -156,    11,
-    -156,  -156,  -156,    48,    80,    71,    59,    69,  -156,  -156,
-    -156,    94,  -156,    94,   100,   101,     2,  -156,    82,  -156,
-      83,    94,    85,    90,    65,  -156,    17,    91,  -156,  -156,
-      79,     2,    12,  -156,    81,    85,    94,    81,   101,     2,
-       2,    91,   111,  -156,  -156,   112,   113,  -156,  -156,  -156,
-    -156,  -156,  -156,    45,    98,   102,  -156,   114,   115,    94,
-       2,  -156,  -156,    94,    94,  -156,    92,   107,   122,   123,
-     125,  -156,  -156,  -156,  -156,   195,   128,   136,   137,   195,
-     134,   139,  -156,  -156,   152,   153,   154,   156,  -156,   195,
-    -156,  -156,  -156,  -156,  -156,  -156,  -156,  -156,  -156,   -16,
-      73,  -156,  -156,  -156,   147,   162,   195,    25,   195,   195,
-     195,   163,   233,  -156,   195,   171,   172,   207,   195,   233,
-    -156,   195,   195,   195,   195,   195,   195,   195,   208,   195,
-    -156,  -156,   195,   192,   233,   196,  -156,   202,   215,   199,
-     233,  -156,   170,  -156,  -156,   198,   224,   241,   187,   233,
-     233,    99,   133,   146,   200,   233,   192,   195,  -156,   131,
-     131,   195,   203,  -156,   217,  -156,   195,   233,   197,  -156,
-     209,  -156,   205,   206,   131,   195,  -156,  -156,  -156,   223,
-    -156
+      58,    -2,    22,     0,     3,    26,    58,  -155,  -155,    28,
+    -155,  -155,  -155,    30,    49,    74,    76,    68,  -155,  -155,
+    -155,    83,    83,  -155,    99,   108,    81,  -155,   110,  -155,
+      97,    83,   116,   118,    52,  -155,    12,   121,  -155,  -155,
+      84,    81,    16,  -155,   106,   116,    83,   106,   108,    81,
+      81,   121,   138,  -155,  -155,   139,   148,  -155,  -155,  -155,
+    -155,  -155,  -155,    15,   120,   122,  -155,   136,   146,    83,
+      81,  -155,  -155,    83,    83,  -155,    93,   124,   155,   156,
+    -155,  -155,  -155,   158,  -155,  -155,   190,   161,   162,   163,
+     190,   167,   168,  -155,  -155,   171,   172,   177,   178,   190,
+    -155,  -155,  -155,  -155,  -155,  -155,  -155,  -155,  -155,   -16,
+     141,  -155,  -155,  -155,   180,   183,   190,    24,   190,   190,
+     190,   184,   185,  -155,   190,   196,   200,   198,   190,   185,
+    -155,   190,   190,   190,   190,   190,   190,   190,   217,   190,
+    -155,  -155,   190,   202,   185,   204,  -155,   164,   199,   219,
+     185,  -155,   169,  -155,  -155,   220,   209,   229,    98,   185,
+     185,    33,    57,   221,   222,   185,   202,   190,  -155,   131,
+     131,   190,   225,  -155,   236,  -155,   190,   185,   224,  -155,
+     246,  -155,   234,   245,   131,   190,  -155,  -155,  -155,   253,
+    -155
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -605,20 +617,20 @@ static const yytype_int16 yypact[] =
 static const yytype_uint8 yydefact[] =
 {
        0,     0,     0,     0,     0,     0,     2,     3,     5,     0,
-       6,     7,     8,    10,     0,     0,     0,     0,     1,     4,
-       9,    14,    11,    14,     0,     0,    28,    33,     0,    18,
+       6,     7,     8,     0,    10,     0,     0,     0,     1,     4,
+       9,    14,    14,    11,     0,     0,    28,    33,     0,    18,
        0,    15,    16,     0,     0,    26,     0,    24,    30,    31,
        0,    28,     0,    10,     0,    17,     0,     0,     0,    28,
       28,    25,     0,    20,    29,     0,     0,    32,    34,    38,
-      12,    19,    13,     0,     0,     0,    27,     0,     0,    40,
+      13,    19,    12,     0,     0,     0,    27,     0,     0,    40,
       28,    21,    22,    14,    14,    39,     0,     0,     0,     0,
-      84,    91,    92,    93,    94,     0,     0,     0,     0,    59,
-       0,     0,    37,    69,     0,     0,     0,     0,    95,     0,
+      94,    95,    93,    84,    91,    92,     0,     0,     0,     0,
+      59,     0,     0,    37,    69,     0,     0,     0,     0,     0,
       49,    41,    42,    43,    44,    45,    47,    46,    48,     0,
       68,    70,    67,    23,     0,     0,    89,     0,     0,     0,
       56,     0,    60,    61,     0,     0,     0,     0,     0,    78,
       51,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      35,    36,    90,    63,    65,     0,    71,     0,     0,     0,
+      36,    35,    90,    63,    65,     0,    71,     0,     0,     0,
       57,    58,     0,    79,    80,     0,     0,    77,    76,    75,
       74,    72,    73,     0,    85,    83,    64,     0,    87,    50,
       50,    56,     0,    81,     0,    86,    89,    66,    52,    54,
@@ -629,10 +641,10 @@ static const yytype_uint8 yydefact[] =
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-    -156,  -156,  -156,   222,     1,    -9,     4,   -20,  -156,   213,
-    -156,   181,   -12,   -30,  -156,  -156,  -156,  -156,   -19,  -156,
-    -156,  -143,  -156,  -156,  -156,  -156,  -155,  -156,  -156,  -156,
-    -156,   135,   -71,   -76,  -156,  -156,    70,  -156
+    -155,  -155,  -155,   261,     1,    -9,   115,   -20,  -155,   251,
+    -155,   237,     5,   -30,  -155,  -155,  -155,  -155,   -39,  -155,
+    -155,  -154,  -155,  -155,  -155,  -155,  -123,  -155,  -155,  -155,
+    -155,   165,  -125,   -76,  -155,  -155,   111,  -155
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -649,96 +661,94 @@ static const yytype_int16 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-     109,     8,   130,    33,    10,     1,    18,     8,     2,   117,
-      10,    54,    29,   122,    29,    55,   180,    15,    56,    64,
-      65,    35,    29,   129,    51,    60,   178,   179,    62,    20,
-     189,   131,   132,   133,   134,   135,   136,    61,   137,   138,
-      77,   188,   147,   148,   150,   146,    57,    13,    14,    35,
-      50,    51,   156,    78,    79,   157,   158,   159,   160,   161,
-     162,   163,    16,   165,    29,    29,     1,    21,    17,     2,
-      75,   166,   131,   132,   133,   134,   135,   136,    70,   137,
-     138,   166,    24,    25,    22,     3,    43,    14,     4,    48,
-      23,   177,    26,   109,   109,   150,    80,    28,    49,    81,
-      82,    83,    27,    44,    34,    35,    46,    84,   109,   150,
-      47,    85,    52,    53,    59,    66,    67,    68,    86,   139,
-      87,    88,    89,    90,    91,    59,    92,    93,    94,    95,
-      96,    97,    71,    73,    74,    80,    72,    98,    81,    82,
-      83,   113,   114,   115,   116,    99,    84,   118,   133,   134,
-      85,   136,   123,   137,   138,   119,   120,    86,   124,    87,
-      88,    89,    90,    91,    59,   140,    93,    94,    95,    96,
-      97,   125,   126,   127,    80,   128,    98,    81,    82,    83,
-     141,   151,   133,   134,    99,    84,   175,   137,   138,    85,
-     172,   153,   154,   131,   132,   133,   134,   135,   136,    80,
-     137,   138,    81,    82,    83,    93,    94,    95,    96,    97,
-      84,   155,   164,   167,    85,    98,   168,   171,   173,   176,
-     182,   181,   169,    99,   184,   186,   187,   185,    19,    63,
-      93,    94,    95,    96,    97,   170,   133,   134,   135,   136,
-      98,   137,   138,   190,    45,   174,   183,     0,    99,   131,
-     132,   133,   134,   135,   136,     0,   137,   138,     0,   152,
-       0,     0,   131,   132,   133,   134,   135,   136,     0,   137,
-     138,   131,   132,   133,   134,   135,   136,     0,   137,   138,
-     131,   132,   133,   134,   135,   136,     0,   137,   138,   132,
-     133,   134,   135,   136,     0,   137,   138
+     109,     8,    33,   130,    13,    60,    16,     8,    62,    17,
+     117,    54,    29,    29,   122,   178,   179,   166,    35,    64,
+      65,    35,    29,   129,    55,    56,    18,   166,    14,    15,
+     188,   131,   132,   133,   134,   135,   136,    61,   137,   138,
+      77,    51,   147,   148,   150,   146,    50,    20,   180,    70,
+      21,    57,   156,    78,    79,   157,   158,   159,   160,   161,
+     162,   163,   189,   165,    29,    29,     1,     2,    51,    22,
+      75,   131,   132,   133,   134,   135,   136,    48,   137,   138,
+      23,     3,   133,   134,     4,   136,    49,   137,   138,     1,
+       2,   177,    28,   109,   109,   150,    80,    81,    82,    83,
+      24,    25,    27,    84,    85,    34,   133,   134,   109,   150,
+      26,   137,   138,    86,    35,    10,    43,    15,    44,    53,
+      87,    10,    88,    89,    90,    91,    92,    59,    93,    94,
+      95,    96,    97,    98,    80,    81,    82,    83,    46,    47,
+      59,    84,    85,    52,    66,    67,    99,   133,   134,   135,
+     136,    86,   137,   138,    68,    71,    73,    72,    87,   113,
+      88,    89,    90,    91,    92,    59,    74,    94,    95,    96,
+      97,    98,    80,    81,    82,    83,   114,   115,   116,    84,
+      85,   118,   119,   120,    99,   169,   123,   139,   124,    86,
+     172,   125,   126,    80,    81,    82,    83,   127,   128,   140,
+      84,    85,   141,   151,   155,    94,    95,    96,    97,    98,
+      86,   131,   132,   133,   134,   135,   136,   153,   137,   138,
+     170,   154,    99,   164,   167,   168,    94,    95,    96,    97,
+      98,   174,   131,   132,   133,   134,   135,   136,   171,   137,
+     138,   173,   176,    99,   181,   182,   131,   132,   133,   134,
+     135,   136,   184,   137,   138,   186,   131,   132,   133,   134,
+     135,   136,   175,   137,   138,   185,   187,    19,   131,   132,
+     133,   134,   135,   136,   190,   137,   138,   132,   133,   134,
+     135,   136,    45,   137,   138,    63,     0,   183,     0,   152
 };
 
 static const yytype_int16 yycheck[] =
 {
-      76,     0,    18,    23,     0,     3,     0,     6,     6,    85,
-       6,    41,    21,    89,    23,     3,   171,     4,     6,    49,
-      50,     4,    31,    99,    36,    44,   169,   170,    47,    18,
-     185,    47,    48,    49,    50,    51,    52,    46,    54,    55,
-      70,   184,   118,   119,   120,    20,    34,     4,     5,     4,
-      33,    63,   128,    73,    74,   131,   132,   133,   134,   135,
-     136,   137,     4,   139,    73,    74,     3,    19,     4,     6,
-      69,   142,    47,    48,    49,    50,    51,    52,    33,    54,
-      55,   152,    23,    24,     4,    22,     4,     5,    25,    24,
-      19,   167,    33,   169,   170,   171,     4,     3,    33,     7,
-       8,     9,    33,    20,     4,     4,    21,    15,   184,   185,
-      20,    19,    21,    34,    33,     4,     4,     4,    26,    46,
-      28,    29,    30,    31,    32,    33,    34,    35,    36,    37,
-      38,    39,    34,    19,    19,     4,    34,    45,     7,     8,
-       9,    34,    20,    20,    19,    53,    15,    19,    49,    50,
-      19,    52,    18,    54,    55,    19,    19,    26,    19,    28,
-      29,    30,    31,    32,    33,    18,    35,    36,    37,    38,
-      39,    19,    19,    19,     4,    19,    45,     7,     8,     9,
-      18,    18,    49,    50,    53,    15,    40,    54,    55,    19,
-      20,    20,    20,    47,    48,    49,    50,    51,    52,     4,
-      54,    55,     7,     8,     9,    35,    36,    37,    38,    39,
-      15,     4,     4,    21,    19,    45,    20,    18,    20,    19,
-       3,    18,    20,    53,    27,    20,    20,    18,     6,    48,
-      35,    36,    37,    38,    39,    20,    49,    50,    51,    52,
-      45,    54,    55,    20,    31,    21,   176,    -1,    53,    47,
-      48,    49,    50,    51,    52,    -1,    54,    55,    -1,   124,
-      -1,    -1,    47,    48,    49,    50,    51,    52,    -1,    54,
-      55,    47,    48,    49,    50,    51,    52,    -1,    54,    55,
-      47,    48,    49,    50,    51,    52,    -1,    54,    55,    48,
-      49,    50,    51,    52,    -1,    54,    55
+      76,     0,    22,    19,     6,    44,     6,     6,    47,     6,
+      86,    41,    21,    22,    90,   169,   170,   142,     6,    49,
+      50,     6,    31,    99,     8,     9,     0,   152,     6,     7,
+     184,    47,    48,    49,    50,    51,    52,    46,    54,    55,
+      70,    36,   118,   119,   120,    21,    34,    19,   171,    34,
+      20,    35,   128,    73,    74,   131,   132,   133,   134,   135,
+     136,   137,   185,   139,    73,    74,     8,     9,    63,    20,
+      69,    47,    48,    49,    50,    51,    52,    25,    54,    55,
+       6,    23,    49,    50,    26,    52,    34,    54,    55,     8,
+       9,   167,     9,   169,   170,   171,     3,     4,     5,     6,
+      24,    25,    34,    10,    11,     6,    49,    50,   184,   185,
+      34,    54,    55,    20,     6,     0,     6,     7,    21,    35,
+      27,     6,    29,    30,    31,    32,    33,    34,    35,    36,
+      37,    38,    39,    40,     3,     4,     5,     6,    22,    21,
+      34,    10,    11,    22,     6,     6,    53,    49,    50,    51,
+      52,    20,    54,    55,     6,    35,    20,    35,    27,    35,
+      29,    30,    31,    32,    33,    34,    20,    36,    37,    38,
+      39,    40,     3,     4,     5,     6,    21,    21,    20,    10,
+      11,    20,    20,    20,    53,    21,    19,    46,    20,    20,
+      21,    20,    20,     3,     4,     5,     6,    20,    20,    19,
+      10,    11,    19,    19,     6,    36,    37,    38,    39,    40,
+      20,    47,    48,    49,    50,    51,    52,    21,    54,    55,
+      21,    21,    53,     6,    22,    21,    36,    37,    38,    39,
+      40,    22,    47,    48,    49,    50,    51,    52,    19,    54,
+      55,    21,    20,    53,    19,     9,    47,    48,    49,    50,
+      51,    52,    28,    54,    55,    21,    47,    48,    49,    50,
+      51,    52,    41,    54,    55,    19,    21,     6,    47,    48,
+      49,    50,    51,    52,    21,    54,    55,    48,    49,    50,
+      51,    52,    31,    54,    55,    48,    -1,   176,    -1,   124
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,     6,    22,    25,    57,    58,    59,    60,    61,
-      62,    66,    71,     4,     5,     4,     4,     4,     0,    59,
-      18,    19,     4,    19,    23,    24,    33,    33,     3,    61,
-      63,    64,    65,    63,     4,     4,    67,    68,    60,    62,
-      69,    70,    72,     4,    20,    65,    21,    20,    24,    33,
-      33,    68,    21,    34,    69,     3,     6,    34,    73,    33,
-      74,    61,    74,    67,    69,    69,     4,     4,     4,    75,
-      33,    34,    34,    19,    19,    60,    76,    69,    63,    63,
-       4,     7,     8,     9,    15,    19,    26,    28,    29,    30,
-      31,    32,    34,    35,    36,    37,    38,    39,    45,    53,
+       0,     8,     9,    23,    26,    57,    58,    59,    60,    61,
+      62,    66,    71,     6,     6,     7,     6,     6,     0,    59,
+      19,    20,    20,     6,    24,    25,    34,    34,     9,    61,
+      63,    64,    65,    63,     6,     6,    67,    68,    60,    62,
+      69,    70,    72,     6,    21,    65,    22,    21,    25,    34,
+      34,    68,    22,    35,    69,     8,     9,    35,    73,    34,
+      74,    61,    74,    67,    69,    69,     6,     6,     6,    75,
+      34,    35,    35,    20,    20,    60,    76,    69,    63,    63,
+       3,     4,     5,     6,    10,    11,    20,    27,    29,    30,
+      31,    32,    33,    35,    36,    37,    38,    39,    40,    53,
       74,    77,    78,    79,    80,    81,    83,    85,    86,    89,
-      90,    91,    93,    34,    20,    20,    19,    89,    19,    19,
-      19,    84,    89,    18,    19,    19,    19,    19,    19,    89,
-      18,    47,    48,    49,    50,    51,    52,    54,    55,    46,
-      18,    18,    87,    88,    89,    92,    20,    89,    89,    82,
-      89,    18,    87,    20,    20,     4,    89,    89,    89,    89,
-      89,    89,    89,    89,     4,    89,    88,    21,    20,    20,
-      20,    18,    20,    20,    21,    40,    19,    89,    77,    77,
-      82,    18,     3,    92,    27,    18,    20,    20,    77,    82,
-      20
+      90,    91,    93,    35,    21,    21,    20,    89,    20,    20,
+      20,    84,    89,    19,    20,    20,    20,    20,    20,    89,
+      19,    47,    48,    49,    50,    51,    52,    54,    55,    46,
+      19,    19,    87,    88,    89,    92,    21,    89,    89,    82,
+      89,    19,    87,    21,    21,     6,    89,    89,    89,    89,
+      89,    89,    89,    89,     6,    89,    88,    22,    21,    21,
+      21,    19,    21,    21,    22,    41,    20,    89,    77,    77,
+      82,    19,     9,    92,    28,    19,    21,    21,    77,    82,
+      21
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -1453,519 +1463,524 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 61 "parserDecaf.y"
+#line 77 "parserDecaf.y"
     {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);
-		PrintTree(arbol);
+		//PrintTree(arbol);
+
+    vector<vector<VarObject>> v = construirTabla(arbol);
+    cout<< v.size();
+    //printScopes(v);
+
 		}
-#line 1461 "parserDecaf.tab.c"
+#line 1476 "parserDecaf.tab.c"
     break;
 
   case 3:
-#line 65 "parserDecaf.y"
+#line 86 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Decls",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1467 "parserDecaf.tab.c"
+#line 1482 "parserDecaf.tab.c"
     break;
 
   case 4:
-#line 66 "parserDecaf.y"
+#line 87 "parserDecaf.y"
     {(yyval.nodo) =(yyvsp[-1].nodo);(yyvsp[-1].nodo) = new Nodo("Decls",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1473 "parserDecaf.tab.c"
+#line 1488 "parserDecaf.tab.c"
     break;
 
   case 5:
-#line 68 "parserDecaf.y"
+#line 89 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Decl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1479 "parserDecaf.tab.c"
+#line 1494 "parserDecaf.tab.c"
     break;
 
   case 6:
-#line 69 "parserDecaf.y"
+#line 90 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Decl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1485 "parserDecaf.tab.c"
+#line 1500 "parserDecaf.tab.c"
     break;
 
   case 7:
-#line 70 "parserDecaf.y"
+#line 91 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Decl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1491 "parserDecaf.tab.c"
+#line 1506 "parserDecaf.tab.c"
     break;
 
   case 8:
-#line 71 "parserDecaf.y"
+#line 92 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Decl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1497 "parserDecaf.tab.c"
+#line 1512 "parserDecaf.tab.c"
     break;
 
   case 9:
-#line 73 "parserDecaf.y"
+#line 94 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("VariableDecl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1503 "parserDecaf.tab.c"
+#line 1518 "parserDecaf.tab.c"
     break;
 
   case 10:
-#line 75 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("Variable",num_lines,num_caracteres,(yyvsp[-1].char_val),(yyvsp[0].char_val),"NA",NULL,NULL,NULL);printf("%s-----------",(yyvsp[-1].char_val));}
-#line 1509 "parserDecaf.tab.c"
+#line 96 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("Variable",num_lines,num_caracteres,(yyvsp[-1].tipo),(yyvsp[0].id),"NA",NULL,NULL,NULL);}
+#line 1524 "parserDecaf.tab.c"
     break;
 
   case 11:
-#line 76 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("Variable",num_lines,num_caracteres,(yyvsp[-2].char_val),(yyvsp[0].char_val),"NA",NULL,NULL,NULL);}
-#line 1515 "parserDecaf.tab.c"
+#line 97 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("Variable",num_lines,num_caracteres,(yyvsp[-2].tipo),(yyvsp[0].id),"NA",NULL,NULL,NULL);}
+#line 1530 "parserDecaf.tab.c"
     break;
 
   case 12:
-#line 80 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("FunctionDecl",num_lines,num_caracteres,(yyvsp[-5].char_val),(yyvsp[-4].char_val),"NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1521 "parserDecaf.tab.c"
+#line 101 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("FunctionDecl",num_lines,num_caracteres,(yyvsp[-5].tipo),(yyvsp[-4].id),"NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
+#line 1536 "parserDecaf.tab.c"
     break;
 
   case 13:
-#line 81 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("FunctionDecl",num_lines,num_caracteres,(yyvsp[-5].char_val),(yyvsp[-4].char_val),"NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1527 "parserDecaf.tab.c"
+#line 102 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("FunctionDecl",num_lines,num_caracteres,(yyvsp[-5].voidT),(yyvsp[-4].id),"NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
+#line 1542 "parserDecaf.tab.c"
     break;
 
   case 15:
-#line 84 "parserDecaf.y"
+#line 105 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Formals",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1533 "parserDecaf.tab.c"
+#line 1548 "parserDecaf.tab.c"
     break;
 
   case 16:
-#line 89 "parserDecaf.y"
+#line 110 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("CommaVariables",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1539 "parserDecaf.tab.c"
+#line 1554 "parserDecaf.tab.c"
     break;
 
   case 17:
-#line 90 "parserDecaf.y"
+#line 111 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("CommaVariables",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),(yyvsp[0].nodo),NULL);}
-#line 1545 "parserDecaf.tab.c"
+#line 1560 "parserDecaf.tab.c"
     break;
 
   case 18:
-#line 92 "parserDecaf.y"
+#line 113 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("CommaVarList",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1551 "parserDecaf.tab.c"
+#line 1566 "parserDecaf.tab.c"
     break;
 
   case 19:
-#line 93 "parserDecaf.y"
+#line 114 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("CommaVarList",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1557 "parserDecaf.tab.c"
+#line 1572 "parserDecaf.tab.c"
     break;
 
   case 20:
-#line 96 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("ClassDecl",num_lines,num_caracteres,"NA",(yyvsp[-3].char_val),"NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1563 "parserDecaf.tab.c"
+#line 117 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("ClassDecl",num_lines,num_caracteres,"NA",(yyvsp[-3].id),"NA",(yyvsp[-1].nodo),NULL,NULL);}
+#line 1578 "parserDecaf.tab.c"
     break;
 
   case 21:
-#line 97 "parserDecaf.y"
+#line 118 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("ClassDecl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1569 "parserDecaf.tab.c"
+#line 1584 "parserDecaf.tab.c"
     break;
 
   case 22:
-#line 98 "parserDecaf.y"
+#line 119 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("ClassDecl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-3].nodo),(yyvsp[-1].nodo),NULL);}
-#line 1575 "parserDecaf.tab.c"
+#line 1590 "parserDecaf.tab.c"
     break;
 
   case 23:
-#line 99 "parserDecaf.y"
+#line 120 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("ClassDecl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-3].nodo),(yyvsp[-1].nodo),NULL);}
-#line 1581 "parserDecaf.tab.c"
+#line 1596 "parserDecaf.tab.c"
     break;
 
   case 24:
-#line 101 "parserDecaf.y"
+#line 122 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("CommaIdentifiers",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1587 "parserDecaf.tab.c"
+#line 1602 "parserDecaf.tab.c"
     break;
 
   case 25:
-#line 102 "parserDecaf.y"
+#line 123 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("CommaIdentifiers",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),(yyvsp[0].nodo),NULL);}
-#line 1593 "parserDecaf.tab.c"
+#line 1608 "parserDecaf.tab.c"
     break;
 
   case 26:
-#line 104 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("CommaIdentList",num_lines,num_caracteres,"NA",(yyvsp[0].char_val),"NA",NULL,NULL,NULL);}
-#line 1599 "parserDecaf.tab.c"
+#line 125 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("CommaIdentList",num_lines,num_caracteres,"NA",(yyvsp[0].id),"NA",NULL,NULL,NULL);}
+#line 1614 "parserDecaf.tab.c"
     break;
 
   case 27:
-#line 105 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("CommaIdentList",num_lines,num_caracteres,"NA",(yyvsp[0].char_val),"NA",(yyvsp[-2].nodo),NULL,NULL);}
-#line 1605 "parserDecaf.tab.c"
+#line 126 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("CommaIdentList",num_lines,num_caracteres,"NA",(yyvsp[0].id),"NA",(yyvsp[-2].nodo),NULL,NULL);}
+#line 1620 "parserDecaf.tab.c"
     break;
 
   case 29:
-#line 108 "parserDecaf.y"
+#line 129 "parserDecaf.y"
     {((yyval.nodo)=(yyvsp[-1].nodo)) =new Nodo("Fields",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),(yyvsp[0].nodo),NULL);}
-#line 1611 "parserDecaf.tab.c"
+#line 1626 "parserDecaf.tab.c"
     break;
 
   case 30:
-#line 110 "parserDecaf.y"
+#line 131 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Field",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1617 "parserDecaf.tab.c"
+#line 1632 "parserDecaf.tab.c"
     break;
 
   case 31:
-#line 111 "parserDecaf.y"
+#line 132 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Field",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1623 "parserDecaf.tab.c"
+#line 1638 "parserDecaf.tab.c"
     break;
 
   case 32:
-#line 113 "parserDecaf.y"
+#line 134 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("InterfaceDecl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1629 "parserDecaf.tab.c"
+#line 1644 "parserDecaf.tab.c"
     break;
 
   case 34:
-#line 116 "parserDecaf.y"
+#line 137 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Prototypes",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),(yyvsp[0].nodo),NULL);}
-#line 1635 "parserDecaf.tab.c"
+#line 1650 "parserDecaf.tab.c"
     break;
 
   case 35:
-#line 118 "parserDecaf.y"
+#line 139 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Prototype",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),NULL,NULL);}
-#line 1641 "parserDecaf.tab.c"
+#line 1656 "parserDecaf.tab.c"
     break;
 
   case 36:
-#line 119 "parserDecaf.y"
+#line 140 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Prototype",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),NULL,NULL);}
-#line 1647 "parserDecaf.tab.c"
+#line 1662 "parserDecaf.tab.c"
     break;
 
   case 37:
-#line 121 "parserDecaf.y"
+#line 142 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("StmtBlock",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[-1].nodo),NULL);}
-#line 1653 "parserDecaf.tab.c"
+#line 1668 "parserDecaf.tab.c"
     break;
 
   case 39:
-#line 124 "parserDecaf.y"
+#line 145 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("VariableDecls",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1659 "parserDecaf.tab.c"
+#line 1674 "parserDecaf.tab.c"
     break;
 
   case 41:
-#line 127 "parserDecaf.y"
+#line 148 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Stmts",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),(yyvsp[0].nodo),NULL);}
-#line 1665 "parserDecaf.tab.c"
+#line 1680 "parserDecaf.tab.c"
     break;
 
   case 42:
-#line 129 "parserDecaf.y"
+#line 150 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1671 "parserDecaf.tab.c"
+#line 1686 "parserDecaf.tab.c"
     break;
 
   case 43:
-#line 130 "parserDecaf.y"
+#line 151 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1677 "parserDecaf.tab.c"
+#line 1692 "parserDecaf.tab.c"
     break;
 
   case 44:
-#line 131 "parserDecaf.y"
+#line 152 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1683 "parserDecaf.tab.c"
+#line 1698 "parserDecaf.tab.c"
     break;
 
   case 45:
-#line 132 "parserDecaf.y"
+#line 153 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1689 "parserDecaf.tab.c"
+#line 1704 "parserDecaf.tab.c"
     break;
 
   case 46:
-#line 133 "parserDecaf.y"
+#line 154 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1695 "parserDecaf.tab.c"
+#line 1710 "parserDecaf.tab.c"
     break;
 
   case 47:
-#line 134 "parserDecaf.y"
+#line 155 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1701 "parserDecaf.tab.c"
+#line 1716 "parserDecaf.tab.c"
     break;
 
   case 48:
-#line 135 "parserDecaf.y"
+#line 156 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1707 "parserDecaf.tab.c"
+#line 1722 "parserDecaf.tab.c"
     break;
 
   case 49:
-#line 136 "parserDecaf.y"
+#line 157 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1713 "parserDecaf.tab.c"
+#line 1728 "parserDecaf.tab.c"
     break;
 
   case 51:
-#line 139 "parserDecaf.y"
+#line 160 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Expresions",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1719 "parserDecaf.tab.c"
+#line 1734 "parserDecaf.tab.c"
     break;
 
   case 52:
-#line 142 "parserDecaf.y"
+#line 163 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("IfStmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1725 "parserDecaf.tab.c"
+#line 1740 "parserDecaf.tab.c"
     break;
 
   case 53:
-#line 143 "parserDecaf.y"
+#line 164 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("IfStmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-4].nodo),(yyvsp[-2].nodo),(yyvsp[0].nodo));}
-#line 1731 "parserDecaf.tab.c"
+#line 1746 "parserDecaf.tab.c"
     break;
 
   case 54:
-#line 145 "parserDecaf.y"
+#line 166 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("WhileStmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1737 "parserDecaf.tab.c"
+#line 1752 "parserDecaf.tab.c"
     break;
 
   case 55:
-#line 147 "parserDecaf.y"
+#line 168 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("ForStmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-5].nodo),(yyvsp[-3].nodo),(yyvsp[-1].nodo));}
-#line 1743 "parserDecaf.tab.c"
+#line 1758 "parserDecaf.tab.c"
     break;
 
   case 57:
-#line 150 "parserDecaf.y"
+#line 171 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("ForExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1749 "parserDecaf.tab.c"
+#line 1764 "parserDecaf.tab.c"
     break;
 
   case 58:
-#line 152 "parserDecaf.y"
+#line 173 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("ReturnStmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1755 "parserDecaf.tab.c"
+#line 1770 "parserDecaf.tab.c"
     break;
 
   case 60:
-#line 155 "parserDecaf.y"
+#line 176 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("ReturnExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1761 "parserDecaf.tab.c"
+#line 1776 "parserDecaf.tab.c"
     break;
 
   case 61:
-#line 157 "parserDecaf.y"
+#line 178 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("BreakStmt",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1767 "parserDecaf.tab.c"
+#line 1782 "parserDecaf.tab.c"
     break;
 
   case 62:
-#line 159 "parserDecaf.y"
+#line 180 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("PrintStmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),NULL,NULL);}
-#line 1773 "parserDecaf.tab.c"
+#line 1788 "parserDecaf.tab.c"
     break;
 
   case 63:
-#line 161 "parserDecaf.y"
+#line 182 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("CommaExpresions",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1779 "parserDecaf.tab.c"
+#line 1794 "parserDecaf.tab.c"
     break;
 
   case 64:
-#line 162 "parserDecaf.y"
+#line 183 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("CommaExpresions",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),(yyvsp[0].nodo),NULL);}
-#line 1785 "parserDecaf.tab.c"
+#line 1800 "parserDecaf.tab.c"
     break;
 
   case 65:
-#line 164 "parserDecaf.y"
+#line 185 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("CommaExpList",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1791 "parserDecaf.tab.c"
+#line 1806 "parserDecaf.tab.c"
     break;
 
   case 66:
-#line 165 "parserDecaf.y"
+#line 186 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("CommaExpList",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1797 "parserDecaf.tab.c"
+#line 1812 "parserDecaf.tab.c"
     break;
 
   case 67:
-#line 167 "parserDecaf.y"
+#line 188 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("ConstantExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1803 "parserDecaf.tab.c"
+#line 1818 "parserDecaf.tab.c"
     break;
 
   case 68:
-#line 168 "parserDecaf.y"
+#line 189 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("LValueExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1809 "parserDecaf.tab.c"
+#line 1824 "parserDecaf.tab.c"
     break;
 
   case 69:
-#line 169 "parserDecaf.y"
+#line 190 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("ThisExpresion",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1815 "parserDecaf.tab.c"
+#line 1830 "parserDecaf.tab.c"
     break;
 
   case 70:
-#line 170 "parserDecaf.y"
+#line 191 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("CallExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1821 "parserDecaf.tab.c"
+#line 1836 "parserDecaf.tab.c"
     break;
 
   case 71:
-#line 171 "parserDecaf.y"
+#line 192 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Expresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1827 "parserDecaf.tab.c"
+#line 1842 "parserDecaf.tab.c"
     break;
 
   case 72:
-#line 172 "parserDecaf.y"
+#line 193 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("SumExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1833 "parserDecaf.tab.c"
+#line 1848 "parserDecaf.tab.c"
     break;
 
   case 73:
-#line 173 "parserDecaf.y"
+#line 194 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("MulDivModExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1839 "parserDecaf.tab.c"
+#line 1854 "parserDecaf.tab.c"
     break;
 
   case 74:
-#line 174 "parserDecaf.y"
+#line 195 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("OpRelExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1845 "parserDecaf.tab.c"
+#line 1860 "parserDecaf.tab.c"
     break;
 
   case 75:
-#line 175 "parserDecaf.y"
+#line 196 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("OpIgualExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1851 "parserDecaf.tab.c"
+#line 1866 "parserDecaf.tab.c"
     break;
 
   case 76:
-#line 176 "parserDecaf.y"
+#line 197 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("AndExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1857 "parserDecaf.tab.c"
+#line 1872 "parserDecaf.tab.c"
     break;
 
   case 77:
-#line 177 "parserDecaf.y"
+#line 198 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("OrExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1863 "parserDecaf.tab.c"
+#line 1878 "parserDecaf.tab.c"
     break;
 
   case 78:
-#line 178 "parserDecaf.y"
+#line 199 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("NotExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1869 "parserDecaf.tab.c"
+#line 1884 "parserDecaf.tab.c"
     break;
 
   case 79:
-#line 179 "parserDecaf.y"
+#line 200 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("ReadIntExpresion",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1875 "parserDecaf.tab.c"
+#line 1890 "parserDecaf.tab.c"
     break;
 
   case 80:
-#line 180 "parserDecaf.y"
+#line 201 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("ReadLineExpresion",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1881 "parserDecaf.tab.c"
+#line 1896 "parserDecaf.tab.c"
     break;
 
   case 81:
-#line 181 "parserDecaf.y"
+#line 202 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("NewExpresion",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1887 "parserDecaf.tab.c"
+#line 1902 "parserDecaf.tab.c"
     break;
 
   case 82:
-#line 182 "parserDecaf.y"
+#line 203 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("NewArrExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-3].nodo),NULL,NULL);}
-#line 1893 "parserDecaf.tab.c"
+#line 1908 "parserDecaf.tab.c"
     break;
 
   case 83:
-#line 183 "parserDecaf.y"
+#line 204 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("EqualExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1899 "parserDecaf.tab.c"
+#line 1914 "parserDecaf.tab.c"
     break;
 
   case 84:
-#line 185 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("LValue",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1905 "parserDecaf.tab.c"
+#line 206 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("LValue",num_lines,num_caracteres,"NA",(yyvsp[0].id),"NA",NULL,NULL,NULL);}
+#line 1920 "parserDecaf.tab.c"
     break;
 
   case 85:
-#line 186 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("LValue",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),NULL,NULL);}
-#line 1911 "parserDecaf.tab.c"
+#line 207 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("LValue",num_lines,num_caracteres,"NA",(yyvsp[0].id),"NA",(yyvsp[-2].nodo),NULL,NULL);}
+#line 1926 "parserDecaf.tab.c"
     break;
 
   case 86:
-#line 187 "parserDecaf.y"
+#line 208 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("LValue",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-3].nodo),(yyvsp[-1].nodo),NULL);}
-#line 1917 "parserDecaf.tab.c"
+#line 1932 "parserDecaf.tab.c"
     break;
 
   case 87:
-#line 189 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("Call",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1923 "parserDecaf.tab.c"
+#line 210 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("Call",num_lines,num_caracteres,"NA",(yyvsp[-3].id),"NA",(yyvsp[-1].nodo),NULL,NULL);}
+#line 1938 "parserDecaf.tab.c"
     break;
 
   case 88:
-#line 190 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("Call",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-5].nodo),(yyvsp[-1].nodo),NULL);}
-#line 1929 "parserDecaf.tab.c"
+#line 211 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("Call",num_lines,num_caracteres,"NA",(yyvsp[-3].id),"NA",(yyvsp[-5].nodo),(yyvsp[-1].nodo),NULL);}
+#line 1944 "parserDecaf.tab.c"
     break;
 
   case 90:
-#line 193 "parserDecaf.y"
+#line 214 "parserDecaf.y"
     {(yyval.nodo) = new Nodo("Call",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1935 "parserDecaf.tab.c"
+#line 1950 "parserDecaf.tab.c"
     break;
 
   case 91:
-#line 195 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("INT",num_lines,num_caracteres,"INT","NA",itostr((yyvsp[0].int_val)),NULL,NULL,NULL);}
-#line 1941 "parserDecaf.tab.c"
+#line 216 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("INT",num_lines,num_caracteres,"NA","NA",(yyvsp[0].int_val),NULL,NULL,NULL);}
+#line 1956 "parserDecaf.tab.c"
     break;
 
   case 92:
-#line 196 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("FLOAT",num_lines,num_caracteres,"FLOAT","NA",ftostr((yyvsp[0].double_val)),NULL,NULL,NULL);}
-#line 1947 "parserDecaf.tab.c"
+#line 217 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("FLOAT",num_lines,num_caracteres,"NA","NA",(yyvsp[0].double_val),NULL,NULL,NULL);}
+#line 1962 "parserDecaf.tab.c"
     break;
 
   case 93:
-#line 197 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("BOOLEAN",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1953 "parserDecaf.tab.c"
+#line 218 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("BOOLEAN",num_lines,num_caracteres,"NA","NA",(yyvsp[0].boolValue),NULL,NULL,NULL);}
+#line 1968 "parserDecaf.tab.c"
     break;
 
   case 94:
-#line 198 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("STRING",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1959 "parserDecaf.tab.c"
+#line 219 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("STRING",num_lines,num_caracteres,"NA","NA",(yyvsp[0].stringValue),NULL,NULL,NULL);}
+#line 1974 "parserDecaf.tab.c"
     break;
 
   case 95:
-#line 199 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("Null",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1965 "parserDecaf.tab.c"
+#line 220 "parserDecaf.y"
+    {(yyval.nodo) = new Nodo("Null",num_lines,num_caracteres,"NA","NA",(yyvsp[0].nullValue),NULL,NULL,NULL);}
+#line 1980 "parserDecaf.tab.c"
     break;
 
 
-#line 1969 "parserDecaf.tab.c"
+#line 1984 "parserDecaf.tab.c"
 
       default: break;
     }
@@ -2197,7 +2212,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 201 "parserDecaf.y"
+#line 222 "parserDecaf.y"
 
 
 static vector<Nodo*> v ;
@@ -2232,21 +2247,7 @@ static void readVector(){
     }
 }
 
-static char* itostr(int d){
-    char text[100] ;
-    sprintf(text,"%d",d);
-    char* r = text;
-    return text;
 
-
-}
-static char* ftostr(double d){
-    char text2[100] ;
-    sprintf(text2,"%f",d);
-    char* r = text2;
-    return text2;
-
-}
 static string stostr(string d){
     string out;
     stringstream ss;
@@ -2261,11 +2262,111 @@ static void PrintTree(Nodo* tree){
      return;
   }
   printf("ID: %s",tree->nombre.c_str());
-  if(tree->tipo != "NA")printf(" Tipo: %s",tree->tipo);
-  if(tree->identificador != "NA")printf(" identificador: %s",tree->identificador);
-  if(tree->valor != "NA")printf(" Valor: %s",tree->valor);
+  if(tree->tipo != "NA")cout<<" Tipo:"<<string(tree->tipo);
+  if(tree->identificador != "NA")cout<<" identificador:"<<string(tree->identificador);
+  if(tree->valor != "NA")cout<<" Valor:"<<string(tree->valor);
   printf("\n");
   PrintTree(tree->first);
   PrintTree(tree->second);
   PrintTree(tree->third);
+}
+
+
+//_________________________________________________Semantical____________________________________________
+
+static void analizadorSemantico(Nodo* tree){
+    if(tree == NULL) {
+       return;
+    }
+    if(tree->nombre.c_str() == "WhileStmt"){
+      //analizarWhile()
+    }
+    if(tree->nombre.c_str() == "ForStmt"){
+      //analizarWhile()
+    }
+
+    analizadorSemantico(tree->first);
+    analizadorSemantico(tree->second);
+    analizadorSemantico(tree->third);
+}
+
+
+static vector<vector<VarObject>> result;
+
+static vector<vector<VarObject>> construirTabla(Nodo* arbol){
+
+  if(arbol==NULL){
+
+    return result;
+  }
+  cout<<arbol->nombre.c_str()<<endl;
+  string s = arbol->nombre.c_str();
+  int c = s.compare("ClassDecl");
+  if(c==0){
+    vector<VarObject> v;
+    result.push_back(v);
+    cout<<"Scope de clase!"<<endl;
+  }
+  c = s.compare("FunctionDecl");
+  if(c == 0){
+    static vector<VarObject> v;
+    result.push_back(v);
+    cout<<"Scope de funcion!"<<endl;
+  }
+  c = s.compare("Variable");
+  if(c == 0){
+    VarObject var;
+    var.tipo = arbol->tipo;
+    var.identificador = arbol->identificador;
+    var.valor = "";
+
+
+    vector<VarObject> ve = result.at(0);
+    cout<<ve.size();
+    ve.push_back(var);
+    cout<<ve.size();
+
+
+    //int pos = result.size()-1;
+    //cout<<pos<<endl;
+    //result.at(result.size()-1).push_back(var);
+    result.at(0).push_back(var);
+    cout<<result.at(0).size();
+  }
+  c = s.compare("EqualExpresion");
+  if(c == 0){
+    string id = arbol->first->identificador;
+    string val = arbol->second->first->valor;
+    for(int i = 0;i<result.size();i++){
+      vector<VarObject> v = result.at(i);
+      for(int j = 0; j<v.size();j++){
+        VarObject var = v.at(j);
+        if(var.identificador == id){
+          var.valor = val;
+        }
+
+      }
+    }
+  }
+  construirTabla(arbol->first);
+  construirTabla(arbol->second);
+  construirTabla(arbol->third);
+
+
+}
+
+static void printScopes(vector<vector<VarObject>> r){
+
+  for(int i = 0;i<r.size();i++){
+    vector<VarObject> v = r.at(i);
+    cout<<"--------------Scope--------------"<<endl;
+    for(int j = 0; j<v.size();j++){
+      VarObject var = v.at(j);
+      cout<< "Tipo:"<<var.tipo;
+      cout<< " ID:"<<var.identificador;
+      cout<< " Valor:"<<var.valor<<endl;
+
+    }
+  }
+
 }

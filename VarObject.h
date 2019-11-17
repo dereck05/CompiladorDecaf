@@ -12,12 +12,13 @@ using namespace std;
 
 class VarObject{
     public:
-        string name;
         string tipo;
         string identificador;
         string valor;
 
-        VarObject(string,string,string,string);
+        VarObject(string,string,string);
+        VarObject(){};
+        virtual ~VarObject(){};
 };
 
 #endif

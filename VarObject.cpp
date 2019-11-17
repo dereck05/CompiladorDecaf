@@ -9,5 +9,5 @@
 
 using namespace std;
 
-Nodo::VarObject(string n,string t,string va,string val)
-:name(n),tipo(t),identificador(va),valor(val){}
+VarObject::VarObject(string t,string va,string val)
+:tipo(t),identificador(va),valor(val){}

@@ -560,13 +560,15 @@ void yyerror(const char *);
 int  yyparse(void);
 void addRow(int len, const char *token, char *value);
 void printTable();
+static char* itostr(int d);
+static char* ftostr(double d);
 int num_words = 0;
 int num_caracteres = 1;
 int num_lines=1;
 int tableInt[1000][2];
 const char* table[1000][2];
 
-#line 570 "lex.yy.c"
+#line 572 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -728,12 +730,12 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 82 "scannerDecaf.l"
+#line 84 "scannerDecaf.l"
 
 
 
 
-#line 737 "lex.yy.c"
+#line 739 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -818,275 +820,275 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 86 "scannerDecaf.l"
-{addRow(yyleng,"BOOLEAN",yytext);return BOOLEAN;}
+#line 88 "scannerDecaf.l"
+{addRow(yyleng,"BOOLEAN",yytext);yylval.boolValue= strdup(yytext);return BOOLEAN;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 88 "scannerDecaf.l"
+#line 90 "scannerDecaf.l"
 {addRow(yyleng,"OP_REL",yytext);return OP_REL;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 90 "scannerDecaf.l"
+#line 92 "scannerDecaf.l"
 {addRow(yyleng,"OP_IGUALDAD",yytext);return OP_IGUALDAD;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 92 "scannerDecaf.l"
+#line 94 "scannerDecaf.l"
 {addRow(yyleng,"SUM_RESTA",yytext);return SUM_RESTA;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 94 "scannerDecaf.l"
+#line 96 "scannerDecaf.l"
 {addRow(yyleng,"MUL_DIV_MOD",yytext);return MUL_DIV_MOD;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 96 "scannerDecaf.l"
+#line 98 "scannerDecaf.l"
 {addRow(yyleng,"LOG_AND",yytext);return LOG_AND;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 98 "scannerDecaf.l"
+#line 100 "scannerDecaf.l"
 {addRow(yyleng,"LOG_OR",yytext);return LOG_OR;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 100 "scannerDecaf.l"
+#line 102 "scannerDecaf.l"
 {addRow(yyleng,"NOT",yytext);return NOT;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 102 "scannerDecaf.l"
+#line 104 "scannerDecaf.l"
 {addRow(yyleng,"SEMICOLON",yytext);return SEMICOLON;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 104 "scannerDecaf.l"
-{addRow(yyleng,"TYPE",yytext);return TYPE;}
+#line 106 "scannerDecaf.l"
+{addRow(yyleng,"TYPE",yytext);yylval.tipo = strdup(yytext);return TYPE;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 106 "scannerDecaf.l"
+#line 108 "scannerDecaf.l"
 {addRow(yyleng,"SQRBRACKET",yytext);return SQRBRACKET;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 108 "scannerDecaf.l"
+#line 110 "scannerDecaf.l"
 {addRow(yyleng,"EQUALS",yytext);return EQUALS;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 110 "scannerDecaf.l"
+#line 112 "scannerDecaf.l"
 {addRow(yyleng,"OPENPAR",yytext);return OPENPAR;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 112 "scannerDecaf.l"
+#line 114 "scannerDecaf.l"
 {addRow(yyleng,"CLOSEPAR",yytext);return CLOSEPAR;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 114 "scannerDecaf.l"
+#line 116 "scannerDecaf.l"
 {addRow(yyleng,"OPENBRA",yytext);return OPENBRA;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 116 "scannerDecaf.l"
+#line 118 "scannerDecaf.l"
 {addRow(yyleng,"CLOSEBRA",yytext);return CLOSEBRA;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 118 "scannerDecaf.l"
-{addRow(yyleng,"VOID",yytext);return VOID;}
+#line 120 "scannerDecaf.l"
+{addRow(yyleng,"VOID",yytext);yylval.voidT = strdup(yytext);return VOID;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 120 "scannerDecaf.l"
+#line 122 "scannerDecaf.l"
 {addRow(yyleng,"COMMA",yytext);return COMMA;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 122 "scannerDecaf.l"
+#line 124 "scannerDecaf.l"
 {addRow(yyleng,"CLASS",yytext);return CLASS;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 124 "scannerDecaf.l"
+#line 126 "scannerDecaf.l"
 {addRow(yyleng,"EXTENDS",yytext);return EXTENDS;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 126 "scannerDecaf.l"
+#line 128 "scannerDecaf.l"
 {addRow(yyleng,"IMPLEMENTS",yytext);return IMPLEMENTS;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 128 "scannerDecaf.l"
+#line 130 "scannerDecaf.l"
 {addRow(yyleng,"INTERFACE",yytext);return INTERFACE;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 130 "scannerDecaf.l"
+#line 132 "scannerDecaf.l"
 {addRow(yyleng,"THIS",yytext);return THIS;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 132 "scannerDecaf.l"
+#line 134 "scannerDecaf.l"
 {addRow(yyleng,"IF",yytext);return IF;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 134 "scannerDecaf.l"
+#line 136 "scannerDecaf.l"
 {addRow(yyleng,"ELSE",yytext);return ELSE;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 136 "scannerDecaf.l"
+#line 138 "scannerDecaf.l"
 {addRow(yyleng,"WHILE",yytext);return WHILE;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 138 "scannerDecaf.l"
+#line 140 "scannerDecaf.l"
 {addRow(yyleng,"THIS",yytext);return FOR;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 140 "scannerDecaf.l"
+#line 142 "scannerDecaf.l"
 {addRow(yyleng,"RETURN",yytext);return RETURN;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 142 "scannerDecaf.l"
+#line 144 "scannerDecaf.l"
 {addRow(yyleng,"BREAK",yytext);return BREAK;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 144 "scannerDecaf.l"
+#line 146 "scannerDecaf.l"
 {addRow(yyleng,"PRINT",yytext);return PRINT;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 146 "scannerDecaf.l"
+#line 148 "scannerDecaf.l"
 {addRow(yyleng,"READINT",yytext);return READINT;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 148 "scannerDecaf.l"
+#line 150 "scannerDecaf.l"
 {addRow(yyleng,"READLINE",yytext);return READLINE;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 150 "scannerDecaf.l"
+#line 152 "scannerDecaf.l"
 {addRow(yyleng,"NEW",yytext);return NEW;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 152 "scannerDecaf.l"
+#line 154 "scannerDecaf.l"
 {addRow(yyleng,"NEWARRAY",yytext);return NEWARRAY;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 154 "scannerDecaf.l"
+#line 156 "scannerDecaf.l"
 {addRow(yyleng,"THIS",yytext);return POINT;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 156 "scannerDecaf.l"
+#line 158 "scannerDecaf.l"
 {addRow(yyleng,"OPENSQR",yytext);return OPENSQR;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 158 "scannerDecaf.l"
+#line 160 "scannerDecaf.l"
 {addRow(yyleng,"CLOSESQR",yytext);return CLOSESQR;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 160 "scannerDecaf.l"
+#line 162 "scannerDecaf.l"
 {addRow(yyleng,"INTCONST",yytext);return INTCONST;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 162 "scannerDecaf.l"
+#line 164 "scannerDecaf.l"
 {addRow(yyleng,"DOUBLECONST",yytext);return DOUBLECONST;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 164 "scannerDecaf.l"
+#line 166 "scannerDecaf.l"
 {addRow(yyleng,"BOOLCONST",yytext);return BOOLCONST;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 166 "scannerDecaf.l"
+#line 168 "scannerDecaf.l"
 {addRow(yyleng,"STRCONST",yytext);return STRCONST;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 168 "scannerDecaf.l"
-{addRow(yyleng,"NULL",yytext);return Null;}
+#line 170 "scannerDecaf.l"
+{addRow(yyleng,"NULL",yytext);yylval.nullValue = strdup(yytext);return Null;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 170 "scannerDecaf.l"
-{addRow(yyleng,"INT",yytext);yylval.int_val = atoi(yytext);return INT;}
+#line 172 "scannerDecaf.l"
+{addRow(yyleng,"INT",yytext);yylval.int_val = strdup(yytext);return INT;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 172 "scannerDecaf.l"
+#line 174 "scannerDecaf.l"
 {addRow(yyleng,"HEX",yytext);yylval.str_val = new string(yytext);return HEX;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 174 "scannerDecaf.l"
-{addRow(yyleng,"FLOAT",yytext);yylval.double_val = atof(yytext);return FLOAT;}
+#line 176 "scannerDecaf.l"
+{addRow(yyleng,"FLOAT",yytext);yylval.double_val = strdup(yytext);return FLOAT;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 176 "scannerDecaf.l"
-{addRow(yyleng,"IDENTIFIER",yytext);return IDENTIFIER;}
+#line 178 "scannerDecaf.l"
+{addRow(yyleng,"IDENTIFIER",yytext);yylval.id = strdup(yytext);return IDENTIFIER;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 178 "scannerDecaf.l"
+#line 180 "scannerDecaf.l"
 {num_caracteres+=yyleng;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 180 "scannerDecaf.l"
+#line 182 "scannerDecaf.l"
 {num_caracteres=1; num_lines++;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 182 "scannerDecaf.l"
+#line 184 "scannerDecaf.l"
 {printf("Secuencia de escape ilegal en linea %d y columna %d\n",num_lines,num_caracteres);num_caracteres+=yyleng;exit(0);}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 184 "scannerDecaf.l"
-{addRow(yyleng,"STRING",yytext);return STRING;}
+#line 186 "scannerDecaf.l"
+{addRow(yyleng,"STRING",yytext);yylval.stringValue = strdup(yytext);return STRING;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 186 "scannerDecaf.l"
+#line 188 "scannerDecaf.l"
 {printf("STRING no cerrado en linea %d y columna %d\n",num_lines,num_caracteres);exit(0);}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 190 "scannerDecaf.l"
+#line 192 "scannerDecaf.l"
 {num_caracteres+=yyleng;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 192 "scannerDecaf.l"
+#line 194 "scannerDecaf.l"
 {printf("Caracter ilegal <%s> en linea %d y columna %d\n",yytext,num_lines,num_caracteres);num_caracteres+=yyleng;exit(0);}//token ilegal
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 194 "scannerDecaf.l"
+#line 196 "scannerDecaf.l"
 ECHO;
 	YY_BREAK
-#line 1090 "lex.yy.c"
+#line 1092 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1976,7 +1978,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 194 "scannerDecaf.l"
+#line 196 "scannerDecaf.l"
 
 void  yyerror(const char* str) {
     printf("Parsing error en linea %d , columna %d\n",num_lines,num_caracteres);
@@ -1998,7 +2000,7 @@ void addRow(int len, const char *token, char *value){
 
 void printTable(){
   printf("\nLine     Column     Token           Value\n");
-  for(int i=0; i<num_words;i++){
+  /* for(int i=0; i<num_words;i++){
       printf("%d       ",tableInt[i][0]);
       if(tableInt[i][0]<10)printf(" ");
       printf("%d       ",tableInt[i][1]);
@@ -2008,9 +2010,24 @@ void printTable(){
         printf(" ");
       }
       printf("%s\n",table[i][1]);
-  }
+  } */
 }
 
+static char* itostr(int d){
+    char text[100] ;
+    sprintf(text,"%d",d);
+    char* r = text;
+    return text;
+
+
+}
+static char* ftostr(double d){
+    char text2[100] ;
+    sprintf(text2,"%f",d);
+    char* r = text2;
+    return text2;
+
+}
 int  main(int  num_args , char** args) {
 #if YYDEBUG == 1
  extern int yydebug;

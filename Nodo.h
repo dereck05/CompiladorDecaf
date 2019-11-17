@@ -8,6 +8,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+
 using namespace std;
 
 class Nodo{
@@ -23,7 +24,7 @@ class Nodo{
         Nodo* third;
 
     public:
-        Nodo(string s,int f, int c,char*tipo,char* ident,char* v,Nodo*,Nodo*,Nodo*);
+        Nodo(string s,int f, int c,char* type,char* ident,char* v,Nodo*,Nodo*,Nodo*);
         Nodo(){};
         virtual ~Nodo(){};
 };

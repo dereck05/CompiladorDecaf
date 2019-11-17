@@ -49,49 +49,49 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    TYPE = 258,
-    IDENTIFIER = 259,
-    SQRBRACKET = 260,
-    VOID = 261,
-    INT = 262,
-    FLOAT = 263,
-    BOOLEAN = 264,
-    OP_LOG = 265,
-    OP_ALG = 266,
-    SYMBOL = 267,
-    S_COMMENT = 268,
-    OPEN_STRING = 269,
-    STRING = 270,
-    HEX = 271,
-    TAG = 272,
-    SEMICOLON = 273,
-    OPENPAR = 274,
-    CLOSEPAR = 275,
-    COMMA = 276,
-    CLASS = 277,
-    EXTENDS = 278,
-    IMPLEMENTS = 279,
-    INTERFACE = 280,
-    IF = 281,
-    ELSE = 282,
-    WHILE = 283,
-    FOR = 284,
-    RETURN = 285,
-    BREAK = 286,
-    PRINT = 287,
-    OPENBRA = 288,
-    CLOSEBRA = 289,
-    THIS = 290,
-    READINT = 291,
-    READLINE = 292,
-    NEW = 293,
-    NEWARRAY = 294,
-    CLOSESQR = 295,
-    INTCONST = 296,
-    DOUBLECONST = 297,
-    BOOLCONST = 298,
-    STRCONST = 299,
-    Null = 300,
+    STRING = 258,
+    Null = 259,
+    BOOLEAN = 260,
+    IDENTIFIER = 261,
+    SQRBRACKET = 262,
+    VOID = 263,
+    TYPE = 264,
+    INT = 265,
+    FLOAT = 266,
+    OP_LOG = 267,
+    OP_ALG = 268,
+    SYMBOL = 269,
+    S_COMMENT = 270,
+    OPEN_STRING = 271,
+    HEX = 272,
+    TAG = 273,
+    SEMICOLON = 274,
+    OPENPAR = 275,
+    CLOSEPAR = 276,
+    COMMA = 277,
+    CLASS = 278,
+    EXTENDS = 279,
+    IMPLEMENTS = 280,
+    INTERFACE = 281,
+    IF = 282,
+    ELSE = 283,
+    WHILE = 284,
+    FOR = 285,
+    RETURN = 286,
+    BREAK = 287,
+    PRINT = 288,
+    OPENBRA = 289,
+    CLOSEBRA = 290,
+    THIS = 291,
+    READINT = 292,
+    READLINE = 293,
+    NEW = 294,
+    NEWARRAY = 295,
+    CLOSESQR = 296,
+    INTCONST = 297,
+    DOUBLECONST = 298,
+    BOOLCONST = 299,
+    STRCONST = 300,
     EQUALS = 301,
     LOG_OR = 302,
     LOG_AND = 303,
@@ -109,16 +109,24 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 29 "parserDecaf.y"
+#line 32 "parserDecaf.y"
 
-    int int_val;
-    double double_val;
+  struct{
+    char* int_val;
+    char* double_val;
     string* str_val;
     Nodo *nodo;
-    char * char_val;
+
+    char* tipo;
+    char* voidT;
+    char* id;
+    char* stringValue;
+    char* nullValue;
+    char* boolValue;
+  };
 
 
-#line 122 "parserDecaf.tab.h"
+#line 130 "parserDecaf.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

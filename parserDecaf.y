@@ -8,8 +8,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <bits/stdc++.h>
-
 #include "Nodo.h"
+#include "VarObject.h"
 using  namespace  std;
 extern void yyerror(const char *);
 extern int yylex();
@@ -18,6 +18,9 @@ extern int num_lines;
 extern int num_caracteres;
 static void createNode(Nodo *n);
 static void readVector();
+static void analizadorSemantico(Nodo* tree);
+static vector<vector<VarObject>> construirTabla(Nodo* arbol);
+static void printScopes(vector<vector<VarObject>> r);
 static void makeDirectory(string nombre);
 static char* itostr(int d);
 static char* ftostr(double d);
@@ -27,17 +30,30 @@ static void PrintTree(Nodo * tree);
 
 
 %union{
-    int int_val;
-    double double_val;
+  struct{
+    char* int_val;
+    char* double_val;
     string* str_val;
     Nodo *nodo;
-    char * char_val;
+
+    char* tipo;
+    char* voidT;
+    char* id;
+    char* stringValue;
+    char* nullValue;
+    char* boolValue;
+  };
 
 }
-%token <char_val> TYPE IDENTIFIER SQRBRACKET VOID
+%token <stringValue> STRING
+%token <nullValue> Null
+%token <boolValue> BOOLEAN
+%token <id> IDENTIFIER SQRBRACKET
+%token <voidT> VOID
+%token <tipo> TYPE
 %token <int_val> INT
 %token <double_val> FLOAT
-%token <str_val> BOOLEAN OP_LOG OP_ALG SYMBOL S_COMMENT OPEN_STRING STRING HEX TAG SEMICOLON OPENPAR CLOSEPAR COMMA CLASS EXTENDS IMPLEMENTS INTERFACE IF ELSE WHILE FOR RETURN BREAK PRINT OPENBRA CLOSEBRA THIS READINT READLINE NEW NEWARRAY CLOSESQR INTCONST DOUBLECONST BOOLCONST STRCONST Null
+%token <str_val> OP_LOG OP_ALG SYMBOL S_COMMENT OPEN_STRING HEX TAG SEMICOLON OPENPAR CLOSEPAR COMMA CLASS EXTENDS IMPLEMENTS INTERFACE IF ELSE WHILE FOR RETURN BREAK PRINT OPENBRA CLOSEBRA THIS READINT READLINE NEW NEWARRAY CLOSESQR INTCONST DOUBLECONST BOOLCONST STRCONST
 
 %token EQUALS
 %left LOG_OR
@@ -59,7 +75,12 @@ static void PrintTree(Nodo * tree);
 
 %%
 Program : Decls {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);
-		PrintTree(arbol);
+		//PrintTree(arbol);
+
+    vector<vector<VarObject>> v = construirTabla(arbol);
+    cout<< v.size();
+    //printScopes(v);
+
 		};
 
 Decls: Decl {$$ = new Nodo("Decls",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);}
@@ -72,7 +93,7 @@ Decl : VariableDecl {$$ = new Nodo("Decl",num_lines,num_caracteres,"NA","NA","NA
 
 VariableDecl: Variable SEMICOLON {$$ = new Nodo("VariableDecl",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);};
 
-Variable: TYPE IDENTIFIER {$$ = new Nodo("Variable",num_lines,num_caracteres,$1,$2,"NA",NULL,NULL,NULL);printf("%s-----------",$1);}
+Variable: TYPE IDENTIFIER {$$ = new Nodo("Variable",num_lines,num_caracteres,$1,$2,"NA",NULL,NULL,NULL);}
   | TYPE SQRBRACKET IDENTIFIER {$$ = new Nodo("Variable",num_lines,num_caracteres,$1,$3,"NA",NULL,NULL,NULL);};
 
 
@@ -182,21 +203,21 @@ Expresion: Constant {$$ = new Nodo("ConstantExpresion",num_lines,num_caracteres,
 	| NEWARRAY OPENPAR Expresion COMMA TYPE CLOSEPAR {$$ = new Nodo("NewArrExpresion",num_lines,num_caracteres,"NA","NA","NA",$3,NULL,NULL);}
   | LValue EQUALS Expresion {$$ = new Nodo("EqualExpresion",num_lines,num_caracteres,"NA","NA","NA",$1,$3,NULL);};
 
-LValue: IDENTIFIER {$$ = new Nodo("LValue",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-	| Expresion POINT IDENTIFIER {$$ = new Nodo("LValue",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);}
+LValue: IDENTIFIER {$$ = new Nodo("LValue",num_lines,num_caracteres,"NA",$1,"NA",NULL,NULL,NULL);}
+	| Expresion POINT IDENTIFIER {$$ = new Nodo("LValue",num_lines,num_caracteres,"NA",$3,"NA",$1,NULL,NULL);}
 	| Expresion OPENSQR Expresion CLOSESQR {$$ = new Nodo("LValue",num_lines,num_caracteres,"NA","NA","NA",$1,$3,NULL);};
 
-Call: IDENTIFIER OPENPAR Actuals CLOSEPAR {$$ = new Nodo("Call",num_lines,num_caracteres,"NA","NA","NA",$3,NULL,NULL);}
-	| Expresion POINT IDENTIFIER OPENPAR Actuals CLOSEPAR {$$ = new Nodo("Call",num_lines,num_caracteres,"NA","NA","NA",$1,$5,NULL);};
+Call: IDENTIFIER OPENPAR Actuals CLOSEPAR {$$ = new Nodo("Call",num_lines,num_caracteres,"NA",$1,"NA",$3,NULL,NULL);}
+	| Expresion POINT IDENTIFIER OPENPAR Actuals CLOSEPAR {$$ = new Nodo("Call",num_lines,num_caracteres,"NA",$3,"NA",$1,$5,NULL);};
 
 Actuals: /*empty*/
        | CommaExpresions {$$ = new Nodo("Call",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);};
 
-Constant: INT {$$ = new Nodo("INT",num_lines,num_caracteres,"INT","NA",itostr($1),NULL,NULL,NULL);}
-	| FLOAT {$$ = new Nodo("FLOAT",num_lines,num_caracteres,"FLOAT","NA",ftostr($1),NULL,NULL,NULL);}
-	| BOOLEAN {$$ = new Nodo("BOOLEAN",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-	| STRING {$$ = new Nodo("STRING",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-	| Null {$$ = new Nodo("Null",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);};
+Constant: INT {$$ = new Nodo("INT",num_lines,num_caracteres,"NA","NA",$1,NULL,NULL,NULL);}
+	| FLOAT {$$ = new Nodo("FLOAT",num_lines,num_caracteres,"NA","NA",$1,NULL,NULL,NULL);}
+	| BOOLEAN {$$ = new Nodo("BOOLEAN",num_lines,num_caracteres,"NA","NA",$1,NULL,NULL,NULL);}
+	| STRING {$$ = new Nodo("STRING",num_lines,num_caracteres,"NA","NA",$1,NULL,NULL,NULL);}
+	| Null {$$ = new Nodo("Null",num_lines,num_caracteres,"NA","NA",$1,NULL,NULL,NULL);};
 
 %%
 
@@ -232,21 +253,7 @@ static void readVector(){
     }
 }
 
-static char* itostr(int d){
-    char text[100] ;
-    sprintf(text,"%d",d);
-    char* r = text;
-    return text;
 
-
-}
-static char* ftostr(double d){
-    char text2[100] ;
-    sprintf(text2,"%f",d);
-    char* r = text2;
-    return text2;
-
-}
 static string stostr(string d){
     string out;
     stringstream ss;
@@ -261,11 +268,111 @@ static void PrintTree(Nodo* tree){
      return;
   }
   printf("ID: %s",tree->nombre.c_str());
-  if(tree->tipo != "NA")printf(" Tipo: %s",tree->tipo);
-  if(tree->identificador != "NA")printf(" identificador: %s",tree->identificador);
-  if(tree->valor != "NA")printf(" Valor: %s",tree->valor);
+  if(tree->tipo != "NA")cout<<" Tipo:"<<string(tree->tipo);
+  if(tree->identificador != "NA")cout<<" identificador:"<<string(tree->identificador);
+  if(tree->valor != "NA")cout<<" Valor:"<<string(tree->valor);
   printf("\n");
   PrintTree(tree->first);
   PrintTree(tree->second);
   PrintTree(tree->third);
+}
+
+
+//_________________________________________________Semantical____________________________________________
+
+static void analizadorSemantico(Nodo* tree){
+    if(tree == NULL) {
+       return;
+    }
+    if(tree->nombre.c_str() == "WhileStmt"){
+      //analizarWhile()
+    }
+    if(tree->nombre.c_str() == "ForStmt"){
+      //analizarWhile()
+    }
+
+    analizadorSemantico(tree->first);
+    analizadorSemantico(tree->second);
+    analizadorSemantico(tree->third);
+}
+
+
+static vector<vector<VarObject>> result;
+
+static vector<vector<VarObject>> construirTabla(Nodo* arbol){
+
+  if(arbol==NULL){
+
+    return result;
+  }
+  cout<<arbol->nombre.c_str()<<endl;
+  string s = arbol->nombre.c_str();
+  int c = s.compare("ClassDecl");
+  if(c==0){
+    vector<VarObject> v;
+    result.push_back(v);
+    cout<<"Scope de clase!"<<endl;
+  }
+  c = s.compare("FunctionDecl");
+  if(c == 0){
+    static vector<VarObject> v;
+    result.push_back(v);
+    cout<<"Scope de funcion!"<<endl;
+  }
+  c = s.compare("Variable");
+  if(c == 0){
+    VarObject var;
+    var.tipo = arbol->tipo;
+    var.identificador = arbol->identificador;
+    var.valor = "";
+
+
+    vector<VarObject> ve = result.at(0);  //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    cout<<ve.size();
+    ve.push_back(var);
+    cout<<ve.size();
+
+
+    //int pos = result.size()-1;
+    //cout<<pos<<endl;
+    //result.at(result.size()-1).push_back(var);
+    result.at(0).push_back(var);
+    cout<<result.at(0).size();
+  }
+  c = s.compare("EqualExpresion");
+  if(c == 0){
+    string id = arbol->first->identificador;
+    string val = arbol->second->first->valor;
+    for(int i = 0;i<result.size();i++){
+      vector<VarObject> v = result.at(i);
+      for(int j = 0; j<v.size();j++){
+        VarObject var = v.at(j);
+        if(var.identificador == id){
+          var.valor = val;
+        }
+
+      }
+    }
+  }
+  construirTabla(arbol->first);
+  construirTabla(arbol->second);
+  construirTabla(arbol->third);
+
+
+}
+
+static void printScopes(vector<vector<VarObject>> r){
+
+  for(int i = 0;i<r.size();i++){
+    vector<VarObject> v = r.at(i);
+    cout<<"--------------Scope--------------"<<endl;
+    for(int j = 0; j<v.size();j++){
+      VarObject var = v.at(j);
+      cout<< "Tipo:"<<var.tipo;
+      cout<< " ID:"<<var.identificador;
+      cout<< " Valor:"<<var.valor<<endl;
+
+    }
+  }
+
 }

@@ -15,6 +15,8 @@ void yyerror(const char *);
 int  yyparse(void);
 void addRow(int len, const char *token, char *value);
 void printTable();
+static char* itostr(int d);
+static char* ftostr(double d);
 int num_words = 0;
 int num_caracteres = 1;
 int num_lines=1;
@@ -83,7 +85,7 @@ Null	     (null)
 
 
 
-{BOOLEAN}				   {addRow(yyleng,"BOOLEAN",yytext);return BOOLEAN;}
+{BOOLEAN}				   {addRow(yyleng,"BOOLEAN",yytext);yylval.boolValue= strdup(yytext);return BOOLEAN;}
 
 {OP_REL}              			   {addRow(yyleng,"OP_REL",yytext);return OP_REL;}
 
@@ -101,7 +103,7 @@ Null	     (null)
 
 {SEMICOLON}				   {addRow(yyleng,"SEMICOLON",yytext);return SEMICOLON;}
 
-{TYPE}					   {addRow(yyleng,"TYPE",yytext);return TYPE;}
+{TYPE}					   {addRow(yyleng,"TYPE",yytext);yylval.tipo = strdup(yytext);return TYPE;}
 
 {SQRBRACKET}				   {addRow(yyleng,"SQRBRACKET",yytext);return SQRBRACKET;}
 
@@ -115,7 +117,7 @@ Null	     (null)
 
 {CLOSEBRA}				   {addRow(yyleng,"CLOSEBRA",yytext);return CLOSEBRA;}
 
-{VOID}					   {addRow(yyleng,"VOID",yytext);return VOID;}
+{VOID}					   {addRow(yyleng,"VOID",yytext);yylval.voidT = strdup(yytext);return VOID;}
 
 {COMMA}					   {addRow(yyleng,"COMMA",yytext);return COMMA;}
 
@@ -165,15 +167,15 @@ Null	     (null)
 
 {STRCONST}				   {addRow(yyleng,"STRCONST",yytext);return STRCONST;}
 
-{Null}				           {addRow(yyleng,"NULL",yytext);return Null;}
+{Null}				           {addRow(yyleng,"NULL",yytext);yylval.nullValue = strdup(yytext);return Null;}
 
-{DIGIT}+              			   {addRow(yyleng,"INT",yytext);yylval.int_val = atoi(yytext);return INT;}
+{DIGIT}+              			   {addRow(yyleng,"INT",yytext);yylval.int_val = strdup(yytext);return INT;}
 
 {HEX}					   {addRow(yyleng,"HEX",yytext);yylval.str_val = new string(yytext);return HEX;}
 
-{DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?         {addRow(yyleng,"FLOAT",yytext);yylval.double_val = atof(yytext);return FLOAT;}
+{DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?         {addRow(yyleng,"FLOAT",yytext);yylval.double_val = strdup(yytext);return FLOAT;}
 
-{ID}   					   {addRow(yyleng,"IDENTIFIER",yytext);return IDENTIFIER;}
+{ID}   					   {addRow(yyleng,"IDENTIFIER",yytext);yylval.id = strdup(yytext);return IDENTIFIER;}
 
 ("//".*)|({BEGINCOMMENT}(.*){ENDCOMMENT})  {num_caracteres+=yyleng;}
 
@@ -181,7 +183,7 @@ Null	     (null)
 
 \"{BAD_STR}\"			           {printf("Secuencia de escape ilegal en linea %d y columna %d\n",num_lines,num_caracteres);num_caracteres+=yyleng;exit(0);}
 
-\"{BODY_STRING}\"                          {addRow(yyleng,"STRING",yytext);return STRING;}
+\"{BODY_STRING}\"                          {addRow(yyleng,"STRING",yytext);yylval.stringValue = strdup(yytext);return STRING;}
 
 \"{BODY_STRING}                            {printf("STRING no cerrado en linea %d y columna %d\n",num_lines,num_caracteres);exit(0);}
 
@@ -212,7 +214,7 @@ void addRow(int len, const char *token, char *value){
 
 void printTable(){
   printf("\nLine     Column     Token           Value\n");
-  for(int i=0; i<num_words;i++){
+  /* for(int i=0; i<num_words;i++){
       printf("%d       ",tableInt[i][0]);
       if(tableInt[i][0]<10)printf(" ");
       printf("%d       ",tableInt[i][1]);
@@ -222,9 +224,24 @@ void printTable(){
         printf(" ");
       }
       printf("%s\n",table[i][1]);
-  }
+  } */
 }
 
+static char* itostr(int d){
+    char text[100] ;
+    sprintf(text,"%d",d);
+    char* r = text;
+    return text;
+
+
+}
+static char* ftostr(double d){
+    char text2[100] ;
+    sprintf(text2,"%f",d);
+    char* r = text2;
+    return text2;
+
+}
 int  main(int  num_args , char** args) {
 #if YYDEBUG == 1
  extern int yydebug;
