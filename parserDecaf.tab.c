@@ -1467,9 +1467,9 @@ yyreduce:
     {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);
 		//PrintTree(arbol);
 
-    vector<vector<VarObject>> v = construirTabla(arbol);
-    cout<< v.size();
-    //printScopes(v);
+    vector< vector<VarObject> > v = construirTabla(arbol);
+    //cout<< v.size();
+    printScopes(v);
 
 		}
 #line 1476 "parserDecaf.tab.c"
@@ -2291,21 +2291,19 @@ static void analizadorSemantico(Nodo* tree){
 }
 
 
-static vector<vector<VarObject>> result;
+static vector< vector<VarObject> > result;
 
-static vector<vector<VarObject>> construirTabla(Nodo* arbol){
+static vector< vector<VarObject> > construirTabla(Nodo* arbol){
 
   if(arbol==NULL){
 
     return result;
   }
-  cout<<arbol->nombre.c_str()<<endl;
   string s = arbol->nombre.c_str();
   int c = s.compare("ClassDecl");
   if(c==0){
     vector<VarObject> v;
     result.push_back(v);
-    cout<<"Scope de clase!"<<endl;
   }
   c = s.compare("FunctionDecl");
   if(c == 0){
@@ -2314,8 +2312,6 @@ static vector<vector<VarObject>> construirTabla(Nodo* arbol){
     result.push_back(v);
     vector<VarObject> ve = result.at(0);
     ve.push_back(var);
-    cout<<ve.size()<<endl;
-    cout<<"Scope de funcion!"<<endl;
   }
   c = s.compare("Variable");
   if(c == 0){
@@ -2323,15 +2319,8 @@ static vector<vector<VarObject>> construirTabla(Nodo* arbol){
     var.tipo = arbol->tipo;
     var.identificador = arbol->identificador;
     var.valor = "";
-
-
-
-
-    //int pos = result.size()-1;
-    //cout<<pos<<endl;
-    //result.at(result.size()-1).push_back(var);
-    result.at(0).push_back(var);
-    cout<<result.at(0).size();
+    int pos = result.size()-1;
+    result.at(pos).push_back(var);
   }
   c = s.compare("EqualExpresion");
   if(c == 0){
@@ -2341,7 +2330,9 @@ static vector<vector<VarObject>> construirTabla(Nodo* arbol){
       vector<VarObject> v = result.at(i);
       for(int j = 0; j<v.size();j++){
         VarObject var = v.at(j);
-        if(var.identificador == id){
+
+        int x = var.identificador.compare(id);
+        if(x == 0){
           var.valor = val;
         }
 
@@ -2351,7 +2342,7 @@ static vector<vector<VarObject>> construirTabla(Nodo* arbol){
   construirTabla(arbol->first);
   construirTabla(arbol->second);
   construirTabla(arbol->third);
-
+  return result;
 
 }
 
