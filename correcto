@@ -1,13 +1,18 @@
 class hello {
     int fun1;
+    int var;
 
     void func(int x){
-      int var;
-      x=2;
+      var = 5;
+      fun1 = 2;
       while(x==1)
         x=3;
         v = "hola\n";
     }
+    int main(){
+    
+    }
+
 
 
 

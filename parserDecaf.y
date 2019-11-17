@@ -75,11 +75,11 @@ static void PrintTree(Nodo * tree);
 
 %%
 Program : Decls {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);
-		//PrintTree(arbol);
+		PrintTree(arbol);
 
-    vector< vector<VarObject> > v = construirTabla(arbol);
+    //vector< vector<VarObject> > v = construirTabla(arbol);
     //cout<< v.size();
-    printScopes(v);
+    //printScopes(v);
 
 		};
 
@@ -129,6 +129,7 @@ Fields: /*empty*/
       | Field Fields {($$=$1) =new Nodo("Fields",num_lines,num_caracteres,"NA","NA","NA",$1,$2,NULL);};
 
 Field: VariableDecl {$$ = new Nodo("Field",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);}
+  | ClassDecl {$$ = new Nodo("Field",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);}
 	| FunctionDecl {$$ = new Nodo("Field",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);};
 
 InterfaceDecl: INTERFACE IDENTIFIER OPENBRA Prototypes CLOSEBRA {$$ = new Nodo("InterfaceDecl",num_lines,num_caracteres,"NA","NA","NA",$4,NULL,NULL);};
@@ -332,17 +333,19 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
   if(c == 0){
     string id = arbol->first->identificador;
     string val = arbol->second->first->valor;
+    int found = 0;
     for(int i = 0;i<result.size();i++){
-      vector<VarObject> v = result.at(i);
-      for(int j = 0; j<v.size();j++){
-        VarObject var = v.at(j);
-
-        int x = var.identificador.compare(id);
+      for(int j = 0; j<result.at(i).size();j++){
+        int x = result.at(i).at(j).identificador.compare(id);
         if(x == 0){
-          var.valor = val;
+          result.at(i).at(j).valor = val;
+          found = 1;
         }
 
       }
+    }
+    if(found == 0){
+      cout<<"Error, la variable "<<id<<" no fue declarada previamente"<<endl;
     }
   }
   construirTabla(arbol->first);
@@ -352,7 +355,7 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
 
 }
 
-static void printScopes(vector<vector<VarObject>> r){
+static void printScopes(vector< vector<VarObject> > r){
 
   for(int i = 0;i<r.size();i++){
     vector<VarObject> v = r.at(i);
