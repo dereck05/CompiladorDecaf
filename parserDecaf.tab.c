@@ -2309,8 +2309,12 @@ static vector<vector<VarObject>> construirTabla(Nodo* arbol){
   }
   c = s.compare("FunctionDecl");
   if(c == 0){
-    static vector<VarObject> v;
+    VarObject var;
+    vector<VarObject> v;
     result.push_back(v);
+    vector<VarObject> ve = result.at(0);
+    ve.push_back(var);
+    cout<<ve.size()<<endl;
     cout<<"Scope de funcion!"<<endl;
   }
   c = s.compare("Variable");
@@ -2321,10 +2325,6 @@ static vector<vector<VarObject>> construirTabla(Nodo* arbol){
     var.valor = "";
 
 
-    vector<VarObject> ve = result.at(0);
-    cout<<ve.size();
-    ve.push_back(var);
-    cout<<ve.size();
 
 
     //int pos = result.size()-1;
