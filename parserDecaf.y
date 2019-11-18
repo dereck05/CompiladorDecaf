@@ -19,6 +19,7 @@ extern int num_caracteres;
 static void createNode(Nodo *n);
 static void readVector();
 static void analizadorSemantico(Nodo* tree);
+static void analizarWhile(Nodo* tree);
 static vector< vector<VarObject> > construirTabla(Nodo* arbol);
 static void printScopes(vector< vector<VarObject> > r);
 static void makeDirectory(string nombre);
@@ -75,11 +76,11 @@ static void PrintTree(Nodo * tree);
 
 %%
 Program : Decls {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);
-		//PrintTree(arbol);
-
-    vector< vector<VarObject> > v = construirTabla(arbol);
+		PrintTree(arbol);
+	analizadorSemantico(arbol);
+    //vector< vector<VarObject> > v = construirTabla(arbol);
     //cout<< v.size();
-    printScopes(v);
+    //printScopes(v);
 
 		};
 
@@ -282,13 +283,16 @@ static void PrintTree(Nodo* tree){
 //_________________________________________________Semantical____________________________________________
 
 static void analizadorSemantico(Nodo* tree){
+	//printf("olAA: %s",tree->nombre.c_str());
+	string s = tree->nombre.c_str();
+	cout << "HOLAAA: "<< s << endl;
     if(tree == NULL) {
        return;
     }
-    if(tree->nombre.c_str() == "WhileStmt"){
-      //analizarWhile()
+    if((s.compare("WhileStmt")) == 0){
+      analizarWhile(tree);
     }
-    if(tree->nombre.c_str() == "ForStmt"){
+    if((s.compare("ForStmt")) == 0){
       //analizarWhile()
     }
 
@@ -297,11 +301,19 @@ static void analizadorSemantico(Nodo* tree){
     analizadorSemantico(tree->third);
 }
 
+static void analizarWhile(Nodo* tree){
+	cout << "AQUIIII: "<< tree->first->nombre.c_str() << endl;	
+	string s = tree->first->nombre.c_str();
+	int c = s.compare("");
+	if(c==0){
+		//nada
+	}
+}
+
 
 static vector< vector<VarObject> > result;
 
 static vector< vector<VarObject> > construirTabla(Nodo* arbol){
-
   if(arbol==NULL){
 
     return result;

@@ -2,14 +2,12 @@ class hello {
     int fun1;
     int var;
     int v;
-    int[]arr;
     void func(int x){
       var = 5;
       fun1 = 2;
       while(x==1)
         var=6;
         x=3;
-        v = "hola\n";
 
     }
 
