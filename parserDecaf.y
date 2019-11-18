@@ -21,7 +21,10 @@ static void readVector();
 static void analizadorSemantico(Nodo* tree);
 static vector< vector<VarObject> > construirTabla(Nodo* arbol);
 static void printScopes(vector< vector<VarObject> > r);
+static void analizarFuncion(Nodo *tree);
 static void makeDirectory(string nombre);
+static void analizarIndexacion(Nodo * );
+static string getReturn(Nodo * tree);
 static char* itostr(int d);
 static char* ftostr(double d);
 static string stostr(string d);
@@ -81,6 +84,7 @@ Program : Decls {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA",
 
     vector< vector<VarObject> > v = construirTabla(arbol);
     printScopes(v);
+    analizadorSemantico(arbol);
 
 		};
 
@@ -174,10 +178,10 @@ ForExpresion: /*empty*/
 
 ReturnStmt: RETURN ReturnExpresion SEMICOLON {$$ = new Nodo("ReturnStmt",num_lines,num_caracteres,"NA","NA","NA",$2,NULL,NULL);};;
 
-ReturnExpresion: /*empty*/
-	       | Expresion {$$ = new Nodo("ReturnExpresion",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);};;
+ReturnExpresion: /*empty*/ {$$ = new Nodo("ReturnExpresion",num_lines,num_caracteres,"void","NA","NA",NULL,NULL,NULL);};
+	       | Expresion {$$ = new Nodo("ReturnExpresion",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);};
 
-BreakStmt: BREAK SEMICOLON {$$ = new Nodo("BreakStmt",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);};;
+BreakStmt: BREAK SEMICOLON {$$ = new Nodo("BreakStmt",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);};
 
 PrintStmt: PRINT OPENPAR CommaExpresions CLOSEPAR SEMICOLON {$$ = new Nodo("PrintStmt",num_lines,num_caracteres,"NA","NA","NA",$3,NULL,NULL);};;
 
@@ -202,7 +206,8 @@ Expresion: Constant {$$ = new Nodo("ConstantExpresion",num_lines,num_caracteres,
 	| READINT OPENPAR CLOSEPAR {$$ = new Nodo("ReadIntExpresion",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
 	| READLINE OPENPAR CLOSEPAR {$$ = new Nodo("ReadLineExpresion",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
 	| NEW OPENPAR IDENTIFIER CLOSEPAR {$$ = new Nodo("NewExpresion",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-	| NEWARRAY OPENPAR Expresion COMMA TYPE CLOSEPAR {$$ = new Nodo("NewArrExpresion",num_lines,num_caracteres,"NA","NA","NA",$3,NULL,NULL);}
+	| NEWARRAY OPENPAR Expresion COMMA TYPE CLOSEPAR {$$ = new Nodo("NewArrExpresion",num_lines,num_caracteres,$5,"NA","NA",$3,NULL,NULL);}
+  | IDENTIFIER OPENSQR Expresion CLOSESQR {$$ = new Nodo("IndexExpresion",num_lines,num_caracteres,"NA",$1,"NA",$3,NULL,NULL);}
   | LValue EQUALS Expresion {$$ = new Nodo("EqualExpresion",num_lines,num_caracteres,"NA","NA","NA",$1,$3,NULL);};
 
 LValue: IDENTIFIER {$$ = new Nodo("LValue",num_lines,num_caracteres,"NA",$1,"NA",NULL,NULL,NULL);}
@@ -282,24 +287,87 @@ static void PrintTree(Nodo* tree){
 
 //_________________________________________________Semantical____________________________________________
 
+static vector< vector<VarObject> > result;
+
 static void analizadorSemantico(Nodo* tree){
     if(tree == NULL) {
        return;
     }
-    if(tree->nombre.c_str() == "WhileStmt"){
+    string s = tree->nombre.c_str();
+    if(s.compare("WhileStmt") ==0){
       //analizarWhile()
     }
-    if(tree->nombre.c_str() == "ForStmt"){
+    if(s.compare("ForStmt") ==0){
       //analizarWhile()
     }
-
+    if(s.compare("IndexExpresion") == 0){
+      analizarIndexacion(tree);
+    }
+    if(s.compare("FunctionDecl")==0){
+      analizarFuncion(tree);
+    }
     analizadorSemantico(tree->first);
     analizadorSemantico(tree->second);
     analizadorSemantico(tree->third);
 }
 
+static void analizarFuncion(Nodo *tree){
+  string returnDeclared = tree->tipo;
+  string returnGiven = getReturn(tree);
+  cout<<returnDeclared<<endl;
+  cout<<returnGiven<<endl;
+  int x = returnDeclared.compare("void");
+  if(x == 0){
+    x = returnGiven.compare("void");
+    if(x!=0){
+      cout<<"Error, el retorno de la funcion debe ser vacio"<<endl;
+    }
+  }
 
-static vector< vector<VarObject> > result;
+
+}
+static string getReturn(Nodo * tree){
+  string res = "";
+  string name = tree->nombre.c_str();
+  cout<<name<<endl;
+  /* if(name.compare("ReturnStmt") == 0){
+    string s = tree->first->tipo;
+    int y = s.compare("void");
+    if(y == 0){
+      res = "void";
+      return res;
+    }
+  } */
+  getReturn(tree->first);
+  getReturn(tree->second);
+  getReturn(tree->third);
+  return res;
+}
+static void analizarIndexacion(Nodo * tree){
+  string id = tree->identificador;
+  string valorDeseado = tree->first->first->valor;
+  string valorMax;
+  for(int i = 0;i<result.size();i++){
+    for(int j = 0; j<result.at(i).size();j++){
+      VarObject v = result.at(i).at(j);
+      string name = v.identificador;
+      int x = name.compare(id);
+      if(x == 0){
+        valorMax = v.valor;
+        break;
+      }
+    }
+  }
+  int vd = stoi(valorDeseado);
+  int vm = stoi (valorMax);
+  if(vd>=vm){
+    cout<<"Error, indice fuera de rango en variable "<<id<<endl;
+    exit(0);
+  }
+}
+
+
+
 
 static vector< vector<VarObject> > construirTabla(Nodo* arbol){
 
@@ -345,6 +413,7 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
     string id = arbol->first->identificador;
     string val = arbol->second->first->valor;
     string type = arbol->second->first->tipo;
+    string type2Array;
     int found = 0;
     for(int i = 0;i<result.size();i++){
       for(int j = 0; j<result.at(i).size();j++){
@@ -353,6 +422,23 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
           int z = arbol->second->nombre.compare("NewArrExpresion");
           if(z == 0){
             type = string(arbol->second->first->first->tipo)+"[]";
+            val = arbol->second->first->first->valor;
+            type2Array = string(arbol->second->tipo)+"[]";
+            z = result.at(i).at(j).tipo.compare(type2Array);
+            if(z != 0){
+              cout<<"Error, el tipo "<<type2Array<< " asignado al array "<<id<<" no coincide con la declaracion previa: "<<result.at(i).at(j).tipo<<endl;
+              exit(0);
+            }
+          }
+          z = arbol->second->nombre.compare("IndexExpresion");
+          if(z == 0){
+            type = arbol->second->first->first->tipo;
+            int t = type.compare("int");
+            if(t!=0){
+              cout<<"Error, el indice del array "<<id<<" debe ser entero"<<endl;
+              exit(0);
+            }
+
           }
           int y = result.at(i).at(j).tipo.compare(type);
           if(y==0){
@@ -360,6 +446,7 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
             found = 1;
           }
           else{
+
 
             cout<<"Error, el tipo declarado de la variable "<<id<<" no coincide con la asignacion"<<endl;
             exit(0);
