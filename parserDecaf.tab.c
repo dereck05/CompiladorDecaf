@@ -88,8 +88,8 @@ extern int num_caracteres;
 static void createNode(Nodo *n);
 static void readVector();
 static void analizadorSemantico(Nodo* tree);
-static vector<vector<VarObject>> construirTabla(Nodo* arbol);
-static void printScopes(vector<vector<VarObject>> r);
+static vector< vector<VarObject> > construirTabla(Nodo* arbol);
+static void printScopes(vector< vector<VarObject> > r);
 static void makeDirectory(string nombre);
 static char* itostr(int d);
 static char* ftostr(double d);
@@ -1527,7 +1527,7 @@ yyreduce:
 
   case 11:
 #line 97 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("Variable",num_lines,num_caracteres,(yyvsp[-2].tipo),(yyvsp[0].id),"NA",NULL,NULL,NULL);}
+    {(yyval.nodo) = new Nodo("Variable",num_lines,num_caracteres,(string((yyvsp[-2].tipo))+string((yyvsp[-1].id))).c_str(),(yyvsp[0].id),"NA",NULL,NULL,NULL);}
 #line 1532 "parserDecaf.tab.c"
     break;
 
@@ -2315,11 +2315,9 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
   }
   c = s.compare("FunctionDecl");
   if(c == 0){
-    VarObject var;
     vector<VarObject> v;
     result.push_back(v);
-    vector<VarObject> ve = result.at(0);
-    ve.push_back(var);
+
   }
   c = s.compare("Variable");
   if(c == 0){
@@ -2328,8 +2326,8 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
     var.identificador = arbol->identificador;
     var.valor = "";
     int pos = result.size()-1;
-    for(int i = 0; i< result.at(pos).size(); i++){
-      for(int j = 0; j < result.at(pos).size();i++){
+    for(int i = 0; i< result.size(); i++){
+      for(int j = 0; j < result.at(i).size();j++){
         string v1 = var.identificador;
         string v2 = result.at(i).at(j).identificador;
         int c = v1.compare(v2);
@@ -2359,6 +2357,7 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
     }
     if(found == 0){
       cout<<"Error, la variable "<<id<<" no fue declarada previamente"<<endl;
+      exit(0);
     }
   }
   construirTabla(arbol->first);

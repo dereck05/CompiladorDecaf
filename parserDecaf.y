@@ -19,8 +19,8 @@ extern int num_caracteres;
 static void createNode(Nodo *n);
 static void readVector();
 static void analizadorSemantico(Nodo* tree);
-static vector<vector<VarObject>> construirTabla(Nodo* arbol);
-static void printScopes(vector<vector<VarObject>> r);
+static vector< vector<VarObject> > construirTabla(Nodo* arbol);
+static void printScopes(vector< vector<VarObject> > r);
 static void makeDirectory(string nombre);
 static char* itostr(int d);
 static char* ftostr(double d);
@@ -94,7 +94,7 @@ Decl : VariableDecl {$$ = new Nodo("Decl",num_lines,num_caracteres,"NA","NA","NA
 VariableDecl: Variable SEMICOLON {$$ = new Nodo("VariableDecl",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);};
 
 Variable: TYPE IDENTIFIER {$$ = new Nodo("Variable",num_lines,num_caracteres,$1,$2,"NA",NULL,NULL,NULL);}
-  | TYPE SQRBRACKET IDENTIFIER {$$ = new Nodo("Variable",num_lines,num_caracteres,$1,$3,"NA",NULL,NULL,NULL);};
+  | TYPE SQRBRACKET IDENTIFIER {$$ = new Nodo("Variable",num_lines,num_caracteres,(string($1)+string($2)).c_str(),$3,"NA",NULL,NULL,NULL);};
 
 
 
@@ -314,11 +314,9 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
   }
   c = s.compare("FunctionDecl");
   if(c == 0){
-    VarObject var;
     vector<VarObject> v;
     result.push_back(v);
-    vector<VarObject> ve = result.at(0);
-    ve.push_back(var);
+
   }
   c = s.compare("Variable");
   if(c == 0){
@@ -327,8 +325,8 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
     var.identificador = arbol->identificador;
     var.valor = "";
     int pos = result.size()-1;
-    for(int i = 0; i< result.at(pos).size(); i++){
-      for(int j = 0; j < result.at(pos).size();i++){
+    for(int i = 0; i< result.size(); i++){
+      for(int j = 0; j < result.at(i).size();j++){
         string v1 = var.identificador;
         string v2 = result.at(i).at(j).identificador;
         int c = v1.compare(v2);
