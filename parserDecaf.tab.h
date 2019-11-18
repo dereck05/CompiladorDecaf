@@ -53,7 +53,7 @@ extern int yydebug;
     VOID = 263,
     TYPE = 264,
     INT = 265,
-    FLOAT = 266,
+    DOUBLE = 266,
     OP_LOG = 267,
     OP_ALG = 268,
     SYMBOL = 269,
@@ -106,7 +106,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 33 "parserDecaf.y" /* yacc.c:1909  */
+#line 34 "parserDecaf.y" /* yacc.c:1909  */
 
   struct{
     char* int_val;
@@ -120,10 +120,11 @@ union YYSTYPE
     char* stringValue;
     char* nullValue;
     char* boolValue;
+    char* sqr;
   };
 
 
-#line 127 "parserDecaf.tab.h" /* yacc.c:1909  */
+#line 128 "parserDecaf.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

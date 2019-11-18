@@ -1,12 +1,12 @@
 class hello {
     int fun1;
     int var;
-    int v;
+    int y;
     void func(int x){
       var = 5;
       fun1 = 2;
-      while(x==1)
-        var=6;
+      for(x=2;var>5;y=2)
+        var = 6;
         x=3;
 
     }

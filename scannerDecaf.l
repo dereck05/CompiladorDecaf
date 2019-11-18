@@ -49,7 +49,7 @@ SUM_RESTA    ("+"|"-")
 MUL_DIV_MOD  ("/"|"*"|"%")
 SEMICOLON    (";")
 TYPE	     (int|double|bool|string)
-SQRBRACKET   ("[\]")
+SQRBRACKET   ("int[]"|"double[]"|"bool[]"|"string[]")
 EQUALS       ("=")
 OPENBRA	     ("{")
 CLOSEBRA     ("}")
@@ -105,7 +105,7 @@ Null	     (null)
 
 {TYPE}					   {addRow(yyleng,"TYPE",yytext);yylval.tipo = strdup(yytext);return TYPE;}
 
-{SQRBRACKET}				   {addRow(yyleng,"SQRBRACKET",yytext);return SQRBRACKET;}
+{SQRBRACKET}				   {addRow(yyleng,"SQRBRACKET",yytext);yylval.sqr= strdup(yytext);return SQRBRACKET;}
 
 {EQUALS}				   {addRow(yyleng,"EQUALS",yytext);return EQUALS;}
 
@@ -173,7 +173,7 @@ Null	     (null)
 
 {HEX}					   {addRow(yyleng,"HEX",yytext);yylval.str_val = new string(yytext);return HEX;}
 
-{DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?         {addRow(yyleng,"FLOAT",yytext);yylval.double_val = strdup(yytext);return FLOAT;}
+{DIGIT}+"."{DIGIT}+(E"+"{DIGIT}+)?         {addRow(yyleng,"FLOAT",yytext);yylval.double_val = strdup(yytext);return DOUBLE;}
 
 {ID}   					   {addRow(yyleng,"IDENTIFIER",yytext);yylval.id = strdup(yytext);return IDENTIFIER;}
 

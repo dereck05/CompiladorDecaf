@@ -20,6 +20,7 @@ static void createNode(Nodo *n);
 static void readVector();
 static void analizadorSemantico(Nodo* tree);
 static void analizarWhile(Nodo* tree);
+static void analizarFor(Nodo* tree);
 static vector< vector<VarObject> > construirTabla(Nodo* arbol);
 static void printScopes(vector< vector<VarObject> > r);
 static void makeDirectory(string nombre);
@@ -43,17 +44,19 @@ static void PrintTree(Nodo * tree);
     char* stringValue;
     char* nullValue;
     char* boolValue;
+    char* sqr;
   };
 
 }
 %token <stringValue> STRING
 %token <nullValue> Null
 %token <boolValue> BOOLEAN
-%token <id> IDENTIFIER SQRBRACKET
+%token <id> IDENTIFIER
+%token <sqr> SQRBRACKET
 %token <voidT> VOID
 %token <tipo> TYPE
 %token <int_val> INT
-%token <double_val> FLOAT
+%token <double_val> DOUBLE
 %token <str_val> OP_LOG OP_ALG SYMBOL S_COMMENT OPEN_STRING HEX TAG SEMICOLON OPENPAR CLOSEPAR COMMA CLASS EXTENDS IMPLEMENTS INTERFACE IF ELSE WHILE FOR RETURN BREAK PRINT OPENBRA CLOSEBRA THIS READINT READLINE NEW NEWARRAY CLOSESQR INTCONST DOUBLECONST BOOLCONST STRCONST
 
 %token EQUALS
@@ -82,6 +85,9 @@ Program : Decls {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA",
     //cout<< v.size();
     //printScopes(v);
 
+    vector< vector<VarObject> > v = construirTabla(arbol);
+    printScopes(v);
+
 		};
 
 Decls: Decl {$$ = new Nodo("Decls",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);}
@@ -95,7 +101,7 @@ Decl : VariableDecl {$$ = new Nodo("Decl",num_lines,num_caracteres,"NA","NA","NA
 VariableDecl: Variable SEMICOLON {$$ = new Nodo("VariableDecl",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);};
 
 Variable: TYPE IDENTIFIER {$$ = new Nodo("Variable",num_lines,num_caracteres,$1,$2,"NA",NULL,NULL,NULL);}
-  | TYPE SQRBRACKET IDENTIFIER {char * c =&(string($1)+string($2))[0] ;$$ = new Nodo("Variable",num_lines,num_caracteres,c,$3,"NA",NULL,NULL,NULL);};
+  | SQRBRACKET IDENTIFIER {$$ = new Nodo("Variable",num_lines,num_caracteres,$1,$2,"NA",NULL,NULL,NULL);};
 
 
 
@@ -215,11 +221,11 @@ Call: IDENTIFIER OPENPAR Actuals CLOSEPAR {$$ = new Nodo("Call",num_lines,num_ca
 Actuals: /*empty*/
        | CommaExpresions {$$ = new Nodo("Call",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);};
 
-Constant: INT {$$ = new Nodo("INT",num_lines,num_caracteres,"NA","NA",$1,NULL,NULL,NULL);}
-	| FLOAT {$$ = new Nodo("FLOAT",num_lines,num_caracteres,"NA","NA",$1,NULL,NULL,NULL);}
-	| BOOLEAN {$$ = new Nodo("BOOLEAN",num_lines,num_caracteres,"NA","NA",$1,NULL,NULL,NULL);}
-	| STRING {$$ = new Nodo("STRING",num_lines,num_caracteres,"NA","NA",$1,NULL,NULL,NULL);}
-	| Null {$$ = new Nodo("Null",num_lines,num_caracteres,"NA","NA",$1,NULL,NULL,NULL);};
+Constant: INT {$$ = new Nodo("INT",num_lines,num_caracteres,"int","NA",$1,NULL,NULL,NULL);}
+	| DOUBLE {$$ = new Nodo("FLOAT",num_lines,num_caracteres,"double","NA",$1,NULL,NULL,NULL);}
+	| BOOLEAN {$$ = new Nodo("BOOLEAN",num_lines,num_caracteres,"bool","NA",$1,NULL,NULL,NULL);}
+	| STRING {$$ = new Nodo("STRING",num_lines,num_caracteres,"string","NA",$1,NULL,NULL,NULL);}
+	| Null {$$ = new Nodo("Null",num_lines,num_caracteres,"Null","NA",$1,NULL,NULL,NULL);};
 
 %%
 
@@ -283,17 +289,16 @@ static void PrintTree(Nodo* tree){
 //_________________________________________________Semantical____________________________________________
 
 static void analizadorSemantico(Nodo* tree){
-	//printf("olAA: %s",tree->nombre.c_str());
-	string s = tree->nombre.c_str();
-	cout << "HOLAAA: "<< s << endl;
     if(tree == NULL) {
        return;
     }
+	string s = tree->nombre.c_str();
+	cout << "HOLAAA: "<< s << endl;
     if((s.compare("WhileStmt")) == 0){
-      analizarWhile(tree);
+        analizarWhile(tree);
     }
     if((s.compare("ForStmt")) == 0){
-      //analizarWhile()
+      analizarFor(tree);
     }
 
     analizadorSemantico(tree->first);
@@ -302,12 +307,46 @@ static void analizadorSemantico(Nodo* tree){
 }
 
 static void analizarWhile(Nodo* tree){
-	cout << "AQUIIII: "<< tree->first->nombre.c_str() << endl;	
-	string s = tree->first->nombre.c_str();
-	int c = s.compare("");
-	if(c==0){
-		//nada
+    cout << "FIRST: "<< tree->first->nombre.c_str() << endl;
+    cout << "SECOND: "<< tree->second->nombre.c_str() << endl;	
+    string s1 = tree->first->nombre.c_str();
+    string s2 = tree->second->nombre.c_str();
+    int contWhile = 0; 
+    if((s1.compare("OpIgualExpresion")) == 0){
+	if((s2.compare("Stmt")) == 0){
+	   contWhile = 1;
 	}
+    }
+    if((s1.compare("OpRelExpresion")) == 0){
+	if((s2.compare("Stmt")) == 0){
+	   contWhile = 1;
+	}
+    }
+    if(contWhile == 0){
+       cout<<"Error semantico, uso de while invalido "<<endl;
+       exit(0);
+    }
+}
+
+static void analizarFor(Nodo* tree){
+    cout << "FIRST: "<< tree->first->nombre.c_str() << endl;	
+    cout << "SECOND: "<< tree->second->nombre.c_str() << endl;	
+    cout << "THIRD: "<< tree->third->nombre.c_str() << endl;	
+    string s1 = tree->first->nombre.c_str();
+    string s2 = tree->second->nombre.c_str();
+    string s3 = tree->third->nombre.c_str();
+    int contFor = 0; 
+    if((s1.compare("ForExpresion")) == 0){
+	if((s2.compare("ForExpresion")) == 0){
+           if((s3.compare("ForExpresion")) == 0){
+	   	contFor = 1;
+	    }
+	}
+    }
+    if(contFor == 0){
+	cout<<"Error semantico, uso de for invalido "<<endl;
+        exit(0);
+     }
 }
 
 
@@ -355,13 +394,27 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
   if(c == 0){
     string id = arbol->first->identificador;
     string val = arbol->second->first->valor;
+    string type = arbol->second->first->tipo;
     int found = 0;
     for(int i = 0;i<result.size();i++){
       for(int j = 0; j<result.at(i).size();j++){
         int x = result.at(i).at(j).identificador.compare(id);
-        if(x == 0){
-          result.at(i).at(j).valor = val;
-          found = 1;
+        if(x == 0 ){
+          int z = arbol->second->nombre.compare("NewArrExpresion");
+          if(z == 0){
+            type = string(arbol->second->first->first->tipo)+"[]";
+          }
+          int y = result.at(i).at(j).tipo.compare(type);
+          if(y==0){
+            result.at(i).at(j).valor = val;
+            found = 1;
+          }
+          else{
+
+            cout<<"Error, el tipo declarado de la variable "<<id<<" no coincide con la asignacion"<<endl;
+            exit(0);
+          }
+
         }
 
       }
