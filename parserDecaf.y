@@ -94,7 +94,7 @@ Decl : VariableDecl {$$ = new Nodo("Decl",num_lines,num_caracteres,"NA","NA","NA
 VariableDecl: Variable SEMICOLON {$$ = new Nodo("VariableDecl",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);};
 
 Variable: TYPE IDENTIFIER {$$ = new Nodo("Variable",num_lines,num_caracteres,$1,$2,"NA",NULL,NULL,NULL);}
-  | TYPE SQRBRACKET IDENTIFIER {$$ = new Nodo("Variable",num_lines,num_caracteres,(string($1)+string($2)).c_str(),$3,"NA",NULL,NULL,NULL);};
+  | TYPE SQRBRACKET IDENTIFIER {char * c =&(string($1)+string($2))[0] ;$$ = new Nodo("Variable",num_lines,num_caracteres,c,$3,"NA",NULL,NULL,NULL);};
 
 
 

@@ -1527,7 +1527,7 @@ yyreduce:
 
   case 11:
 #line 97 "parserDecaf.y"
-    {(yyval.nodo) = new Nodo("Variable",num_lines,num_caracteres,(string((yyvsp[-2].tipo))+string((yyvsp[-1].id))).c_str(),(yyvsp[0].id),"NA",NULL,NULL,NULL);}
+    {char * c =&(string((yyvsp[-2].tipo))+string((yyvsp[-1].id)))[0] ;(yyval.nodo) = new Nodo("Variable",num_lines,num_caracteres,c,(yyvsp[0].id),"NA",NULL,NULL,NULL);}
 #line 1532 "parserDecaf.tab.c"
     break;
 
