@@ -57,7 +57,7 @@ extern int yydebug;
     VOID = 263,
     TYPE = 264,
     INT = 265,
-    FLOAT = 266,
+    DOUBLE = 266,
     OP_LOG = 267,
     OP_ALG = 268,
     SYMBOL = 269,
@@ -123,10 +123,11 @@ union YYSTYPE
     char* stringValue;
     char* nullValue;
     char* boolValue;
+    char* sqr;
   };
 
 
-#line 130 "parserDecaf.tab.h"
+#line 131 "parserDecaf.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
