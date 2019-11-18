@@ -2,17 +2,10 @@ class hello {
     int fun1;
     int var;
     int y;
-    void func(int x){
-      var = 5;
-      fun1 = 2;
-      for(x=2;var>5;y=2)
-        var = 6;
-        x=3;
+    void hola(){
+      this.fun1 = 5.2;
+      if((2.5 == 2.5) && (3==2)){
 
+      }
     }
-
-
-
-
-
 }
