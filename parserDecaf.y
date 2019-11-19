@@ -470,14 +470,14 @@ static string getReturn(Nodo * tree){
   string res = "";
   string name = tree->nombre.c_str();
   cout<<name<<endl;
-  /* if(name.compare("ReturnStmt") == 0){
+  if(name.compare("ReturnStmt") == 0){
     string s = tree->first->tipo;
     int y = s.compare("void");
     if(y == 0){
       res = "void";
       return res;
     }
-  } */
+  }
   getReturn(tree->first);
   getReturn(tree->second);
   getReturn(tree->third);
