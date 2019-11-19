@@ -1,11 +1,12 @@
 class hello {
     int fun1;
-    int var;
+    int fun2;
+    string str;
     int y;
     void hola(){
-      this.fun1 = 5.2;
-      if((2.5 == 2.5) && (3==2)){
-
-      }
+      fun1 =3;
+      fun2 = 2;
+      return fun1;
     }
+
 }
