@@ -88,7 +88,7 @@ static void PrintTree(Nodo * tree);
 Program : Decls {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);
 		PrintTree(arbol);
 	//analizadorSemantico(arbol);
-    //vector< vector<VarObject> > v = construirTabla(arbol);
+    vector< vector<VarObject> > v = construirTabla(arbol);
     //cout<< v.size();
     //printScopes(v);
 
@@ -188,8 +188,9 @@ ForExpresion: /*empty*/
 
 ReturnStmt: RETURN ReturnExpresion SEMICOLON {$$ = new Nodo("ReturnStmt",num_lines,num_caracteres,"NA","NA","NA",$2,NULL,NULL);};;
 
-ReturnExpresion: /*empty*/ {$$ = new Nodo("ReturnExpresion",num_lines,num_caracteres,"void","NA","NA",NULL,NULL,NULL);};
-	       | Expresion {$$ = new Nodo("ReturnExpresion",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);};
+ReturnExpresion: /*empty*/ {$$ = new Nodo("ReturnExpresionVoid",num_lines,num_caracteres,"void","NA","NA",NULL,NULL,NULL);};
+	       | Constant {$$ = new Nodo("ReturnExpresionConst",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);}
+         | IDENTIFIER {$$ = new Nodo("ReturnExpresionIdent",num_lines,num_caracteres,"NA",$1,"NA",NULL,NULL,NULL);};
 
 BreakStmt: BREAK SEMICOLON {$$ = new Nodo("BreakStmt",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);};
 
@@ -298,13 +299,13 @@ static void PrintTree(Nodo* tree){
 //_________________________________________________Semantical____________________________________________
 
 static vector< vector<VarObject> > result;
-
+static string typeRetDecl;
+static string funcName;
 static void analizadorSemantico(Nodo* tree){
     if(tree == NULL) {
        return;
     }
     string s = tree->nombre.c_str();
-    cout << "SEMANTICO: "<< s << endl;
     if((s.compare("IfStmt")) == 0){
         analizarIf(tree);
     }
@@ -318,7 +319,46 @@ static void analizadorSemantico(Nodo* tree){
       analizarIndexacion(tree);
     }
     if(s.compare("FunctionDecl")== 0){
-      //analizarFuncion(tree);
+      typeRetDecl = tree->tipo;
+
+      funcName = tree->identificador;
+    }
+    if(s.compare("ReturnStmt")==0){
+
+      string s = tree->first->nombre.c_str();
+      string tipoDado;
+      if(s.compare("ReturnExpresionVoid")==0){
+        tipoDado = tree->first->tipo;
+        if(tipoDado.compare(typeRetDecl)!= 0){
+          cout<<"Error, la funcion: "<<funcName<<" ,debe tener retorno vacio (void)\n";
+          exit(0);
+        }
+      }
+      if(s.compare("ReturnExpresionConst")==0){
+        tipoDado = tree->first->first->tipo;
+        if(tipoDado.compare(typeRetDecl)!= 0){
+          cout<<"Error, la funcion: "<<funcName<<" ,debe tener retorno "<< typeRetDecl<<"\n" ;
+          exit(0);
+        }
+      }
+      if(s.compare("ReturnExpresionIdent")==0){
+        string tipoD;
+        string ident = tree->first->identificador;
+        for(int i = 0;i<result.size();i++){
+          for(int j = 0; j<result.at(i).size();j++){
+            VarObject v = result.at(i).at(j);
+            string name = v.identificador;
+            if(name.compare(ident) == 0){
+              tipoD = v.tipo;
+              break;
+            }
+          }
+        }
+        if(tipoD.compare(typeRetDecl)!= 0){
+          cout<<"Error, la funcion: "<<funcName<<" ,debe tener retorno "<< typeRetDecl<< " y la variable es tipo " << tipoD<<"\n" ;
+          exit(0);
+        }
+      }
     }
     if(s.compare("SumExpresion") == 0){
       analizarOperacionArim(tree);
@@ -450,39 +490,6 @@ static void analizarFor(Nodo* tree){
 }
 
 
-static void analizarFuncion(Nodo *tree){
-  string returnDeclared = tree->tipo;
-  string returnGiven = getReturn(tree);
-  cout<<returnDeclared<<endl;
-  cout<<returnGiven<<endl;
-  int x = returnDeclared.compare("void");
-  if(x == 0){
-    x = returnGiven.compare("void");
-    if(x!=0){
-      cout<<"Error, el retorno de la funcion debe ser vacio"<<endl;
-      exit(0);
-    }
-  }
-}
-
-
-static string getReturn(Nodo * tree){
-  string res = "";
-  string name = tree->nombre.c_str();
-  cout<<name<<endl;
-  /* if(name.compare("ReturnStmt") == 0){
-    string s = tree->first->tipo;
-    int y = s.compare("void");
-    if(y == 0){
-      res = "void";
-      return res;
-    }
-  } */
-  getReturn(tree->first);
-  getReturn(tree->second);
-  getReturn(tree->third);
-  return res;
-}
 
 
 static void analizarIndexacion(Nodo * tree){
