@@ -1,9 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.4.1.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
-   Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,14 +40,11 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
-
 /* Identify Bison output.  */
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.4.1"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -65,8 +61,8 @@
 
 
 
-/* First part of user prologue.  */
-#line 1 "parserDecaf.y"
+/* Copy the first part of user declarations.  */
+#line 1 "parserDecaf.y" /* yacc.c:339  */
 
 #include  <cstdio>
 #include  <cstdlib>
@@ -105,17 +101,13 @@ static char* ftostr(double d);
 static string stostr(string d);
 static void PrintTree(Nodo * tree);
 
-#line 109 "parserDecaf.tab.c"
+#line 105 "parserDecaf.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
-#  if defined __cplusplus
-#   if 201103L <= __cplusplus
-#    define YY_NULLPTR nullptr
-#   else
-#    define YY_NULLPTR 0
-#   endif
+#  if defined __cplusplus && 201103L <= __cplusplus
+#   define YY_NULLPTR nullptr
 #  else
-#   define YY_NULLPTR ((void*)0)
+#   define YY_NULLPTR 0
 #  endif
 # endif
 
@@ -127,8 +119,8 @@ static void PrintTree(Nodo * tree);
 # define YYERROR_VERBOSE 0
 #endif
 
-/* Use api.header.include to #include this header
-   instead of duplicating it here.  */
+/* In a future release of Bison, this section will be replaced
+   by #include "parserDecaf.tab.h".  */
 #ifndef YY_YY_PARSERDECAF_TAB_H_INCLUDED
 # define YY_YY_PARSERDECAF_TAB_H_INCLUDED
 /* Debug traces.  */
@@ -202,9 +194,10 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+
 union YYSTYPE
 {
-#line 41 "parserDecaf.y"
+#line 41 "parserDecaf.y" /* yacc.c:355  */
 
   struct{
     char* int_val;
@@ -222,9 +215,9 @@ union YYSTYPE
   };
 
 
-#line 226 "parserDecaf.tab.c"
-
+#line 219 "parserDecaf.tab.c" /* yacc.c:355  */
 };
+
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -237,7 +230,9 @@ int yyparse (void);
 
 #endif /* !YY_YY_PARSERDECAF_TAB_H_INCLUDED  */
 
+/* Copy the second part of user declarations.  */
 
+#line 236 "parserDecaf.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -258,13 +253,13 @@ typedef signed char yytype_int8;
 #ifdef YYTYPE_UINT16
 typedef YYTYPE_UINT16 yytype_uint16;
 #else
-typedef unsigned short yytype_uint16;
+typedef unsigned short int yytype_uint16;
 #endif
 
 #ifdef YYTYPE_INT16
 typedef YYTYPE_INT16 yytype_int16;
 #else
-typedef short yytype_int16;
+typedef short int yytype_int16;
 #endif
 
 #ifndef YYSIZE_T
@@ -276,7 +271,7 @@ typedef short yytype_int16;
 #  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
 #  define YYSIZE_T size_t
 # else
-#  define YYSIZE_T unsigned
+#  define YYSIZE_T unsigned int
 # endif
 #endif
 
@@ -312,6 +307,15 @@ typedef short yytype_int16;
 # define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
 #endif
 
+#if !defined _Noreturn \
+     && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
+# if defined _MSC_VER && 1200 <= _MSC_VER
+#  define _Noreturn __declspec (noreturn)
+# else
+#  define _Noreturn YY_ATTRIBUTE ((__noreturn__))
+# endif
+#endif
+
 /* Suppress unused-variable warnings by "using" E.  */
 #if ! defined lint || defined __GNUC__
 # define YYUSE(E) ((void) (E))
@@ -319,7 +323,7 @@ typedef short yytype_int16;
 # define YYUSE(E) /* empty */
 #endif
 
-#if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
+#if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
 # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
     _Pragma ("GCC diagnostic push") \
@@ -338,8 +342,6 @@ typedef short yytype_int16;
 # define YY_INITIAL_VALUE(Value) /* Nothing. */
 #endif
 
-
-#define YY_ASSERT(E) ((void) (0 && (E)))
 
 #if ! defined yyoverflow || YYERROR_VERBOSE
 
@@ -483,16 +485,16 @@ union yyalloc
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  197
 
+/* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
+   by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   310
 
-/* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
-   as returned by yylex, with out-of-bounds checking.  */
 #define YYTRANSLATE(YYX)                                                \
-  ((unsigned) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+  ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
-   as returned by yylex.  */
+   as returned by yylex, without out-of-bounds checking.  */
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -810,22 +812,22 @@ static const yytype_uint8 yyr2[] =
 
 #define YYRECOVERING()  (!!yyerrstatus)
 
-#define YYBACKUP(Token, Value)                                    \
-  do                                                              \
-    if (yychar == YYEMPTY)                                        \
-      {                                                           \
-        yychar = (Token);                                         \
-        yylval = (Value);                                         \
-        YYPOPSTACK (yylen);                                       \
-        yystate = *yyssp;                                         \
-        goto yybackup;                                            \
-      }                                                           \
-    else                                                          \
-      {                                                           \
-        yyerror (YY_("syntax error: cannot back up")); \
-        YYERROR;                                                  \
-      }                                                           \
-  while (0)
+#define YYBACKUP(Token, Value)                                  \
+do                                                              \
+  if (yychar == YYEMPTY)                                        \
+    {                                                           \
+      yychar = (Token);                                         \
+      yylval = (Value);                                         \
+      YYPOPSTACK (yylen);                                       \
+      yystate = *yyssp;                                         \
+      goto yybackup;                                            \
+    }                                                           \
+  else                                                          \
+    {                                                           \
+      yyerror (YY_("syntax error: cannot back up")); \
+      YYERROR;                                                  \
+    }                                                           \
+while (0)
 
 /* Error token number */
 #define YYTERROR        1
@@ -865,37 +867,37 @@ do {                                                                      \
 } while (0)
 
 
-/*-----------------------------------.
-| Print this symbol's value on YYO.  |
-`-----------------------------------*/
+/*----------------------------------------.
+| Print this symbol's value on YYOUTPUT.  |
+`----------------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
 {
-  FILE *yyoutput = yyo;
-  YYUSE (yyoutput);
+  FILE *yyo = yyoutput;
+  YYUSE (yyo);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
   if (yytype < YYNTOKENS)
-    YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
+    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
 # endif
   YYUSE (yytype);
 }
 
 
-/*---------------------------.
-| Print this symbol on YYO.  |
-`---------------------------*/
+/*--------------------------------.
+| Print this symbol on YYOUTPUT.  |
+`--------------------------------*/
 
 static void
-yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
 {
-  YYFPRINTF (yyo, "%s %s (",
+  YYFPRINTF (yyoutput, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
-  yy_symbol_value_print (yyo, yytype, yyvaluep);
-  YYFPRINTF (yyo, ")");
+  yy_symbol_value_print (yyoutput, yytype, yyvaluep);
+  YYFPRINTF (yyoutput, ")");
 }
 
 /*------------------------------------------------------------------.
@@ -929,7 +931,7 @@ do {                                                            \
 static void
 yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
 {
-  unsigned long yylno = yyrline[yyrule];
+  unsigned long int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
   int yyi;
   YYFPRINTF (stderr, "Reducing stack by rule %d (line %lu):\n",
@@ -940,7 +942,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr,
                        yystos[yyssp[yyi + 1 - yynrhs]],
-                       &yyvsp[(yyi + 1) - (yynrhs)]
+                       &(yyvsp[(yyi + 1) - (yynrhs)])
                                               );
       YYFPRINTF (stderr, "\n");
     }
@@ -1044,10 +1046,7 @@ yytnamerr (char *yyres, const char *yystr)
           case '\\':
             if (*++yyp != '\\')
               goto do_not_strip_quotes;
-            else
-              goto append;
-
-          append:
+            /* Fall through.  */
           default:
             if (yyres)
               yyres[yyn] = *yyp;
@@ -1065,7 +1064,7 @@ yytnamerr (char *yyres, const char *yystr)
   if (! yyres)
     return yystrlen (yystr);
 
-  return (YYSIZE_T) (yystpcpy (yyres, yystr) - yyres);
+  return yystpcpy (yyres, yystr) - yyres;
 }
 # endif
 
@@ -1143,10 +1142,10 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                 yyarg[yycount++] = yytname[yyx];
                 {
                   YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
-                  if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
-                    yysize = yysize1;
-                  else
+                  if (! (yysize <= yysize1
+                         && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
                     return 2;
+                  yysize = yysize1;
                 }
               }
         }
@@ -1158,7 +1157,6 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
       case N:                               \
         yyformat = S;                       \
       break
-    default: /* Avoid compiler warnings. */
       YYCASE_(0, YY_("syntax error"));
       YYCASE_(1, YY_("syntax error, unexpected %s"));
       YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
@@ -1170,10 +1168,9 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
 
   {
     YYSIZE_T yysize1 = yysize + yystrlen (yyformat);
-    if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
-      yysize = yysize1;
-    else
+    if (! (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
       return 2;
+    yysize = yysize1;
   }
 
   if (*yymsg_alloc < yysize)
@@ -1299,33 +1296,23 @@ yyparse (void)
   yychar = YYEMPTY; /* Cause a token to be read.  */
   goto yysetstate;
 
-
 /*------------------------------------------------------------.
-| yynewstate -- push a new state, which is found in yystate.  |
+| yynewstate -- Push a new state, which is found in yystate.  |
 `------------------------------------------------------------*/
-yynewstate:
+ yynewstate:
   /* In all cases, when you get here, the value and location stacks
      have just been pushed.  So pushing a state here evens the stacks.  */
   yyssp++;
 
-
-/*--------------------------------------------------------------------.
-| yynewstate -- set current state (the top of the stack) to yystate.  |
-`--------------------------------------------------------------------*/
-yysetstate:
-  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
-  YY_ASSERT (0 <= yystate && yystate < YYNSTATES);
-  *yyssp = (yytype_int16) yystate;
+ yysetstate:
+  *yyssp = yystate;
 
   if (yyss + yystacksize - 1 <= yyssp)
-#if !defined yyoverflow && !defined YYSTACK_RELOCATE
-    goto yyexhaustedlab;
-#else
     {
       /* Get the current used size of the three stacks, in elements.  */
-      YYSIZE_T yysize = (YYSIZE_T) (yyssp - yyss + 1);
+      YYSIZE_T yysize = yyssp - yyss + 1;
 
-# if defined yyoverflow
+#ifdef yyoverflow
       {
         /* Give user a chance to reallocate the stack.  Use copies of
            these so that the &'s don't force the real ones into
@@ -1341,10 +1328,14 @@ yysetstate:
                     &yyss1, yysize * sizeof (*yyssp),
                     &yyvs1, yysize * sizeof (*yyvsp),
                     &yystacksize);
+
         yyss = yyss1;
         yyvs = yyvs1;
       }
-# else /* defined YYSTACK_RELOCATE */
+#else /* no yyoverflow */
+# ifndef YYSTACK_RELOCATE
+      goto yyexhaustedlab;
+# else
       /* Extend the stack our own way.  */
       if (YYMAXDEPTH <= yystacksize)
         goto yyexhaustedlab;
@@ -1360,33 +1351,35 @@ yysetstate:
           goto yyexhaustedlab;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
         YYSTACK_RELOCATE (yyvs_alloc, yyvs);
-# undef YYSTACK_RELOCATE
+#  undef YYSTACK_RELOCATE
         if (yyss1 != yyssa)
           YYSTACK_FREE (yyss1);
       }
 # endif
+#endif /* no yyoverflow */
 
       yyssp = yyss + yysize - 1;
       yyvsp = yyvs + yysize - 1;
 
       YYDPRINTF ((stderr, "Stack size increased to %lu\n",
-                  (unsigned long) yystacksize));
+                  (unsigned long int) yystacksize));
 
       if (yyss + yystacksize - 1 <= yyssp)
         YYABORT;
     }
-#endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
+
+  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
   if (yystate == YYFINAL)
     YYACCEPT;
 
   goto yybackup;
 
-
 /*-----------.
 | yybackup.  |
 `-----------*/
 yybackup:
+
   /* Do appropriate processing given the current state.  Read a
      lookahead token if we need one and don't already have one.  */
 
@@ -1444,6 +1437,7 @@ yybackup:
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   *++yyvsp = yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
+
   goto yynewstate;
 
 
@@ -1458,7 +1452,7 @@ yydefault:
 
 
 /*-----------------------------.
-| yyreduce -- do a reduction.  |
+| yyreduce -- Do a reduction.  |
 `-----------------------------*/
 yyreduce:
   /* yyn is the number of a rule to reduce with.  */
@@ -1478,8 +1472,8 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2:
-#line 88 "parserDecaf.y"
+        case 2:
+#line 88 "parserDecaf.y" /* yacc.c:1646  */
     {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);
 		PrintTree(arbol);
 	//analizadorSemantico(arbol);
@@ -1492,540 +1486,539 @@ yyreduce:
     analizadorSemantico(arbol);
 
 		}
-#line 1496 "parserDecaf.tab.c"
+#line 1490 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 101 "parserDecaf.y"
+#line 101 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Decls",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1502 "parserDecaf.tab.c"
+#line 1496 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 102 "parserDecaf.y"
+#line 102 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) =(yyvsp[-1].nodo);(yyvsp[-1].nodo) = new Nodo("Decls",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1508 "parserDecaf.tab.c"
+#line 1502 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 104 "parserDecaf.y"
+#line 104 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Decl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1514 "parserDecaf.tab.c"
+#line 1508 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 105 "parserDecaf.y"
+#line 105 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Decl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1520 "parserDecaf.tab.c"
+#line 1514 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 106 "parserDecaf.y"
+#line 106 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Decl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1526 "parserDecaf.tab.c"
+#line 1520 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 107 "parserDecaf.y"
+#line 107 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Decl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1532 "parserDecaf.tab.c"
+#line 1526 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 109 "parserDecaf.y"
+#line 109 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("VariableDecl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1538 "parserDecaf.tab.c"
+#line 1532 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 111 "parserDecaf.y"
+#line 111 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Variable",num_lines,num_caracteres,(yyvsp[-1].tipo),(yyvsp[0].id),"NA",NULL,NULL,NULL);}
-#line 1544 "parserDecaf.tab.c"
+#line 1538 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 112 "parserDecaf.y"
+#line 112 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Variable",num_lines,num_caracteres,(yyvsp[-1].sqr),(yyvsp[0].id),"NA",NULL,NULL,NULL);}
-#line 1550 "parserDecaf.tab.c"
+#line 1544 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 116 "parserDecaf.y"
+#line 116 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("FunctionDecl",num_lines,num_caracteres,(yyvsp[-5].tipo),(yyvsp[-4].id),"NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1556 "parserDecaf.tab.c"
+#line 1550 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 117 "parserDecaf.y"
+#line 117 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("FunctionDecl",num_lines,num_caracteres,(yyvsp[-5].voidT),(yyvsp[-4].id),"NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1562 "parserDecaf.tab.c"
+#line 1556 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 120 "parserDecaf.y"
+#line 120 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Formals",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1568 "parserDecaf.tab.c"
+#line 1562 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 125 "parserDecaf.y"
+#line 125 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CommaVariables",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1574 "parserDecaf.tab.c"
+#line 1568 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 126 "parserDecaf.y"
+#line 126 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CommaVariables",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),(yyvsp[0].nodo),NULL);}
-#line 1580 "parserDecaf.tab.c"
+#line 1574 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 128 "parserDecaf.y"
+#line 128 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CommaVarList",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1586 "parserDecaf.tab.c"
+#line 1580 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 129 "parserDecaf.y"
+#line 129 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CommaVarList",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1592 "parserDecaf.tab.c"
+#line 1586 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 132 "parserDecaf.y"
+#line 132 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ClassDecl",num_lines,num_caracteres,"NA",(yyvsp[-3].id),"NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1598 "parserDecaf.tab.c"
+#line 1592 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 133 "parserDecaf.y"
+#line 133 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ClassDecl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1604 "parserDecaf.tab.c"
+#line 1598 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 134 "parserDecaf.y"
+#line 134 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ClassDecl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-3].nodo),(yyvsp[-1].nodo),NULL);}
-#line 1610 "parserDecaf.tab.c"
+#line 1604 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 135 "parserDecaf.y"
+#line 135 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ClassDecl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-3].nodo),(yyvsp[-1].nodo),NULL);}
-#line 1616 "parserDecaf.tab.c"
+#line 1610 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 137 "parserDecaf.y"
+#line 137 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CommaIdentifiers",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1622 "parserDecaf.tab.c"
+#line 1616 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 138 "parserDecaf.y"
+#line 138 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CommaIdentifiers",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),(yyvsp[0].nodo),NULL);}
-#line 1628 "parserDecaf.tab.c"
+#line 1622 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 140 "parserDecaf.y"
+#line 140 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CommaIdentList",num_lines,num_caracteres,"NA",(yyvsp[0].id),"NA",NULL,NULL,NULL);}
-#line 1634 "parserDecaf.tab.c"
+#line 1628 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 141 "parserDecaf.y"
+#line 141 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CommaIdentList",num_lines,num_caracteres,"NA",(yyvsp[0].id),"NA",(yyvsp[-2].nodo),NULL,NULL);}
-#line 1640 "parserDecaf.tab.c"
+#line 1634 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 144 "parserDecaf.y"
+#line 144 "parserDecaf.y" /* yacc.c:1646  */
     {((yyval.nodo)=(yyvsp[-1].nodo)) =new Nodo("Fields",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),(yyvsp[0].nodo),NULL);}
-#line 1646 "parserDecaf.tab.c"
+#line 1640 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 146 "parserDecaf.y"
+#line 146 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Field",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1652 "parserDecaf.tab.c"
+#line 1646 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 147 "parserDecaf.y"
+#line 147 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Field",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1658 "parserDecaf.tab.c"
+#line 1652 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 148 "parserDecaf.y"
+#line 148 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Field",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1664 "parserDecaf.tab.c"
+#line 1658 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 150 "parserDecaf.y"
+#line 150 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("InterfaceDecl",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1670 "parserDecaf.tab.c"
+#line 1664 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 153 "parserDecaf.y"
+#line 153 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Prototypes",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),(yyvsp[0].nodo),NULL);}
-#line 1676 "parserDecaf.tab.c"
+#line 1670 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 155 "parserDecaf.y"
+#line 155 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Prototype",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),NULL,NULL);}
-#line 1682 "parserDecaf.tab.c"
+#line 1676 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 156 "parserDecaf.y"
+#line 156 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Prototype",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),NULL,NULL);}
-#line 1688 "parserDecaf.tab.c"
+#line 1682 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 158 "parserDecaf.y"
+#line 158 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("StmtBlock",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[-1].nodo),NULL);}
-#line 1694 "parserDecaf.tab.c"
+#line 1688 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 161 "parserDecaf.y"
+#line 161 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("VariableDecls",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1700 "parserDecaf.tab.c"
+#line 1694 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 164 "parserDecaf.y"
+#line 164 "parserDecaf.y" /* yacc.c:1646  */
     {((yyval.nodo) =(yyvsp[-1].nodo)) = new Nodo("Stmts",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),(yyvsp[0].nodo),NULL);}
-#line 1706 "parserDecaf.tab.c"
+#line 1700 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 166 "parserDecaf.y"
+#line 166 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1712 "parserDecaf.tab.c"
+#line 1706 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 167 "parserDecaf.y"
+#line 167 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1718 "parserDecaf.tab.c"
+#line 1712 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 168 "parserDecaf.y"
+#line 168 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1724 "parserDecaf.tab.c"
+#line 1718 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 169 "parserDecaf.y"
+#line 169 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1730 "parserDecaf.tab.c"
+#line 1724 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 170 "parserDecaf.y"
+#line 170 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1736 "parserDecaf.tab.c"
+#line 1730 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 171 "parserDecaf.y"
+#line 171 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1742 "parserDecaf.tab.c"
+#line 1736 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 172 "parserDecaf.y"
+#line 172 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1748 "parserDecaf.tab.c"
+#line 1742 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 173 "parserDecaf.y"
+#line 173 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Stmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1754 "parserDecaf.tab.c"
+#line 1748 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 176 "parserDecaf.y"
+#line 176 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Expresions",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1760 "parserDecaf.tab.c"
+#line 1754 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 179 "parserDecaf.y"
+#line 179 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("IfStmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1766 "parserDecaf.tab.c"
+#line 1760 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 180 "parserDecaf.y"
+#line 180 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("IfStmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-4].nodo),(yyvsp[-2].nodo),(yyvsp[0].nodo));}
-#line 1772 "parserDecaf.tab.c"
+#line 1766 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 182 "parserDecaf.y"
+#line 182 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("WhileStmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1778 "parserDecaf.tab.c"
+#line 1772 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 184 "parserDecaf.y"
+#line 184 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ForStmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-5].nodo),(yyvsp[-3].nodo),(yyvsp[-1].nodo));}
-#line 1784 "parserDecaf.tab.c"
+#line 1778 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 187 "parserDecaf.y"
+#line 187 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ForExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1790 "parserDecaf.tab.c"
+#line 1784 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 189 "parserDecaf.y"
+#line 189 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ReturnStmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1796 "parserDecaf.tab.c"
+#line 1790 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 191 "parserDecaf.y"
+#line 191 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ReturnExpresionVoid",num_lines,num_caracteres,"void","NA","NA",NULL,NULL,NULL);}
-#line 1802 "parserDecaf.tab.c"
+#line 1796 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 192 "parserDecaf.y"
+#line 192 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ReturnExpresionConst",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1808 "parserDecaf.tab.c"
+#line 1802 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 193 "parserDecaf.y"
+#line 193 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ReturnExpresionIdent",num_lines,num_caracteres,"NA",(yyvsp[0].id),"NA",NULL,NULL,NULL);}
-#line 1814 "parserDecaf.tab.c"
+#line 1808 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 195 "parserDecaf.y"
+#line 195 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("BreakStmt",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1820 "parserDecaf.tab.c"
+#line 1814 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 197 "parserDecaf.y"
+#line 197 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("PrintStmt",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),NULL,NULL);}
-#line 1826 "parserDecaf.tab.c"
+#line 1820 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 199 "parserDecaf.y"
+#line 199 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CommaExpresions",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1832 "parserDecaf.tab.c"
+#line 1826 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 200 "parserDecaf.y"
+#line 200 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CommaExpresions",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),(yyvsp[0].nodo),NULL);}
-#line 1838 "parserDecaf.tab.c"
+#line 1832 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 202 "parserDecaf.y"
+#line 202 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CommaExpList",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1844 "parserDecaf.tab.c"
+#line 1838 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 203 "parserDecaf.y"
+#line 203 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CommaExpList",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1850 "parserDecaf.tab.c"
+#line 1844 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 205 "parserDecaf.y"
+#line 205 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ConstantExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1856 "parserDecaf.tab.c"
+#line 1850 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 206 "parserDecaf.y"
+#line 206 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("LValueExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1862 "parserDecaf.tab.c"
+#line 1856 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 207 "parserDecaf.y"
+#line 207 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ThisExpresion",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1868 "parserDecaf.tab.c"
+#line 1862 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 208 "parserDecaf.y"
+#line 208 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("CallExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1874 "parserDecaf.tab.c"
+#line 1868 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 209 "parserDecaf.y"
+#line 209 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Expresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1880 "parserDecaf.tab.c"
+#line 1874 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 210 "parserDecaf.y"
+#line 210 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("SumExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1886 "parserDecaf.tab.c"
+#line 1880 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 211 "parserDecaf.y"
+#line 211 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("MulDivModExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1892 "parserDecaf.tab.c"
+#line 1886 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 212 "parserDecaf.y"
+#line 212 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("OpRelExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1898 "parserDecaf.tab.c"
+#line 1892 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 213 "parserDecaf.y"
+#line 213 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("OpIgualExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1904 "parserDecaf.tab.c"
+#line 1898 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 214 "parserDecaf.y"
+#line 214 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("AndExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1910 "parserDecaf.tab.c"
+#line 1904 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 215 "parserDecaf.y"
+#line 215 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("OrExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1916 "parserDecaf.tab.c"
+#line 1910 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 216 "parserDecaf.y"
+#line 216 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("NotExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1922 "parserDecaf.tab.c"
+#line 1916 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 217 "parserDecaf.y"
+#line 217 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ReadIntExpresion",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1928 "parserDecaf.tab.c"
+#line 1922 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 218 "parserDecaf.y"
+#line 218 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("ReadLineExpresion",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1934 "parserDecaf.tab.c"
+#line 1928 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 219 "parserDecaf.y"
+#line 219 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("NewExpresion",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
-#line 1940 "parserDecaf.tab.c"
+#line 1934 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 220 "parserDecaf.y"
+#line 220 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("NewArrExpresion",num_lines,num_caracteres,(yyvsp[-1].tipo),"NA","NA",(yyvsp[-3].nodo),NULL,NULL);}
-#line 1946 "parserDecaf.tab.c"
+#line 1940 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 221 "parserDecaf.y"
+#line 221 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("IndexExpresion",num_lines,num_caracteres,"NA",(yyvsp[-3].id),"NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1952 "parserDecaf.tab.c"
+#line 1946 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 86:
-#line 222 "parserDecaf.y"
+#line 222 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("EqualExpresion",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-2].nodo),(yyvsp[0].nodo),NULL);}
-#line 1958 "parserDecaf.tab.c"
+#line 1952 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 87:
-#line 224 "parserDecaf.y"
+#line 224 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("LValue",num_lines,num_caracteres,"NA",(yyvsp[0].id),"NA",NULL,NULL,NULL);}
-#line 1964 "parserDecaf.tab.c"
+#line 1958 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 88:
-#line 225 "parserDecaf.y"
+#line 225 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("LValue",num_lines,num_caracteres,"NA",(yyvsp[0].id),"NA",(yyvsp[-2].nodo),NULL,NULL);}
-#line 1970 "parserDecaf.tab.c"
+#line 1964 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 89:
-#line 226 "parserDecaf.y"
+#line 226 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("LValue",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[-3].nodo),(yyvsp[-1].nodo),NULL);}
-#line 1976 "parserDecaf.tab.c"
+#line 1970 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 90:
-#line 228 "parserDecaf.y"
+#line 228 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Call",num_lines,num_caracteres,"NA",(yyvsp[-3].id),"NA",(yyvsp[-1].nodo),NULL,NULL);}
-#line 1982 "parserDecaf.tab.c"
+#line 1976 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 91:
-#line 229 "parserDecaf.y"
+#line 229 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Call",num_lines,num_caracteres,"NA",(yyvsp[-3].id),"NA",(yyvsp[-5].nodo),(yyvsp[-1].nodo),NULL);}
-#line 1988 "parserDecaf.tab.c"
+#line 1982 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 93:
-#line 232 "parserDecaf.y"
+#line 232 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Call",num_lines,num_caracteres,"NA","NA","NA",(yyvsp[0].nodo),NULL,NULL);}
-#line 1994 "parserDecaf.tab.c"
+#line 1988 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 94:
-#line 234 "parserDecaf.y"
+#line 234 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("INT",num_lines,num_caracteres,"int","NA",(yyvsp[0].int_val),NULL,NULL,NULL);}
-#line 2000 "parserDecaf.tab.c"
+#line 1994 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 95:
-#line 235 "parserDecaf.y"
+#line 235 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("FLOAT",num_lines,num_caracteres,"double","NA",(yyvsp[0].double_val),NULL,NULL,NULL);}
-#line 2006 "parserDecaf.tab.c"
+#line 2000 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 96:
-#line 236 "parserDecaf.y"
+#line 236 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("BOOLEAN",num_lines,num_caracteres,"bool","NA",(yyvsp[0].boolValue),NULL,NULL,NULL);}
-#line 2012 "parserDecaf.tab.c"
+#line 2006 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 97:
-#line 237 "parserDecaf.y"
+#line 237 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("STRING",num_lines,num_caracteres,"string","NA",(yyvsp[0].stringValue),NULL,NULL,NULL);}
-#line 2018 "parserDecaf.tab.c"
+#line 2012 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
   case 98:
-#line 238 "parserDecaf.y"
+#line 238 "parserDecaf.y" /* yacc.c:1646  */
     {(yyval.nodo) = new Nodo("Null",num_lines,num_caracteres,"Null","NA",(yyvsp[0].nullValue),NULL,NULL,NULL);}
-#line 2024 "parserDecaf.tab.c"
+#line 2018 "parserDecaf.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2028 "parserDecaf.tab.c"
-
+#line 2022 "parserDecaf.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2050,13 +2043,14 @@ yyreduce:
   /* Now 'shift' the result of the reduction.  Determine what state
      that goes to, based on the state we popped back to and the rule
      number reduced by.  */
-  {
-    const int yylhs = yyr1[yyn] - YYNTOKENS;
-    const int yyi = yypgoto[yylhs] + *yyssp;
-    yystate = (0 <= yyi && yyi <= YYLAST && yycheck[yyi] == *yyssp
-               ? yytable[yyi]
-               : yydefgoto[yylhs]);
-  }
+
+  yyn = yyr1[yyn];
+
+  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
+  if (0 <= yystate && yystate <= YYLAST && yycheck[yystate] == *yyssp)
+    yystate = yytable[yystate];
+  else
+    yystate = yydefgoto[yyn - YYNTOKENS];
 
   goto yynewstate;
 
@@ -2139,10 +2133,12 @@ yyerrlab:
 | yyerrorlab -- error raised explicitly by YYERROR.  |
 `---------------------------------------------------*/
 yyerrorlab:
-  /* Pacify compilers when the user code never invokes YYERROR and the
-     label yyerrorlab therefore never appears in user code.  */
-  if (0)
-    YYERROR;
+
+  /* Pacify compilers like GCC when the user code never invokes
+     YYERROR and the label yyerrorlab therefore never appears in user
+     code.  */
+  if (/*CONSTCOND*/ 0)
+     goto yyerrorlab;
 
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYERROR.  */
@@ -2204,14 +2200,12 @@ yyacceptlab:
   yyresult = 0;
   goto yyreturn;
 
-
 /*-----------------------------------.
 | yyabortlab -- YYABORT comes here.  |
 `-----------------------------------*/
 yyabortlab:
   yyresult = 1;
   goto yyreturn;
-
 
 #if !defined yyoverflow || YYERROR_VERBOSE
 /*-------------------------------------------------.
@@ -2223,10 +2217,6 @@ yyexhaustedlab:
   /* Fall through.  */
 #endif
 
-
-/*-----------------------------------------------------.
-| yyreturn -- parsing is finished, return the result.  |
-`-----------------------------------------------------*/
 yyreturn:
   if (yychar != YYEMPTY)
     {
@@ -2256,7 +2246,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 240 "parserDecaf.y"
+#line 240 "parserDecaf.y" /* yacc.c:1906  */
 
 
 static vector<Nodo*> v ;
@@ -2273,6 +2263,7 @@ static void makeDirectory(string nombre){
 	//printf("%s\n",path.c_str());
 	mkdir(path.c_str() ,S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
+
 
 static void readVector(){
     for(int i =0;i<v.size(); i++){
@@ -2301,6 +2292,7 @@ static string stostr(string d){
 
 }
 
+
 static void PrintTree(Nodo* tree){
   if(tree == NULL) {
      return;
@@ -2326,6 +2318,7 @@ static void analizadorSemantico(Nodo* tree){
        return;
     }
     string s = tree->nombre.c_str();
+    //cout << "AQUII: " << s << endl;
     if((s.compare("IfStmt")) == 0){
         analizarIf(tree);
     }
@@ -2397,6 +2390,7 @@ static void analizadorSemantico(Nodo* tree){
     analizadorSemantico(tree->third);
 }
 
+
 static void analizarOperacionArim(Nodo* tree){
   string s1 = tree->first->first->nombre.c_str();
   string s2 = tree->second->first->nombre.c_str();
@@ -2410,26 +2404,44 @@ static void analizarOperacionArim(Nodo* tree){
   }
 }
 
-static void analizarOperacionIgual(Nodo* tree){
-  string s1 = tree->first->first->nombre.c_str();
-  string s2 = tree->second->first->nombre.c_str();
-  int intOp = 0;
-  if(s1.compare(s2) == 0){
-    intOp = 1;
-  }
-  if(intOp == 0){
-    cout<<"Error semantico, operandos de operacion de igualdad o desigualdad son incompatibles. "<<endl;
-    exit(0);
+
+static void analizarOperacionIgual(Nodo* arbol){
+  VarObject var;
+  var.tipo = arbol->tipo;
+  var.identificador = arbol->identificador;
+  var.valor = "";
+  string v1;
+  string v2;
+  int cont = 0;
+  int pos = result.size()-1;
+  for(int i = 0; i< result.size(); i++){
+    for(int j = 0; j < result.at(i).size();j++){
+      if(cont == 0){
+        string idet = var.identificador;
+        v1 = result.at(i).at(j).tipo;
+      } if(cont > 0){
+        v2 = result.at(i).at(j).tipo;
+        int c = v1.compare(v2);
+        //cout << "V1: " << v1 << endl;
+        //cout << "V2: " << v2 << endl;
+        if(c != 0){
+          cout<<"Error, los operandos de igualdad o desigualdad no son compatibles."<<endl;
+          exit(0);
+        }
+      }
+        cont = cont + 1;
+    }
   }
 }
+
 
 static void analizarOperacionBinario(Nodo* tree){
   string s1 = tree->first->first->first->nombre.c_str();
   string s2 = tree->second->first->first->nombre.c_str();
   int contOp = 0;
   if(s1.compare("OpIgualExpresion") == 0){
-    contOp = 1;
-  }
+      contOp = 1;
+    }
   if(s1.compare("OpRelExpresion") == 0){
     contOp = 1;
   }
@@ -2439,12 +2451,14 @@ static void analizarOperacionBinario(Nodo* tree){
   }
 }
 
+
 static void analizarIf(Nodo* tree){
     string s1 = tree->first->nombre.c_str();
     string s2 = tree->second->nombre.c_str();
     int contIf = 0;
     if(s1.compare("OpIgualExpresion") == 0){
       if(s2.compare("Stmt") == 0){
+        analizarOperacionIgual(tree);
         contIf = 1;
       }
     }
@@ -2471,6 +2485,7 @@ static void analizarIf(Nodo* tree){
      }
 }
 
+
 static void analizarWhile(Nodo* tree){
     string s1 = tree->first->nombre.c_str();
     string s2 = tree->second->nombre.c_str();
@@ -2491,6 +2506,7 @@ static void analizarWhile(Nodo* tree){
     }
 }
 
+
 static void analizarFor(Nodo* tree){
     string s1 = tree->first->nombre.c_str();
     string s2 = tree->second->nombre.c_str();
@@ -2508,8 +2524,6 @@ static void analizarFor(Nodo* tree){
        exit(0);
      }
 }
-
-
 
 
 static void analizarIndexacion(Nodo * tree){
@@ -2612,14 +2626,10 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
             found = 1;
           }
           else{
-
-
             cout<<"Error, el tipo declarado de la variable "<<id<<" no coincide con la asignacion"<<endl;
             exit(0);
           }
-
         }
-
       }
     }
     if(found == 0){
@@ -2631,7 +2641,6 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
   construirTabla(arbol->second);
   construirTabla(arbol->third);
   return result;
-
 }
 
 
@@ -2645,8 +2654,6 @@ static void printScopes(vector< vector<VarObject> > r){
       cout<< "Tipo:"<<var.tipo;
       cout<< " ID:"<<var.identificador;
       cout<< " Valor:"<<var.valor<<endl;
-
     }
   }
-
 }

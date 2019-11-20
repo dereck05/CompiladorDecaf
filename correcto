@@ -1,12 +1,7 @@
 class hello {
     int fun1;
-    int fun2;
-    string str;
-    int y;
+    int x;
     void hola(){
-      fun1 =3;
-      fun2 = 2;
-      return fun1;
+      fun1 = 2;
     }
-
 }
