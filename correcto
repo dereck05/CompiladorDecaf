@@ -2,10 +2,13 @@ class hello {
     int fun1;
     int fun2;
     string str;
-    int y;
-    void hola(){
+
+    int hola(){
+      int y;
       fun1 =3;
-      fun2 = 2;
+      str = "hola\n";
+      this.fun1 =2;
+      
       return fun1;
     }
 
