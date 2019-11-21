@@ -8,8 +8,7 @@ class hello {
       fun1 =3;
       str = "hola\n";
       this.fun1 =2;
-      
+
       return fun1;
     }
-
 }

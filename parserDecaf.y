@@ -254,6 +254,7 @@ static void makeDirectory(string nombre){
 	mkdir(path.c_str() ,S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 }
 
+
 static void readVector(){
     for(int i =0;i<v.size(); i++){
        printf("\n%s","fila:");
@@ -281,6 +282,7 @@ static string stostr(string d){
 
 }
 
+
 static void PrintTree(Nodo* tree){
   if(tree == NULL) {
      return;
@@ -306,6 +308,7 @@ static void analizadorSemantico(Nodo* tree){
        return;
     }
     string s = tree->nombre.c_str();
+    //cout << "AQUII: " << s << endl;
     if((s.compare("IfStmt")) == 0){
         analizarIf(tree);
     }
@@ -377,6 +380,7 @@ static void analizadorSemantico(Nodo* tree){
     analizadorSemantico(tree->third);
 }
 
+
 static void analizarOperacionArim(Nodo* tree){
   string s1 = tree->first->first->nombre.c_str();
   string s2 = tree->second->first->nombre.c_str();
@@ -390,26 +394,44 @@ static void analizarOperacionArim(Nodo* tree){
   }
 }
 
-static void analizarOperacionIgual(Nodo* tree){
-  string s1 = tree->first->first->nombre.c_str();
-  string s2 = tree->second->first->nombre.c_str();
-  int intOp = 0;
-  if(s1.compare(s2) == 0){
-    intOp = 1;
-  }
-  if(intOp == 0){
-    cout<<"Error semantico, operandos de operacion de igualdad o desigualdad son incompatibles. "<<endl;
-    exit(0);
+
+static void analizarOperacionIgual(Nodo* arbol){
+  VarObject var;
+  var.tipo = arbol->tipo;
+  var.identificador = arbol->identificador;
+  var.valor = "";
+  string v1;
+  string v2;
+  int cont = 0;
+  int pos = result.size()-1;
+  for(int i = 0; i< result.size(); i++){
+    for(int j = 0; j < result.at(i).size();j++){
+      if(cont == 0){
+        string idet = var.identificador;
+        v1 = result.at(i).at(j).tipo;
+      } if(cont > 0){
+        v2 = result.at(i).at(j).tipo;
+        int c = v1.compare(v2);
+        //cout << "V1: " << v1 << endl;
+        //cout << "V2: " << v2 << endl;
+        if(c != 0){
+          cout<<"Error, los operandos de igualdad o desigualdad no son compatibles."<<endl;
+          exit(0);
+        }
+      }
+        cont = cont + 1;
+    }
   }
 }
+
 
 static void analizarOperacionBinario(Nodo* tree){
   string s1 = tree->first->first->first->nombre.c_str();
   string s2 = tree->second->first->first->nombre.c_str();
   int contOp = 0;
   if(s1.compare("OpIgualExpresion") == 0){
-    contOp = 1;
-  }
+      contOp = 1;
+    }
   if(s1.compare("OpRelExpresion") == 0){
     contOp = 1;
   }
@@ -419,12 +441,14 @@ static void analizarOperacionBinario(Nodo* tree){
   }
 }
 
+
 static void analizarIf(Nodo* tree){
     string s1 = tree->first->nombre.c_str();
     string s2 = tree->second->nombre.c_str();
     int contIf = 0;
     if(s1.compare("OpIgualExpresion") == 0){
       if(s2.compare("Stmt") == 0){
+        analizarOperacionIgual(tree);
         contIf = 1;
       }
     }
@@ -451,6 +475,7 @@ static void analizarIf(Nodo* tree){
      }
 }
 
+
 static void analizarWhile(Nodo* tree){
     string s1 = tree->first->nombre.c_str();
     string s2 = tree->second->nombre.c_str();
@@ -471,6 +496,7 @@ static void analizarWhile(Nodo* tree){
     }
 }
 
+
 static void analizarFor(Nodo* tree){
     string s1 = tree->first->nombre.c_str();
     string s2 = tree->second->nombre.c_str();
@@ -488,8 +514,6 @@ static void analizarFor(Nodo* tree){
        exit(0);
      }
 }
-
-
 
 
 static void analizarIndexacion(Nodo * tree){
@@ -592,14 +616,10 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
             found = 1;
           }
           else{
-
-
             cout<<"Error, el tipo declarado de la variable "<<id<<" no coincide con la asignacion"<<endl;
             exit(0);
           }
-
         }
-
       }
     }
     if(found == 0){
@@ -611,7 +631,6 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
   construirTabla(arbol->second);
   construirTabla(arbol->third);
   return result;
-
 }
 
 
@@ -625,8 +644,6 @@ static void printScopes(vector< vector<VarObject> > r){
       cout<< "Tipo:"<<var.tipo;
       cout<< " ID:"<<var.identificador;
       cout<< " Valor:"<<var.valor<<endl;
-
     }
   }
-
 }
