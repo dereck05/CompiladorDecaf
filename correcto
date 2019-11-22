@@ -4,11 +4,10 @@ class hello {
     string str;
 
     int hola(){
-      int y;
-      fun1 =3;
       str = "hola\n";
-      this.fun1 =2;
-
+      this.fun1 = 4;
+      Print(str);
       return fun1;
     }
+
 }

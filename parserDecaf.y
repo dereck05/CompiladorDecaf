@@ -20,8 +20,10 @@ static void createNode(Nodo *n);
 static void readVector();
 static void analizadorSemantico(Nodo* tree);
 static void analizarWhile(Nodo* tree);
+static void analizarThis(Nodo * tree);
 static void analizarFor(Nodo* tree);
 static void analizarIf(Nodo* tree);
+static void analizarPrint(Nodo * arbol);
 static void analizarOperacionArim(Nodo* tree);
 static void analizarOperacionIgual(Nodo* tree);
 static void analizarOperacionBinario(Nodo* tree);
@@ -219,6 +221,7 @@ Expresion: Constant {$$ = new Nodo("ConstantExpresion",num_lines,num_caracteres,
 	| NEW OPENPAR IDENTIFIER CLOSEPAR {$$ = new Nodo("NewExpresion",num_lines,num_caracteres,"NA","NA","NA",NULL,NULL,NULL);}
 	| NEWARRAY OPENPAR Expresion COMMA TYPE CLOSEPAR {$$ = new Nodo("NewArrExpresion",num_lines,num_caracteres,$5,"NA","NA",$3,NULL,NULL);}
   | IDENTIFIER OPENSQR Expresion CLOSESQR {$$ = new Nodo("IndexExpresion",num_lines,num_caracteres,"NA",$1,"NA",$3,NULL,NULL);}
+  | THIS POINT IDENTIFIER EQUALS Expresion {$$ = new Nodo("THISExpresion",num_lines,num_caracteres,"NA",$3,"NA",$5,NULL,NULL);}
   | LValue EQUALS Expresion {$$ = new Nodo("EqualExpresion",num_lines,num_caracteres,"NA","NA","NA",$1,$3,NULL);};
 
 LValue: IDENTIFIER {$$ = new Nodo("LValue",num_lines,num_caracteres,"NA",$1,"NA",NULL,NULL,NULL);}
@@ -303,12 +306,12 @@ static void PrintTree(Nodo* tree){
 static vector< vector<VarObject> > result;
 static string typeRetDecl;
 static string funcName;
+static vector < char* > funcNames;
 static void analizadorSemantico(Nodo* tree){
     if(tree == NULL) {
        return;
     }
     string s = tree->nombre.c_str();
-    //cout << "AQUII: " << s << endl;
     if((s.compare("IfStmt")) == 0){
         analizarIf(tree);
     }
@@ -321,10 +324,17 @@ static void analizadorSemantico(Nodo* tree){
     if(s.compare("IndexExpresion") == 0){
       analizarIndexacion(tree);
     }
+    if(s.compare("PrintStmt")){
+      //analizarPrint(tree);
+    }
     if(s.compare("FunctionDecl")== 0){
       typeRetDecl = tree->tipo;
 
       funcName = tree->identificador;
+    }
+    if(s.compare("THISExpresion")==0){
+
+      analizarThis(tree);
     }
     if(s.compare("ReturnStmt")==0){
 
@@ -389,7 +399,28 @@ static void analizarOperacionArim(Nodo* tree){
     intOp = 1;
   }
   if(intOp == 0){
-    cout<<"Error semantico, operandos de operacion arimetrica son incompatibles. "<<endl;
+    cout<<"Error semantico, operandos de operacion aritmetica son incompatibles. "<<endl;
+    exit(0);
+  }
+}
+
+static void analizarThis(Nodo * tree){
+  string var = tree->identificador;
+  string tipoDado = tree->first->first->tipo;
+  string tipoDecl;
+  int found =0;
+  for(int i = 0;i< result[0].size();i++){
+    if(var.compare(result[0][i].identificador) ==0){
+      found = 1;
+      tipoDecl = result[0][i].tipo;
+    }
+  }
+  if (found == 0){
+    cout<< "Error, el THIS de la variable "<<var<<" referencia a un valor que no es atributo de clase."<<endl;
+    exit(0);
+  }
+  if(tipoDado.compare(tipoDecl) != 0){
+    cout<<"Error, el tipo declarado de la variable "<<var<<" no coincide con la asignacion"<<endl;
     exit(0);
   }
 }
@@ -475,6 +506,11 @@ static void analizarIf(Nodo* tree){
      }
 }
 
+static void analizarPrint(Nodo * arbol){
+  cout<<arbol->first->nombre.c_str()<<endl;
+
+}
+
 
 static void analizarWhile(Nodo* tree){
     string s1 = tree->first->nombre.c_str();
@@ -550,11 +586,28 @@ static vector< vector<VarObject> > construirTabla(Nodo* arbol){
   if(c==0){
     vector<VarObject> v;
     result.push_back(v);
+
+
   }
   c = s.compare("FunctionDecl");
   if(c == 0){
-    vector<VarObject> v;
-    result.push_back(v);
+    int found = 0;
+    string id = arbol->identificador;
+    for(int i =0;i< funcNames.size();i++){
+      if(id.compare(funcNames.at(i)) == 0){
+        found =1 ;
+      }
+    }
+    if(found == 0){
+      vector<VarObject> v;
+      result.push_back(v);
+      funcNames.push_back(arbol->identificador);
+    }
+    else{
+      cout<<"Error, ya existe una funcion declarada con el identificador "<<id<<endl;
+      exit(0);
+    }
+
 
   }
   c = s.compare("Variable");
