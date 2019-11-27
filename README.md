@@ -1,5 +1,5 @@
 # CompiladorDecaf
-El siguiente proyecto consiste en un scanner desarrollado en Flex, un parser desarrollado en Bison y analisis semantico Bison y en lenguaje C++. Estos forman parte de las etapas de un compilador: el análisis lexico, análisis sintáctico y analisi semantico. El análisis lexico forma la tabla de simbolos del scanner, el análisis sintáctico el arbol respectivo y el analisis semantico verificar propiedades del programa que no son validadas durante fases anteriores.
+El siguiente proyecto consiste en un scanner desarrollado en Flex, un parser desarrollado en Bison y analisis semantico Bison y en lenguaje C++. Estos forman parte de las etapas de un compilador: el análisis lexico, análisis sintáctico y análisis semántico. El análisis lexico forma la tabla de simbolos del scanner, el análisis sintáctico el arbol respectivo y el análisis semántico verificar propiedades del programa que no son validadas durante fases anteriores.
 
 A continuación se presentan los pasos para ejecutar el programa:
 
