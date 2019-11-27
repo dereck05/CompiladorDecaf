@@ -1,0 +1,10 @@
+class Hola{
+  int a;
+  string s;
+  int b;
+  void fun1(){
+    a = 2;
+    s = "hola\n";
+    b = a + s;
+  }
+}

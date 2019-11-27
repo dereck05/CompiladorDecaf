@@ -1,0 +1,8 @@
+class hello{
+  int[] arr;
+  int x;
+  void fun1(){
+    arr = NewArray(5,int);
+    x = arr[4];
+  }
+}

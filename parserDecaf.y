@@ -89,13 +89,7 @@ static void PrintTree(Nodo * tree);
 %%
 Program : Decls {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);
 		PrintTree(arbol);
-	//analizadorSemantico(arbol);
     vector< vector<VarObject> > v = construirTabla(arbol);
-    //cout<< v.size();
-    //printScopes(v);
-
-    //vector< vector<VarObject> > v = construirTabla(arbol);
-    //printScopes(v);
     analizadorSemantico(arbol);
 
 		};

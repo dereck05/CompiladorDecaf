@@ -1,0 +1,7 @@
+class hello{
+  int y;
+  string y;
+  void fun1(){
+
+  }
+}
