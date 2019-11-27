@@ -1,0 +1,12 @@
+class hello{
+    int s;
+    int a;
+    int m;
+    void fun1(){
+      s = 6;
+      a = 3;
+      m = 8;
+      if((s >= a) && (m > s))
+        s = 10;
+      }
+}

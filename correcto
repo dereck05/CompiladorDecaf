@@ -1,7 +1,0 @@
-class hello {
-    int fun1;
-    int x;
-    void hola(){
-      fun1 = 2;
-    }
-}

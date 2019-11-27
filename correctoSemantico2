@@ -1,0 +1,15 @@
+class hello{
+  class adios{
+    int s;
+    int a;
+    int i;
+    int fun1(){
+      a = 5;
+      s = 2;
+      i = 0;
+      while(s < a)
+        s + i;
+      return s;
+      }
+    }
+}

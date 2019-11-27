@@ -25,6 +25,7 @@ static void analizarIf(Nodo* tree);
 static void analizarOperacionArim(Nodo* tree);
 static void analizarOperacionIgual(Nodo* tree);
 static void analizarOperacionBinario(Nodo* tree);
+static void analizarNombreFunc(Nodo *tree);
 static vector< vector<VarObject> > construirTabla(Nodo* arbol);
 static void printScopes(vector< vector<VarObject> > r);
 static void analizarFuncion(Nodo *tree);
@@ -86,14 +87,8 @@ static void PrintTree(Nodo * tree);
 
 %%
 Program : Decls {Nodo *arbol = new Nodo("Program",num_lines,num_caracteres,"NA","NA","NA",$1,NULL,NULL);
-		PrintTree(arbol);
-	//analizadorSemantico(arbol);
+		//PrintTree(arbol);
     vector< vector<VarObject> > v = construirTabla(arbol);
-    //cout<< v.size();
-    //printScopes(v);
-
-    //vector< vector<VarObject> > v = construirTabla(arbol);
-    //printScopes(v);
     analizadorSemantico(arbol);
 
 		};
@@ -323,8 +318,9 @@ static void analizadorSemantico(Nodo* tree){
     }
     if(s.compare("FunctionDecl")== 0){
       typeRetDecl = tree->tipo;
-
       funcName = tree->identificador;
+      //cout << funcName << endl;
+      analizarNombreFunc(tree);
     }
     if(s.compare("ReturnStmt")==0){
 
@@ -378,6 +374,36 @@ static void analizadorSemantico(Nodo* tree){
     analizadorSemantico(tree->first);
     analizadorSemantico(tree->second);
     analizadorSemantico(tree->third);
+}
+
+
+static void analizarNombreFunc(Nodo *arbol){
+  VarObject var;
+  var.tipo = arbol->tipo;
+  var.identificador = arbol->identificador;
+  var.valor = "";
+  string v1;
+  string v2;
+  int cont = 0;
+  int pos = result.size()-1;
+  for(int i = 0; i< result.size(); i++){
+    for(int j = 0; j < result.at(i).size();j++){
+      if(cont == 0){
+        string idet = var.identificador;
+        v1 = result.at(i).at(j).identificador;
+      } if(cont > 0){
+        v2 = result.at(i).at(j).identificador;
+        int c = v1.compare(v2);
+        //cout << "V1: " << v1 << endl;
+        //cout << "V2: " << v2 << endl;
+        if(c == 0){
+          cout<<"Error, los operandos de igualdad o desigualdad no son compatibles."<<endl;
+          exit(0);
+        }
+      }
+        cont = cont + 1;
+    }
+  }
 }
 
 
